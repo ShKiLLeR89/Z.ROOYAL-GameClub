@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>کلوپ بازی | خانه بازی‌های فکری</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+<link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+<style>
+:root{
+  --bg:#070d1c;
+  --bg2:#12213f;
+  --ink:#eef2ff;
+  --mut:#9fb0d6;
+  --gold:#f2c14e;
+  --gold2:#ffe08a;
+  --teal:#14b8a6;
+  --teal2:#0f766e;
+  --card:rgba(255,255,255,.06);
+  --line:rgba(255,255,255,.12);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;
+  font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 700px at 80% -10%,#21407a55,transparent 60%),
+    radial-gradient(900px 600px at 0% 110%,#0f766e44,transparent 60%),
+    var(--bg);
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+
+/* ---------- header ---------- */
+.site-header{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,#070d1cd9,#070d1c66 70%,transparent);
+  border-bottom:1px solid var(--line);
+}
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:18px;padding:14px 0;
+}
+.brand{
+  display:flex;align-items:center;gap:12px;
+  font-weight:900;font-size:20px;letter-spacing:.2px;
+}
+.brand img{
+  width:46px;height:46px;border-radius:12px;object-fit:cover;
+  box-shadow:0 6px 20px #000a,0 0 0 1px #ffffff22 inset;
+  background:#0b1329;
+}
+.brand span{
+  background:linear-gradient(180deg,#fff,#f2c14e);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-links a{
+  padding:9px 14px;border-radius:11px;font-size:15px;font-weight:600;
+  color:var(--mut);transition:background .2s,color .2s;
+}
+.nav-links a:hover{background:var(--card);color:var(--ink)}
+
+/* ---------- hero ---------- */
+.hero{
+  padding:70px 0 40px;text-align:center;position:relative;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:radial-gradient(600px 300px at 50% 0%,#f2c14e22,transparent 70%);
+}
+.hero h1{
+  margin:0 0 16px;font-size:clamp(34px,6vw,58px);font-weight:900;line-height:1.15;
+  background:linear-gradient(180deg,#fff 20%,#f2c14e 120%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero p{
+  margin:0 auto;max-width:620px;color:var(--mut);
+  font-size:clamp(15px,2vw,18px);line-height:1.95;
+}
+.hero .cta{
+  display:inline-flex;align-items:center;gap:8px;margin-top:28px;
+  padding:14px 28px;border-radius:16px;font-weight:800;font-size:16px;
+  color:#2a1b02;
+  background:linear-gradient(180deg,#ffe08a,#f2b434);
+  box-shadow:0 8px 0 #9a6a10,0 18px 34px #0007;
+  transition:transform .12s,box-shadow .12s;
+}
+.hero .cta:active{transform:translateY(4px);box-shadow:0 4px 0 #9a6a10,0 10px 22px #0007}
+
+/* ---------- section title ---------- */
+.sec{padding:30px 0 10px}
+.sec h2{
+  margin:0 0 6px;font-size:clamp(22px,3.5vw,30px);font-weight:900;
+  display:flex;align-items:center;gap:10px;
+}
+.sec h2::before{
+  content:"";width:6px;height:26px;border-radius:4px;
+  background:linear-gradient(180deg,var(--gold2),var(--gold));
+}
+.sec p.lead{margin:0 0 26px;color:var(--mut);font-size:15px}
+
+/* ---------- game grid ---------- */
+.games{
+  display:grid;gap:18px;
+  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+  padding-bottom:40px;
+}
+.game{
+  position:relative;overflow:hidden;
+  border-radius:22px;padding:24px;
+  background:linear-gradient(160deg,#152447,#0c142b);
+  border:1px solid var(--line);
+  box-shadow:0 20px 50px -20px #000c;
+  transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s;
+  display:flex;flex-direction:column;gap:14px;min-height:230px;
+}
+.game::after{
+  content:"";position:absolute;inset:0;z-index:0;opacity:.0;
+  background:radial-gradient(400px 200px at var(--mx,50%) var(--my,0%),#f2c14e33,transparent 70%);
+  transition:opacity .3s;pointer-events:none;
+}
+.game:hover{transform:translateY(-6px);border-color:#f2c14e55;box-shadow:0 30px 60px -20px #000,0 0 0 1px #f2c14e33 inset}
+.game:hover::after{opacity:1}
+.game .ico{
+  width:64px;height:64px;border-radius:18px;display:grid;place-items:center;
+  font-size:34px;background:linear-gradient(145deg,#f7d98b,#a8721c 55%,#f2c14e);
+  box-shadow:0 8px 22px #0008,0 0 0 1px #fff3 inset;
+  position:relative;z-index:1;
+}
+.game h3{margin:0;font-size:20px;font-weight:800;position:relative;z-index:1}
+.game p{margin:0;color:var(--mut);font-size:14px;line-height:1.8;position:relative;z-index:1}
+.game .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;position:relative;z-index:1}
+.tag{
+  font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px;
+  background:#ffffff10;color:var(--mut);border:1px solid var(--line);
+}
+.tag.gold{background:#f2c14e1a;color:var(--gold2);border-color:#f2c14e44}
+.tag.teal{background:#14b8a61a;color:#7cf2e3;border-color:#14b8a644}
+.game .arrow{
+  position:absolute;top:22px;left:22px;font-size:18px;color:var(--mut);
+  transition:transform .25s,color .25s;z-index:1;
+}
+.game:hover .arrow{transform:translateX(-4px);color:var(--gold)}
+
+/* ---------- learn card ---------- */
+.learn{
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+  margin-bottom:60px;padding:34px;border-radius:26px;
+  background:
+    radial-gradient(600px 200px at 0% 0%,#14b8a622,transparent 70%),
+    linear-gradient(160deg,#132142,#0b1224);
+  border:1px solid var(--line);
+  box-shadow:0 25px 60px -25px #000c;
+}
+.learn h3{margin:0 0 8px;font-size:clamp(20px,3vw,26px);font-weight:900}
+.learn p{margin:0;color:var(--mut);line-height:1.9;max-width:640px}
+.learn .btn{
+  padding:14px 26px;border-radius:14px;font-weight:800;white-space:nowrap;
+  background:linear-gradient(180deg,#2dd4bf,#0f766e);color:#04201d;
+  box-shadow:0 8px 0 #0a5049,0 16px 30px #0007;
+  transition:transform .12s,box-shadow .12s;
+}
+.learn .btn:active{transform:translateY(4px);box-shadow:0 4px 0 #0a5049,0 10px 20px #0007}
+
+/* ---------- footer ---------- */
+.site-footer{
+  margin-top:40px;padding:34px 0 40px;
+  border-top:1px solid var(--line);
+  background:linear-gradient(180deg,transparent,#070d1c 40%);
+}
+.foot{
+  display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;
+}
+.foot .zlogo{
+  height:56px;width:auto;object-fit:contain;
+  filter:drop-shadow(0 6px 16px #000a);
+  padding:8px 14px;border-radius:14px;
+  background:var(--card);border:1px solid var(--line);
+}
+.foot .rights{
+  margin:0;color:var(--mut);font-size:14px;line-height:1.9;
+}
+.foot .rights b{color:var(--gold2);font-weight:800}
+.foot .brandline{
+  display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);
+}
+.foot .brandline img{width:34px;height:34px;border-radius:9px;object-fit:cover;background:#0b1329}
+
+@media(max-width:720px){
+  .nav-links{display:none}
+  .learn{grid-template-columns:1fr;text-align:center}
+  .learn .btn{justify-self:center}
+  .hero{padding:50px 0 30px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="لوگوی کلوپ بازی">
+      <span>کلوپ بازی</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#games">بازی‌ها</a>
+      <a href="learn.html">آموزش‌ها</a>
+      <a href="#about">درباره</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>کلوپ بازی</h1>
+    <p>خانه‌ای برای بازی‌های فکری و کلاسیک. مار و پله، منچ، حکم و شطرنج — تنها یا با دوستان، روی یک صفحه.</p>
+    <a class="cta" href="#games">شروع بازی 🎲</a>
+  </section>
+
+  <section class="sec" id="games">
+    <h2>بازی‌ها</h2>
+    <p class="lead">یک بازی را انتخاب کن و وارد شو.</p>
+    <div class="games">
+
+      <a class="game" href="snake-ladder.html">
+        <span class="arrow">←</span>
+        <div class="ico">🐍</div>
+        <h3>مار و پله</h3>
+        <p>بازی کلاسیک شانس و هیجان. تاس بینداز، از نردبان بالا برو و از مارها فرار کن.</p>
+        <div class="tags">
+          <span class="tag gold">۱ تا ۴ نفره</span>
+          <span class="tag">با رایانه</span>
+        </div>
+      </a>
+
+      <a class="game" href="manch.html">
+        <span class="arrow">←</span>
+        <div class="ico">🎯</div>
+        <h3>منچ</h3>
+        <p>مهره‌هایت را از خانه شروع به خانه آخر برسان. حداکثر ۴ نفره، با یا بدون رایانه.</p>
+        <div class="tags">
+          <span class="tag gold">۲ تا ۴ نفره</span>
+          <span class="tag teal">با AI</span>
+        </div>
+      </a>
+
+      <a class="game" href="hokm.html">
+        <span class="arrow">←</span>
+        <div class="ico">🃏</div>
+        <h3>حکم</h3>
+        <p>بازی محبوب کارتی ایرانی. حکم‌های سرس، نرس و تک‌نرس — ۲ تا ۴ نفره با سه سطح سختی.</p>
+        <div class="tags">
+          <span class="tag gold">۲ تا ۴ نفره</span>
+          <span class="tag teal">با AI</span>
+        </div>
+      </a>
+
+      <a class="game" href="chess.html">
+        <span class="arrow">←</span>
+        <div class="ico">♞</div>
+        <h3>شطرنج</h3>
+        <p>بازی پادشاهان. صفحه واقعی، همهٔ مهره‌ها و هوش مصنوعی در سه سطح آسان، متوسط و سخت.</p>
+        <div class="tags">
+          <span class="tag gold">۲ نفره</span>
+          <span class="tag teal">با AI</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="learn" id="about">
+    <div>
+      <h3>📚 آموزش بازی‌ها</h3>
+      <p>قواعد هر بازی را قدم‌به‌قدم یاد بگیر: از حرکت مهره‌های شطرنج تا قوانین حکم و منچ. مناسب برای شروع سریع.</p>
+    </div>
+    <a class="btn" href="learn.html">رفتن به آموزش‌ها</a>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot">
+    <div class="brandline">
+      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+      <span>کلوپ بازی</span>
+    </div>
+    <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="لوگوی Z.ROOYAL">
+    <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
+  </div>
+</footer>
+
+</body>
+</html>

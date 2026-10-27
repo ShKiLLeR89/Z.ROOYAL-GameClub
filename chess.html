@@ -1,0 +1,4187 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>شطرنج | کلوپ بازی</title>
+
+<link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+
+<style>
+:root{
+  --bg:#070d1c;
+  --ink:#eef2ff;
+  --mut:#9fb0d6;
+  --gold:#f2c14e;
+  --gold2:#ffe08a;
+  --teal:#14b8a6;
+  --red:#ff4d67;
+  --card:rgba(255,255,255,.06);
+  --line:rgba(255,255,255,.12);
+  color-scheme:dark;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Vazirmatn,Tahoma,sans-serif;
+  color:var(--ink);
+
+  background:
+    radial-gradient(
+      1200px 700px at 80% -10%,
+      #21407a55,
+      transparent 60%
+    ),
+    radial-gradient(
+      900px 600px at 0% 110%,
+      #0f766e44,
+      transparent 60%
+    ),
+    var(--bg);
+
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+  cursor:pointer;
+  border:0;
+  color:inherit;
+  background:none;
+}
+
+.wrap{
+  max-width:1180px;
+  margin:0 auto;
+  padding:0 18px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.site-header{
+  position:sticky;
+  top:0;
+  z-index:50;
+
+  backdrop-filter:blur(14px);
+
+  background:
+    linear-gradient(
+      180deg,
+      #070d1cd9,
+      #070d1c66 70%,
+      transparent
+    );
+
+  border-bottom:1px solid var(--line);
+}
+
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:12px 0;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+
+  font-weight:900;
+  font-size:19px;
+}
+
+.brand img{
+  width:42px;
+  height:42px;
+
+  border-radius:11px;
+
+  object-fit:cover;
+
+  box-shadow:
+    0 6px 20px #000a,
+    0 0 0 1px #ffffff22 inset;
+
+  background:#0b1329;
+}
+
+.brand span{
+  background:
+    linear-gradient(
+      180deg,
+      #fff,
+      #f2c14e
+    );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  color:transparent;
+}
+
+.nav-links{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.nav-links a{
+  padding:8px 13px;
+
+  border-radius:10px;
+
+  font-size:14px;
+  font-weight:600;
+
+  color:var(--mut);
+
+  transition:.2s;
+}
+
+.nav-links a:hover{
+  background:var(--card);
+  color:var(--ink);
+}
+
+.nav-links a.active{
+  background:#f2c14e1a;
+  color:var(--gold2);
+}
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-head{
+  padding:30px 0 14px;
+  text-align:center;
+  position:relative;
+}
+
+.page-head::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  z-index:-1;
+
+  background:
+    radial-gradient(
+      600px 300px at 50% 0%,
+      #f2c14e1a,
+      transparent 70%
+    );
+}
+
+.page-head h1{
+  margin:0 0 8px;
+
+  font-size:clamp(28px,5vw,42px);
+
+  font-weight:900;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff 20%,
+      #f2c14e 120%
+    );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+
+  color:transparent;
+}
+
+.page-head p{
+  margin:0;
+
+  color:var(--mut);
+
+  font-size:clamp(
+    13px,
+    1.8vw,
+    15px
+  );
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.app{
+  max-width:1180px;
+
+  margin:0 auto;
+
+  padding:
+    0 18px 30px;
+
+  display:grid;
+
+  gap:20px;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    340px;
+
+  align-items:start;
+}
+
+/* =========================
+   BOARD
+========================= */
+
+.board-wrap{
+  position:relative;
+
+  border-radius:20px;
+
+  padding:14px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3a1e0a,
+      #1e0e04
+    );
+
+  box-shadow:
+    0 30px 80px #000a,
+    inset 0 0 0 2px #00000055,
+    inset 0 0 0 6px #ffffff08;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+
+  align-items:center;
+}
+
+#board{
+  width:100%;
+
+  max-width:600px;
+
+  aspect-ratio:1;
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(8,1fr);
+
+  grid-template-rows:
+    repeat(8,1fr);
+
+  border-radius:8px;
+
+  overflow:hidden;
+
+  box-shadow:
+    0 10px 30px #000c;
+
+  user-select:none;
+
+  touch-action:manipulation;
+
+  position:relative;
+}
+
+.sq{
+  position:relative;
+
+  display:grid;
+
+  place-items:center;
+
+  font-size:
+    clamp(
+      24px,
+      5vw,
+      48px
+    );
+
+  line-height:1;
+
+  cursor:pointer;
+
+  transition:
+    background .15s,
+    transform .1s;
+}
+
+.sq:active{
+  transform:scale(.96);
+}
+
+.sq.light{
+  background:#f0d9b5;
+  color:#b58863;
+}
+
+.sq.dark{
+  background:#b58863;
+  color:#f0d9b5;
+}
+
+.sq .piece{
+  font-size:inherit;
+  line-height:1;
+
+  filter:
+    drop-shadow(
+      0 2px 2px #00000066
+    );
+
+  pointer-events:none;
+
+  transition:
+    transform .12s;
+}
+
+.sq:hover .piece{
+  transform:scale(1.04);
+}
+
+.sq.selected{
+  box-shadow:
+    inset 0 0 0 4px #f2c14e,
+    inset 0 0 20px #f2c14e66;
+}
+
+.sq.last-move{
+  background-color:#f2c14e88!important;
+}
+
+.sq.legal::after{
+  content:"";
+
+  position:absolute;
+
+  width:28%;
+  height:28%;
+
+  border-radius:50%;
+
+  background:#14b8a688;
+
+  pointer-events:none;
+}
+
+.sq.legal.occupied::after{
+  width:88%;
+  height:88%;
+
+  background:transparent;
+
+  border:
+    4px solid
+    #14b8a6aa;
+
+  box-sizing:border-box;
+
+  border-radius:50%;
+}
+
+.sq.check{
+  background:
+    radial-gradient(
+      circle,
+      #ff2d2dcc 0%,
+      #ff2d2d00 70%
+    )!important;
+}
+
+.sq .coords{
+  position:absolute;
+
+  font-size:10px;
+
+  font-weight:700;
+
+  opacity:.7;
+
+  pointer-events:none;
+}
+
+.sq .coords.file{
+  bottom:2px;
+  right:4px;
+}
+
+.sq .coords.rank{
+  top:2px;
+  left:4px;
+}
+
+/* =========================
+   ASIDE
+========================= */
+
+aside{
+  display:grid;
+  gap:14px;
+}
+
+.panel{
+  background:
+    linear-gradient(
+      160deg,
+      #152447,
+      #0c142b
+    );
+
+  border:
+    1px solid
+    var(--line);
+
+  border-radius:20px;
+
+  padding:16px;
+
+  box-shadow:
+    0 20px 50px -20px #000c;
+}
+
+.panel h2{
+  margin:
+    0 0 12px;
+
+  font-size:14px;
+
+  font-weight:700;
+
+  color:var(--mut);
+
+  display:flex;
+
+  align-items:center;
+
+  gap:8px;
+}
+
+.panel h2::before{
+  content:"";
+
+  width:4px;
+  height:16px;
+
+  border-radius:3px;
+
+  background:
+    linear-gradient(
+      180deg,
+      var(--gold2),
+      var(--gold)
+    );
+}
+
+/* =========================
+   CLOCK
+========================= */
+
+.clock{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:10px;
+}
+
+.clock .row{
+  display:flex;
+
+  align-items:center;
+
+  justify-content:space-between;
+
+  padding:
+    10px 14px;
+
+  border-radius:14px;
+
+  background:#ffffff08;
+
+  border:
+    1px solid
+    transparent;
+
+  transition:.25s;
+}
+
+.clock .row.act{
+  border-color:var(--gold);
+
+  background:#f2c14e18;
+
+  box-shadow:
+    0 0 18px -4px
+    var(--gold);
+}
+
+.clock .row .name{
+  font-size:14px;
+
+  font-weight:700;
+}
+
+.clock .row .time{
+  font-size:22px;
+
+  font-weight:900;
+
+  font-variant-numeric:
+    tabular-nums;
+
+  letter-spacing:1px;
+
+  color:var(--gold2);
+}
+
+.clock .row.act .time{
+  color:var(--gold);
+}
+
+.clock .row.low .time{
+  color:#ff5d6c;
+
+  animation:
+    pulse 1s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{
+    opacity:1;
+  }
+
+  50%{
+    opacity:.5;
+  }
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-gold{
+  width:100%;
+
+  padding:14px;
+
+  border-radius:14px;
+
+  font-weight:800;
+
+  font-size:16px;
+
+  color:#2a1b02;
+
+  background:
+    linear-gradient(
+      180deg,
+      #ffe08a,
+      #f2b434
+    );
+
+  box-shadow:
+    0 8px 0 #9a6a10,
+    0 14px 24px #0007;
+
+  transition:
+    transform .1s,
+    box-shadow .1s;
+}
+
+.btn-gold:active:not(:disabled){
+  transform:translateY(5px);
+
+  box-shadow:
+    0 3px 0 #9a6a10;
+}
+
+.btn-gold:disabled{
+  filter:
+    grayscale(.8)
+    brightness(.7);
+
+  cursor:not-allowed;
+}
+
+.btn-ghost{
+  padding:9px 16px;
+
+  border-radius:12px;
+
+  font-weight:600;
+
+  background:var(--card);
+
+  border:
+    1px solid
+    var(--line);
+
+  transition:.2s;
+
+  width:100%;
+}
+
+.btn-ghost:hover{
+  background:
+    rgba(255,255,255,.12);
+}
+
+/* =========================
+   MOVES
+========================= */
+
+#moves{
+  margin:0;
+
+  padding:0;
+
+  list-style:none;
+
+  max-height:180px;
+
+  overflow:auto;
+
+  font-size:13px;
+
+  color:var(--mut);
+
+  display:grid;
+
+  gap:4px;
+
+  font-family:monospace;
+}
+
+#moves li{
+  display:grid;
+
+  grid-template-columns:
+    24px 1fr 1fr;
+
+  gap:8px;
+
+  padding:
+    4px 8px;
+
+  border-radius:8px;
+
+  background:#ffffff06;
+}
+
+#moves li:nth-child(odd){
+  background:#ffffff0a;
+}
+
+#moves li .num{
+  color:var(--gold2);
+
+  font-weight:700;
+}
+
+#moves li .w{
+  color:#eef2ff;
+}
+
+#moves li .b{
+  color:#9fb0d6;
+}
+
+/* =========================
+   STATUS
+========================= */
+
+#status{
+  text-align:center;
+
+  font-size:14px;
+
+  color:var(--mut);
+
+  padding:8px;
+
+  border-radius:10px;
+
+  background:#ffffff06;
+
+  min-height:38px;
+
+  display:grid;
+
+  place-items:center;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+
+.ov{
+  position:fixed;
+
+  inset:0;
+
+  display:grid;
+
+  place-items:center;
+
+  background:#050a16e6;
+
+  backdrop-filter:blur(10px);
+
+  z-index:99;
+
+  padding:20px;
+
+  overflow:auto;
+}
+
+.ov[hidden]{
+  display:none;
+}
+
+.box{
+  width:min(480px,100%);
+
+  padding:
+    26px 24px;
+
+  border-radius:26px;
+
+  background:
+    linear-gradient(
+      160deg,
+      #1a2c52,
+      #0d1730
+    );
+
+  border:
+    1px solid
+    var(--line);
+
+  box-shadow:
+    0 30px 80px #000;
+
+  display:flex;
+
+  flex-direction:column;
+
+  gap:14px;
+}
+
+.box h2{
+  font-size:22px;
+
+  color:var(--ink);
+
+  font-weight:900;
+
+  margin:
+    0 0 6px;
+
+  text-align:center;
+}
+
+.box p{
+  color:var(--mut);
+
+  line-height:1.9;
+
+  margin:
+    0 0 10px;
+
+  font-size:14px;
+
+  text-align:center;
+}
+
+.opt-group{
+  display:flex;
+
+  flex-direction:column;
+
+  gap:8px;
+}
+
+.opt-label{
+  font-size:13px;
+
+  color:var(--mut);
+
+  font-weight:600;
+
+  text-align:right;
+}
+
+.btn-row{
+  display:grid;
+
+  gap:8px;
+}
+
+.btn-row.two{
+  grid-template-columns:
+    1fr 1fr;
+}
+
+.btn-row.three{
+  grid-template-columns:
+    repeat(3,1fr);
+}
+
+.btn-row.four{
+  grid-template-columns:
+    repeat(4,1fr);
+}
+
+.btn-row button{
+  padding:10px 0;
+
+  border-radius:12px;
+
+  background:var(--card);
+
+  border:
+    1px solid
+    var(--line);
+
+  font-weight:700;
+
+  font-size:13px;
+
+  transition:.2s;
+}
+
+.btn-row button:hover{
+  background:
+    rgba(255,255,255,.12);
+}
+
+.btn-row button[aria-pressed="true"]{
+  background:
+    linear-gradient(
+      180deg,
+      #ffe08a,
+      #f2b434
+    );
+
+  color:#2a1b02;
+
+  border-color:transparent;
+}
+
+.btn-row button:disabled{
+  opacity:.4;
+
+  cursor:not-allowed;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.site-footer{
+  margin-top:40px;
+
+  padding:
+    30px 0 40px;
+
+  border-top:
+    1px solid
+    var(--line);
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent,
+      #070d1c 40%
+    );
+}
+
+.foot{
+  display:flex;
+
+  flex-direction:column;
+
+  align-items:center;
+
+  gap:14px;
+
+  text-align:center;
+}
+
+.foot .zlogo{
+  height:56px;
+
+  width:auto;
+
+  object-fit:contain;
+
+  filter:
+    drop-shadow(
+      0 6px 16px #000a
+    );
+
+  padding:
+    8px 14px;
+
+  border-radius:14px;
+
+  background:var(--card);
+
+  border:
+    1px solid
+    var(--line);
+}
+
+.foot .rights{
+  margin:0;
+
+  color:var(--mut);
+
+  font-size:14px;
+
+  line-height:1.9;
+}
+
+.foot .rights b{
+  color:var(--gold2);
+
+  font-weight:800;
+}
+
+.foot .brandline{
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  font-weight:800;
+
+  color:var(--ink);
+}
+
+.foot .brandline img{
+  width:34px;
+
+  height:34px;
+
+  border-radius:9px;
+
+  object-fit:cover;
+
+  background:#0b1329;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:860px){
+
+  .app{
+    grid-template-columns:1fr;
+
+    padding:
+      0 12px 24px;
+  }
+
+  .nav-links{
+    display:none;
+  }
+
+  .board-wrap{
+    padding:8px;
+
+    border-radius:14px;
+  }
+
+  .clock .row .time{
+    font-size:18px;
+  }
+}
+
+@media(max-width:500px){
+
+  .page-head{
+    padding-top:22px;
+  }
+
+  .page-head h1{
+    font-size:30px;
+  }
+
+  .box{
+    padding:
+      22px 16px;
+  }
+
+  .btn-row.four{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .sq{
+    font-size:
+      clamp(
+        22px,
+        10vw,
+        42px
+      );
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="site-header">
+
+  <div class="wrap nav">
+
+    <a href="index.html" class="brand">
+
+      <img
+        src="https://cdn.imgurl.ir/uploads/p440103_.png"
+        alt="کلوپ بازی"
+      >
+
+      <span>کلوپ بازی</span>
+
+    </a>
+
+    <nav class="nav-links">
+
+      <a href="index.html#games">
+        بازی‌ها
+      </a>
+
+      <a href="snake-ladder.html">
+        مار و پله
+      </a>
+
+      <a href="manch.html">
+        منچ
+      </a>
+
+      <a href="hokm.html">
+        حکم
+      </a>
+
+      <a
+        href="chess.html"
+        class="active"
+      >
+        شطرنج
+      </a>
+
+      <a href="learn.html">
+        آموزش‌ها
+      </a>
+
+    </nav>
+
+  </div>
+
+</header>
+
+
+<div class="page-head">
+
+  <h1>♞ شطرنج</h1>
+
+  <p>
+    با ساعت واقعی — کلیک روی مهره، سپس کلیک روی مقصد
+  </p>
+
+</div>
+
+
+<div class="app">
+
+  <main class="board-wrap">
+
+    <div id="board"></div>
+
+    <div id="status">
+      برای شروع، تنظیمات را انجام دهید.
+    </div>
+
+  </main>
+
+
+  <aside>
+
+    <section class="panel">
+
+      <h2>
+        ساعت
+      </h2>
+
+      <div class="clock">
+
+        <div
+          class="row"
+          id="clockTop"
+        >
+
+          <span
+            class="name"
+            id="nameTop"
+          >
+            حریف
+          </span>
+
+          <span
+            class="time"
+            id="timeTop"
+          >
+            ۱۵:۰۰
+          </span>
+
+        </div>
+
+
+        <div
+          class="row"
+          id="clockBottom"
+        >
+
+          <span
+            class="name"
+            id="nameBottom"
+          >
+            شما
+          </span>
+
+          <span
+            class="time"
+            id="timeBottom"
+          >
+            ۱۵:۰۰
+          </span>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="panel">
+
+      <h2>
+        کنترل
+      </h2>
+
+      <button
+        class="btn-gold"
+        id="newGame"
+      >
+        بازی جدید
+      </button>
+
+      <p
+        style="
+          font-size:12px;
+          color:var(--mut);
+          margin-top:10px;
+          text-align:center
+        "
+      >
+        روی مهره خود کلیک کنید،
+        سپس روی خانه سبز کلیک کنید.
+      </p>
+
+    </section>
+
+
+    <section class="panel">
+
+      <h2>
+        حرکات
+      </h2>
+
+      <ul id="moves">
+
+        <li
+          style="
+            display:block;
+            text-align:center;
+            color:#ffffff55;
+            padding:10px
+          "
+        >
+          هنوز حرکتی انجام نشده
+        </li>
+
+      </ul>
+
+    </section>
+
+
+    <a
+      class="btn-ghost"
+      href="index.html"
+      style="
+        display:block;
+        text-align:center;
+        padding:12px;
+        font-weight:700
+      "
+    >
+      ← بازگشت به خانه
+    </a>
+
+  </aside>
+
+</div>
+
+
+<!-- =========================
+     START MODAL
+========================= -->
+
+<div
+  class="ov"
+  id="startOv"
+>
+
+  <div class="box">
+
+    <h2>
+      ♞ شروع بازی شطرنج
+    </h2>
+
+    <p>
+      تنظیمات را انتخاب کنید و بازی را آغاز کنید.
+    </p>
+
+
+    <div class="opt-group">
+
+      <div class="opt-label">
+        حالت بازی
+      </div>
+
+      <div
+        class="btn-row two"
+        id="modeCtrl"
+      >
+
+        <button
+          data-m="two"
+          aria-pressed="true"
+        >
+          👥 دو نفره
+        </button>
+
+        <button
+          data-m="ai"
+          aria-pressed="false"
+        >
+          🤖 با هوش مصنوعی
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div
+      class="opt-group"
+      id="diffWrap"
+      style="display:none"
+    >
+
+      <div class="opt-label">
+        سطح هوش مصنوعی
+      </div>
+
+      <div
+        class="btn-row three"
+        id="diffCtrl"
+      >
+
+        <button
+          data-d="easy"
+          aria-pressed="true"
+        >
+          آسان
+        </button>
+
+        <button
+          data-d="med"
+          aria-pressed="false"
+        >
+          متوسط
+        </button>
+
+        <button
+          data-d="hard"
+          aria-pressed="false"
+        >
+          سخت
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="opt-group">
+
+      <div class="opt-label">
+        رنگ شما
+      </div>
+
+      <div
+        class="btn-row two"
+        id="colorCtrl"
+      >
+
+        <button
+          data-c="w"
+          aria-pressed="true"
+        >
+          ♔ سفید
+        </button>
+
+        <button
+          data-c="b"
+          aria-pressed="false"
+        >
+          ♚ سیاه
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <div class="opt-group">
+
+      <div class="opt-label">
+        زمان بازی
+      </div>
+
+      <div
+        class="btn-row four"
+        id="timeCtrl"
+      >
+
+        <button
+          data-t="15"
+          aria-pressed="true"
+        >
+          ۱۵ دقیقه
+        </button>
+
+        <button
+          data-t="30"
+          aria-pressed="false"
+        >
+          ۳۰ دقیقه
+        </button>
+
+        <button
+          data-t="45"
+          aria-pressed="false"
+        >
+          ۴۵ دقیقه
+        </button>
+
+        <button
+          data-t="60"
+          aria-pressed="false"
+        >
+          ۶۰ دقیقه
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <button
+      id="startBtn"
+      class="btn-gold"
+      style="margin-top:10px"
+    >
+      شروع بازی
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- =========================
+     END MODAL
+========================= -->
+
+<div
+  class="ov"
+  id="end"
+  hidden
+>
+
+  <div class="box">
+
+    <h2 id="endTitle">
+      🏁 پایان بازی
+    </h2>
+
+    <p id="endMsg"></p>
+
+    <button
+      class="btn-gold"
+      id="endAgain"
+    >
+      بازی جدید
+    </button>
+
+  </div>
+
+</div>
+
+
+<footer class="site-footer">
+
+  <div class="wrap foot">
+
+    <div class="brandline">
+
+      <img
+        src="https://cdn.imgurl.ir/uploads/p440103_.png"
+        alt="کلوپ بازی"
+      >
+
+      <span>
+        کلوپ بازی
+      </span>
+
+    </div>
+
+
+    <img
+      class="zlogo"
+      src="https://cdn.imgurl.ir/uploads/o909145_logo2.png"
+      alt="Z.ROOYAL"
+    >
+
+
+    <p class="rights">
+
+      تمامی حقوق این سایت برای برند
+      <b>Z.ROOYAL</b>
+      می‌باشد.
+
+    </p>
+
+  </div>
+
+</footer>
+
+<script>
+// ======================================================
+// CHESS - کامل
+// ======================================================
+
+const FILES = 'abcdefgh';
+
+const PIECES = {
+  K:'♔', Q:'♕', R:'♖', B:'♗', N:'♘', P:'♙',
+  k:'♚', q:'♛', r:'♜', b:'♝', n:'♞', p:'♟'
+};
+
+const $ = s => document.querySelector(s);
+
+const fa = n => Number(n).toLocaleString('fa-IR');
+
+
+// ======================================================
+// صداهای بازی - Web Audio API
+// ======================================================
+
+let audioCtx = null;
+
+function initAudio(){
+  if(!audioCtx){
+    const AC = window.AudioContext || window.webkitAudioContext;
+
+    if(AC){
+      audioCtx = new AC();
+    }
+  }
+
+  if(audioCtx && audioCtx.state === 'suspended'){
+    audioCtx.resume();
+  }
+}
+
+function tone(freq, duration=.08, type='sine', volume=.045, delay=0){
+  if(!audioCtx) return;
+
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
+
+  osc.type = type;
+  osc.frequency.setValueAtTime(freq, audioCtx.currentTime + delay);
+
+  gain.gain.setValueAtTime(
+    0.0001,
+    audioCtx.currentTime + delay
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    volume,
+    audioCtx.currentTime + delay + .01
+  );
+
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    audioCtx.currentTime + delay + duration
+  );
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start(audioCtx.currentTime + delay);
+  osc.stop(audioCtx.currentTime + delay + duration + .02);
+}
+
+function playMoveSound(){
+  initAudio();
+
+  tone(520,.055,'sine',.035);
+  tone(700,.07,'sine',.025,.045);
+}
+
+function playCaptureSound(){
+  initAudio();
+
+  tone(260,.06,'triangle',.05);
+  tone(180,.09,'triangle',.035,.055);
+}
+
+function playCheckSound(){
+  initAudio();
+
+  tone(740,.08,'square',.045);
+  tone(880,.11,'square',.04,.09);
+  tone(740,.08,'square',.035,.20);
+}
+
+function playMateSound(){
+  initAudio();
+
+  tone(880,.12,'sine',.055);
+  tone(660,.12,'sine',.05,.12);
+  tone(440,.18,'sine',.05,.24);
+  tone(220,.30,'triangle',.045,.42);
+}
+
+function playStalemateSound(){
+  initAudio();
+
+  tone(440,.12,'sine',.04);
+  tone(370,.12,'sine',.035,.13);
+  tone(300,.20,'sine',.03,.26);
+}
+
+function playCastleSound(){
+  initAudio();
+
+  tone(500,.06,'sine',.035);
+  tone(650,.06,'sine',.03,.07);
+}
+
+function playPromotionSound(){
+  initAudio();
+
+  tone(520,.07,'sine',.04);
+  tone(650,.07,'sine',.04,.08);
+  tone(780,.12,'sine',.045,.16);
+}
+
+
+// ======================================================
+// منطق شطرنج
+// ======================================================
+
+class Chess {
+
+  constructor(){
+    this.reset();
+  }
+
+  reset(){
+
+    this.board =
+      Array.from(
+        {length:8},
+        () => Array(8).fill(null)
+      );
+
+    const back = 'rnbqkbnr';
+
+    for(let c=0;c<8;c++){
+
+      this.board[0][c] = {
+        type:back[c],
+        color:'b'
+      };
+
+      this.board[1][c] = {
+        type:'p',
+        color:'b'
+      };
+
+      this.board[6][c] = {
+        type:'p',
+        color:'w'
+      };
+
+      this.board[7][c] = {
+        type:back[c],
+        color:'w'
+      };
+
+    }
+
+    this.turn = 'w';
+
+    this.castling = {
+      wK:true,
+      wQ:true,
+      bK:true,
+      bQ:true
+    };
+
+    this.enPassant = null;
+
+    this.halfmove = 0;
+    this.fullmove = 1;
+
+    this.history = [];
+  }
+
+
+  get(sq){
+
+    const c =
+      sq.charCodeAt(0) - 97;
+
+    const r =
+      8 - parseInt(sq[1]);
+
+    return this.board[r][c];
+  }
+
+
+  clone(){
+
+    const g = new Chess();
+
+    g.board =
+      this.board.map(
+        row =>
+          row.map(
+            p => p ? {...p} : null
+          )
+      );
+
+    g.turn = this.turn;
+
+    g.castling = {
+      ...this.castling
+    };
+
+    g.enPassant = this.enPassant;
+
+    g.halfmove = this.halfmove;
+    g.fullmove = this.fullmove;
+
+    g.history = [
+      ...this.history
+    ];
+
+    return g;
+  }
+
+
+  movesFrom(sq){
+
+    const p = this.get(sq);
+
+    if(!p) return [];
+
+    const c =
+      sq.charCodeAt(0) - 97;
+
+    const r =
+      8 - parseInt(sq[1]);
+
+    const out = [];
+
+
+    const add = (r2,c2) => {
+
+      if(
+        r2 < 0 ||
+        r2 > 7 ||
+        c2 < 0 ||
+        c2 > 7
+      ){
+        return false;
+      }
+
+      const t =
+        this.board[r2][c2];
+
+      if(
+        t &&
+        t.color === p.color
+      ){
+        return false;
+      }
+
+      out.push({
+        from:sq,
+        to:
+          FILES[c2] +
+          (8-r2),
+        capture:!!t
+      });
+
+      return !t;
+    };
+
+
+    // --------------------
+    // Pawn
+    // --------------------
+
+    if(p.type === 'p'){
+
+      const dir =
+        p.color === 'w'
+          ? -1
+          : 1;
+
+      const start =
+        p.color === 'w'
+          ? 6
+          : 1;
+
+
+      if(
+        r + dir >= 0 &&
+        r + dir <= 7 &&
+        !this.board[r+dir][c]
+      ){
+
+        const to =
+          FILES[c] +
+          (8-(r+dir));
+
+
+        if(
+          r+dir === 0 ||
+          r+dir === 7
+        ){
+
+          ['q','r','b','n']
+          .forEach(pr => {
+
+            out.push({
+              from:sq,
+              to,
+              promotion:pr
+            });
+
+          });
+
+        }else{
+
+          out.push({
+            from:sq,
+            to
+          });
+
+        }
+
+
+        if(
+          r === start &&
+          !this.board[r+2*dir][c]
+        ){
+
+          out.push({
+            from:sq,
+            to:
+              FILES[c] +
+              (8-(r+2*dir))
+          });
+
+        }
+
+      }
+
+
+      for(
+        const dc of [-1,1]
+      ){
+
+        const r2 = r+dir;
+        const c2 = c+dc;
+
+        if(
+          r2<0 ||
+          r2>7 ||
+          c2<0 ||
+          c2>7
+        ) continue;
+
+
+        const t =
+          this.board[r2][c2];
+
+
+        if(
+          t &&
+          t.color !== p.color
+        ){
+
+          const to =
+            FILES[c2] +
+            (8-r2);
+
+
+          if(
+            r2 === 0 ||
+            r2 === 7
+          ){
+
+            ['q','r','b','n']
+            .forEach(pr => {
+
+              out.push({
+                from:sq,
+                to,
+                promotion:pr,
+                capture:true
+              });
+
+            });
+
+          }else{
+
+            out.push({
+              from:sq,
+              to,
+              capture:true
+            });
+
+          }
+
+        }
+
+
+        if(
+          this.enPassant ===
+          FILES[c2] + (8-r2)
+        ){
+
+          out.push({
+            from:sq,
+            to:this.enPassant,
+            capture:true,
+            enPassant:true
+          });
+
+        }
+
+      }
+
+    }
+
+
+    // --------------------
+    // Knight
+    // --------------------
+
+    else if(p.type === 'n'){
+
+      [
+        [-2,-1],
+        [-2,1],
+        [-1,-2],
+        [-1,2],
+        [1,-2],
+        [1,2],
+        [2,-1],
+        [2,1]
+      ].forEach(
+        ([dr,dc]) =>
+          add(r+dr,c+dc)
+      );
+
+    }
+
+
+    // --------------------
+    // Bishop
+    // --------------------
+
+    else if(p.type === 'b'){
+
+      [
+        [-1,-1],
+        [-1,1],
+        [1,-1],
+        [1,1]
+      ].forEach(
+        ([dr,dc]) => {
+
+          let r2=r+dr;
+          let c2=c+dc;
+
+          while(
+            r2>=0 &&
+            r2<8 &&
+            c2>=0 &&
+            c2<8
+          ){
+
+            const t =
+              this.board[r2][c2];
+
+            if(t){
+
+              if(
+                t.color !== p.color
+              ){
+
+                out.push({
+                  from:sq,
+                  to:
+                    FILES[c2] +
+                    (8-r2),
+                  capture:true
+                });
+
+              }
+
+              break;
+            }
+
+            out.push({
+              from:sq,
+              to:
+                FILES[c2] +
+                (8-r2)
+            });
+
+            r2 += dr;
+            c2 += dc;
+          }
+
+        }
+      );
+
+    }
+
+
+    // --------------------
+    // Rook
+    // --------------------
+
+    else if(p.type === 'r'){
+
+      [
+        [-1,0],
+        [1,0],
+        [0,-1],
+        [0,1]
+      ].forEach(
+        ([dr,dc]) => {
+
+          let r2=r+dr;
+          let c2=c+dc;
+
+          while(
+            r2>=0 &&
+            r2<8 &&
+            c2>=0 &&
+            c2<8
+          ){
+
+            const t =
+              this.board[r2][c2];
+
+            if(t){
+
+              if(
+                t.color !== p.color
+              ){
+
+                out.push({
+                  from:sq,
+                  to:
+                    FILES[c2] +
+                    (8-r2),
+                  capture:true
+                });
+
+              }
+
+              break;
+            }
+
+            out.push({
+              from:sq,
+              to:
+                FILES[c2] +
+                (8-r2)
+            });
+
+            r2 += dr;
+            c2 += dc;
+          }
+
+        }
+      );
+
+    }
+
+
+    // --------------------
+    // Queen
+    // --------------------
+
+    else if(p.type === 'q'){
+
+      [
+        [-1,-1],
+        [-1,1],
+        [1,-1],
+        [1,1],
+        [-1,0],
+        [1,0],
+        [0,-1],
+        [0,1]
+      ].forEach(
+        ([dr,dc]) => {
+
+          let r2=r+dr;
+          let c2=c+dc;
+
+          while(
+            r2>=0 &&
+            r2<8 &&
+            c2>=0 &&
+            c2<8
+          ){
+
+            const t =
+              this.board[r2][c2];
+
+            if(t){
+
+              if(
+                t.color !== p.color
+              ){
+
+                out.push({
+                  from:sq,
+                  to:
+                    FILES[c2] +
+                    (8-r2),
+                  capture:true
+                });
+
+              }
+
+              break;
+            }
+
+            out.push({
+              from:sq,
+              to:
+                FILES[c2] +
+                (8-r2)
+            });
+
+            r2 += dr;
+            c2 += dc;
+          }
+
+        }
+      );
+
+    }
+
+
+    // --------------------
+    // King
+    // --------------------
+
+    else if(p.type === 'k'){
+
+      [
+        [-1,-1],
+        [-1,0],
+        [-1,1],
+        [0,-1],
+        [0,1],
+        [1,-1],
+        [1,0],
+        [1,1]
+      ].forEach(
+        ([dr,dc]) =>
+          add(r+dr,c+dc)
+      );
+
+
+      // White castle
+
+      if(
+        p.color === 'w' &&
+        r === 7 &&
+        c === 4
+      ){
+
+        if(
+          this.castling.wK &&
+          !this.board[7][5] &&
+          !this.board[7][6] &&
+          !this.isAttacked(7,4,'b') &&
+          !this.isAttacked(7,5,'b') &&
+          !this.isAttacked(7,6,'b')
+        ){
+
+          out.push({
+            from:'e1',
+            to:'g1',
+            castling:'K'
+          });
+
+        }
+
+
+        if(
+          this.castling.wQ &&
+          !this.board[7][3] &&
+          !this.board[7][2] &&
+          !this.board[7][1] &&
+          !this.isAttacked(7,4,'b') &&
+          !this.isAttacked(7,3,'b') &&
+          !this.isAttacked(7,2,'b')
+        ){
+
+          out.push({
+            from:'e1',
+            to:'c1',
+            castling:'Q'
+          });
+
+        }
+
+      }
+
+
+      // Black castle
+
+      if(
+        p.color === 'b' &&
+        r === 0 &&
+        c === 4
+      ){
+
+        if(
+          this.castling.bK &&
+          !this.board[0][5] &&
+          !this.board[0][6] &&
+          !this.isAttacked(0,4,'w') &&
+          !this.isAttacked(0,5,'w') &&
+          !this.isAttacked(0,6,'w')
+        ){
+
+          out.push({
+            from:'e8',
+            to:'g8',
+            castling:'K'
+          });
+
+        }
+
+
+        if(
+          this.castling.bQ &&
+          !this.board[0][3] &&
+          !this.board[0][2] &&
+          !this.board[0][1] &&
+          !this.isAttacked(0,4,'w') &&
+          !this.isAttacked(0,3,'w') &&
+          !this.isAttacked(0,2,'w')
+        ){
+
+          out.push({
+            from:'e8',
+            to:'c8',
+            castling:'Q'
+          });
+
+        }
+
+      }
+
+    }
+
+    return out;
+  }
+
+
+  isAttacked(r,c,color){
+
+    for(
+      let rr=0;
+      rr<8;
+      rr++
+    ){
+
+      for(
+        let cc=0;
+        cc<8;
+        cc++
+      ){
+
+        const p =
+          this.board[rr][cc];
+
+        if(
+          !p ||
+          p.color !== color
+        ) continue;
+
+
+        const sq =
+          FILES[cc] +
+          (8-rr);
+
+        const moves =
+          this.movesFrom(sq);
+
+
+        if(
+          moves.some(
+            m =>
+              m.to ===
+              FILES[c] + (8-r)
+          )
+        ){
+
+          return true;
+
+        }
+
+      }
+
+    }
+
+    return false;
+  }
+
+
+  kingSquare(color){
+
+    for(
+      let r=0;
+      r<8;
+      r++
+    ){
+
+      for(
+        let c=0;
+        c<8;
+        c++
+      ){
+
+        const p =
+          this.board[r][c];
+
+        if(
+          p &&
+          p.type === 'k' &&
+          p.color === color
+        ){
+
+          return (
+            FILES[c] +
+            (8-r)
+          );
+
+        }
+
+      }
+
+    }
+
+    return null;
+  }
+
+
+  inCheck(color=this.turn){
+
+    const k =
+      this.kingSquare(color);
+
+    if(!k) return false;
+
+    const c =
+      k.charCodeAt(0)-97;
+
+    const r =
+      8-parseInt(k[1]);
+
+    return this.isAttacked(
+      r,
+      c,
+      color === 'w'
+        ? 'b'
+        : 'w'
+    );
+  }
+
+
+  legalMoves(from){
+
+    const all =
+      this.movesFrom(from);
+
+    const legal=[];
+
+
+    for(const m of all){
+
+      const g =
+        this.clone();
+
+      g.applyMove(
+        m,
+        true
+      );
+
+      if(
+        !g.inCheck(this.turn)
+      ){
+
+        legal.push(m);
+
+      }
+
+    }
+
+    return legal;
+  }
+
+
+  allLegalMoves(color=this.turn){
+
+    const out=[];
+
+
+    for(
+      let r=0;
+      r<8;
+      r++
+    ){
+
+      for(
+        let c=0;
+        c<8;
+        c++
+      ){
+
+        const p =
+          this.board[r][c];
+
+        if(
+          !p ||
+          p.color !== color
+        ) continue;
+
+
+        this.legalMoves(
+          FILES[c] +
+          (8-r)
+        ).forEach(
+          m =>
+            out.push({
+              ...m,
+              piece:p.type
+            })
+        );
+
+      }
+
+    }
+
+    return out;
+  }
+
+
+  applyMove(m,silent=false){
+
+    const p =
+      this.get(m.from);
+
+    if(!p) return null;
+
+
+    const r =
+      8-parseInt(m.from[1]);
+
+    const c =
+      m.from.charCodeAt(0)-97;
+
+    const r2 =
+      8-parseInt(m.to[1]);
+
+    const c2 =
+      m.to.charCodeAt(0)-97;
+
+
+    const captured =
+      this.board[r2][c2];
+
+
+    const movingType =
+      p.type;
+
+    let san='';
+
+
+    // Castle
+
+    if(m.castling === 'K'){
+
+      san='O-O';
+
+      this.board[r][5] =
+        this.board[r][7];
+
+      this.board[r][7]=null;
+
+    }
+
+    else if(m.castling === 'Q'){
+
+      san='O-O-O';
+
+      this.board[r][3] =
+        this.board[r][0];
+
+      this.board[r][0]=null;
+
+    }
+
+
+    // En passant
+
+    if(m.enPassant){
+
+      this.board[r][c2]=null;
+
+    }
+
+
+    // Move
+
+    this.board[r2][c2]=p;
+    this.board[r][c]=null;
+
+
+    // Promotion
+
+    if(m.promotion){
+
+      p.type=m.promotion;
+
+      san =
+        m.to +
+        '=' +
+        m.promotion.toUpperCase();
+
+    }
+
+
+    // SAN
+
+    if(!silent){
+
+      if(!san){
+
+        if(
+          movingType === 'p' &&
+          captured
+        ){
+
+          san =
+            m.from[0] +
+            'x' +
+            m.to;
+
+        }
+
+        else if(
+          movingType === 'p'
+        ){
+
+          san=m.to;
+
+        }
+
+        else if(captured){
+
+          san =
+            movingType.toUpperCase() +
+            'x' +
+            m.to;
+
+        }
+
+        else{
+
+          san =
+            movingType.toUpperCase() +
+            m.to;
+
+        }
+
+      }
+
+    }
+
+
+    // Castling rights
+
+    if(p.type === 'k'){
+
+      this.castling[
+        p.color === 'w'
+          ? 'wK'
+          : 'bK'
+      ]=false;
+
+      this.castling[
+        p.color === 'w'
+          ? 'wQ'
+          : 'bQ'
+      ]=false;
+
+    }
+
+
+    if(
+      movingType === 'r'
+    ){
+
+      if(m.from==='a1')
+        this.castling.wQ=false;
+
+      if(m.from==='h1')
+        this.castling.wK=false;
+
+      if(m.from==='a8')
+        this.castling.bQ=false;
+
+      if(m.from==='h8')
+        this.castling.bK=false;
+
+    }
+
+
+    // اگر رخ گرفته شد
+
+    if(captured && captured.type === 'r'){
+
+      if(m.to==='a1')
+        this.castling.wQ=false;
+
+      if(m.to==='h1')
+        this.castling.wK=false;
+
+      if(m.to==='a8')
+        this.castling.bQ=false;
+
+      if(m.to==='h8')
+        this.castling.bK=false;
+
+    }
+
+
+    // En passant target
+
+    this.enPassant=null;
+
+    if(
+      movingType === 'p' &&
+      Math.abs(r2-r)===2
+    ){
+
+      this.enPassant =
+        FILES[c] +
+        (8-((r+r2)/2));
+
+    }
+
+
+    this.turn =
+      this.turn === 'w'
+        ? 'b'
+        : 'w';
+
+
+    if(this.turn==='w'){
+      this.fullmove++;
+    }
+
+
+    this.halfmove =
+      movingType === 'p' ||
+      captured
+        ? 0
+        : this.halfmove+1;
+
+
+    if(!silent){
+
+      if(this.inCheck()){
+
+        san += '+';
+
+      }
+
+      this.history.push({
+        ...m,
+        piece:movingType,
+        captured:
+          captured
+            ? captured.type
+            : null,
+        san
+      });
+
+    }
+
+
+    return san;
+  }
+
+
+  isCheckmate(){
+
+    return (
+      this.inCheck() &&
+      this.allLegalMoves().length===0
+    );
+
+  }
+
+
+  isStalemate(){
+
+    return (
+      !this.inCheck() &&
+      this.allLegalMoves().length===0
+    );
+
+  }
+
+}
+
+
+// ======================================================
+// متغیرهای بازی
+// ======================================================
+
+let game = new Chess();
+
+let playerColor='w';
+
+let mode='two';
+
+let difficulty='easy';
+
+let initialMinutes=15;
+
+let timeW=900;
+
+let timeB=900;
+
+let timerInterval=null;
+
+let gameOver=false;
+
+let selectedSquare=null;
+
+let legalTargets=[];
+
+let lastMove=null;
+
+let flipBoard=false;
+
+
+// ======================================================
+// RENDER BOARD
+// ======================================================
+
+function render(){
+
+  const boardEl =
+    $('#board');
+
+  boardEl.innerHTML='';
+
+
+  for(
+    let r=0;
+    r<8;
+    r++
+  ){
+
+    for(
+      let c=0;
+      c<8;
+      c++
+    ){
+
+      const displayR =
+        flipBoard
+          ? 7-r
+          : r;
+
+      const displayC =
+        flipBoard
+          ? 7-c
+          : c;
+
+
+      const sqName =
+        FILES[displayC] +
+        (8-displayR);
+
+
+      const isLight =
+        (
+          displayC +
+          displayR
+        ) % 2 === 0;
+
+
+      const sq =
+        document.createElement('div');
+
+
+      sq.className =
+        'sq ' +
+        (
+          isLight
+            ? 'light'
+            : 'dark'
+        );
+
+
+      sq.dataset.sq=sqName;
+
+
+      const p =
+        game.board[
+          displayR
+        ][
+          displayC
+        ];
+
+
+      if(p){
+
+        const span =
+          document.createElement('span');
+
+        span.className='piece';
+
+        span.textContent =
+          PIECES[
+            p.color === 'w'
+              ? p.type.toUpperCase()
+              : p.type
+          ];
+
+        sq.appendChild(span);
+
+      }
+
+
+      if(
+        selectedSquare ===
+        sqName
+      ){
+
+        sq.classList.add(
+          'selected'
+        );
+
+      }
+
+
+      if(
+        lastMove &&
+        (
+          lastMove.from===sqName ||
+          lastMove.to===sqName
+        )
+      ){
+
+        sq.classList.add(
+          'last-move'
+        );
+
+      }
+
+
+      if(
+        legalTargets.includes(
+          sqName
+        )
+      ){
+
+        sq.classList.add(
+          'legal'
+        );
+
+        if(p){
+
+          sq.classList.add(
+            'occupied'
+          );
+
+        }
+
+      }
+
+
+      if(
+        game.inCheck() &&
+        game.kingSquare(
+          game.turn
+        ) === sqName
+      ){
+
+        sq.classList.add(
+          'check'
+        );
+
+      }
+
+
+      if(displayR===7){
+
+        const f =
+          document.createElement(
+            'span'
+          );
+
+        f.className =
+          'coords file';
+
+        f.textContent =
+          FILES[displayC];
+
+        sq.appendChild(f);
+
+      }
+
+
+      if(displayC===0){
+
+        const rk =
+          document.createElement(
+            'span'
+          );
+
+        rk.className =
+          'coords rank';
+
+        rk.textContent =
+          displayR+1;
+
+        sq.appendChild(rk);
+
+      }
+
+
+      sq.addEventListener(
+        'click',
+        handleSquareClick
+      );
+
+
+      boardEl.appendChild(sq);
+
+    }
+
+  }
+
+}
+
+
+// ======================================================
+// کلیک روی صفحه
+// ======================================================
+
+function handleSquareClick(e){
+
+  if(gameOver) return;
+
+
+  initAudio();
+
+
+  const sq =
+    e.currentTarget.dataset.sq;
+
+
+  const p =
+    game.get(sq);
+
+
+  // اگر AI در حال نوبت خودش است
+
+  if(
+    mode==='ai' &&
+    game.turn !== playerColor
+  ){
+
+    return;
+
+  }
+
+
+  // مهره قبلاً انتخاب شده
+
+  if(selectedSquare){
+
+    // مقصد مجاز
+
+    if(
+      legalTargets.includes(sq)
+    ){
+
+      const move =
+        game
+          .legalMoves(
+            selectedSquare
+          )
+          .find(
+            m => m.to===sq
+          );
+
+
+      if(move){
+
+        doMove(move);
+
+        return;
+
+      }
+
+    }
+
+
+    // انتخاب مهره خودی جدید
+
+    if(
+      p &&
+      p.color === game.turn
+    ){
+
+      selectedSquare=sq;
+
+      legalTargets =
+        game
+          .legalMoves(sq)
+          .map(m=>m.to);
+
+      render();
+
+      return;
+
+    }
+
+
+    // لغو انتخاب
+
+    selectedSquare=null;
+
+    legalTargets=[];
+
+    render();
+
+    return;
+
+  }
+
+
+  // انتخاب اولیه مهره
+
+  if(
+    p &&
+    p.color === game.turn
+  ){
+
+    selectedSquare=sq;
+
+    legalTargets =
+      game
+        .legalMoves(sq)
+        .map(m=>m.to);
+
+    render();
+
+  }
+
+}
+
+
+// ======================================================
+// انجام حرکت
+// ======================================================
+
+function doMove(m){
+
+  const movingPiece =
+    game.get(m.from);
+
+  const wasCapture =
+    m.capture ||
+    m.enPassant;
+
+
+  const wasCastle =
+    !!m.castling;
+
+  const wasPromotion =
+    !!m.promotion;
+
+
+  game.applyMove(m);
+
+
+  lastMove={
+    from:m.from,
+    to:m.to
+  };
+
+
+  selectedSquare=null;
+
+  legalTargets=[];
+
+
+  // صدا
+
+  if(wasPromotion){
+
+    playPromotionSound();
+
+  }
+  else if(wasCastle){
+
+    playCastleSound();
+
+  }
+  else if(wasCapture){
+
+    playCaptureSound();
+
+  }
+  else{
+
+    playMoveSound();
+
+  }
+
+
+  render();
+
+  updateClocks();
+
+  updateStatus();
+
+  updateMoves();
+
+
+  if(!timerInterval){
+
+    startTimer();
+
+  }
+
+
+  // مات
+
+  if(
+    game.isCheckmate()
+  ){
+
+    playMateSound();
+
+    endGame(
+      '🏆 کیش و مات!',
+      `${
+        game.turn === 'w'
+          ? 'سیاه'
+          : 'سفید'
+      } برنده شد!`
+    );
+
+    return;
+
+  }
+
+
+  // پات
+
+  if(
+    game.isStalemate()
+  ){
+
+    playStalemateSound();
+
+    endGame(
+      '🏳️ پات',
+      'بازی مساوی شد.'
+    );
+
+    return;
+
+  }
+
+
+  // کیش
+
+  if(
+    game.inCheck()
+  ){
+
+    playCheckSound();
+
+  }
+
+
+  // AI
+
+  if(
+    mode==='ai' &&
+    game.turn !== playerColor &&
+    !gameOver
+  ){
+
+    setTimeout(
+      aiMove,
+      350
+    );
+
+  }
+
+}
+
+
+// ======================================================
+// AI
+// ======================================================
+
+const VAL={
+  p:100,
+  n:320,
+  b:330,
+  r:500,
+  q:900,
+  k:20000
+};
+
+
+function evaluate(g){
+
+  let score=0;
+
+
+  for(
+    let r=0;
+    r<8;
+    r++
+  ){
+
+    for(
+      let c=0;
+      c<8;
+      c++
+    ){
+
+      const p =
+        g.board[r][c];
+
+      if(!p) continue;
+
+
+      score +=
+        (
+          p.color==='w'
+            ? 1
+            : -1
+        ) *
+        VAL[p.type];
+
+    }
+
+  }
+
+
+  return score;
+}
+
+
+function minimax(
+  g,
+  depth,
+  alpha,
+  beta,
+  isMax
+){
+
+  if(
+    depth===0 ||
+    g.isCheckmate() ||
+    g.isStalemate()
+  ){
+
+    if(g.isCheckmate()){
+
+      return (
+        g.turn==='w'
+          ? -99999
+          : 99999
+      );
+
+    }
+
+
+    if(g.isStalemate()){
+
+      return 0;
+
+    }
+
+
+    return evaluate(g);
+
+  }
+
+
+  const moves =
+    g.allLegalMoves();
+
+
+  if(isMax){
+
+    let best=-Infinity;
+
+
+    for(const m of moves){
+
+      const g2=
+        g.clone();
+
+      g2.applyMove(
+        m,
+        true
+      );
+
+
+      const val =
+        minimax(
+          g2,
+          depth-1,
+          alpha,
+          beta,
+          false
+        );
+
+
+      best=
+        Math.max(
+          best,
+          val
+        );
+
+      alpha=
+        Math.max(
+          alpha,
+          val
+        );
+
+
+      if(
+        beta<=alpha
+      ){
+
+        break;
+
+      }
+
+    }
+
+
+    return best;
+
+  }
+
+
+  else{
+
+    let best=Infinity;
+
+
+    for(const m of moves){
+
+      const g2=
+        g.clone();
+
+      g2.applyMove(
+        m,
+        true
+      );
+
+
+      const val =
+        minimax(
+          g2,
+          depth-1,
+          alpha,
+          beta,
+          true
+        );
+
+
+      best=
+        Math.min(
+          best,
+          val
+        );
+
+      beta=
+        Math.min(
+          beta,
+          val
+        );
+
+
+      if(
+        beta<=alpha
+      ){
+
+        break;
+
+      }
+
+    }
+
+
+    return best;
+
+  }
+
+}
+
+
+function aiMove(){
+
+  if(gameOver) return;
+
+
+  $('#status').textContent =
+    '🤖 در حال فکر…';
+
+
+  setTimeout(()=>{
+
+    if(gameOver) return;
+
+
+    const depth =
+      difficulty==='easy'
+        ? 1
+        : difficulty==='med'
+          ? 2
+          : 3;
+
+
+    const isMax =
+      game.turn==='w';
+
+
+    const moves =
+      game.allLegalMoves();
+
+
+    if(!moves.length) return;
+
+
+    let bestMove=
+      moves[0];
+
+    let bestVal=
+      isMax
+        ? -Infinity
+        : Infinity;
+
+
+    for(
+      const m of moves
+    ){
+
+      const g2=
+        game.clone();
+
+
+      g2.applyMove(
+        m,
+        true
+      );
+
+
+      const val=
+        minimax(
+          g2,
+          depth-1,
+          -Infinity,
+          Infinity,
+          !isMax
+        );
+
+
+      if(
+        isMax
+          ? val>bestVal
+          : val<bestVal
+      ){
+
+        bestVal=val;
+
+        bestMove=m;
+
+      }
+
+    }
+
+
+    doMove(bestMove);
+
+  },200);
+
+}
+
+
+// ======================================================
+// CLOCK
+// ======================================================
+
+function formatTime(sec){
+
+  sec=
+    Math.max(
+      0,
+      sec
+    );
+
+
+  const m=
+    Math.floor(
+      sec/60
+    );
+
+
+  const s=
+    sec%60;
+
+
+  return (
+    fa(m) +
+    ':' +
+    (
+      s<10
+        ? '۰'
+        : ''
+    ) +
+    fa(s)
+  );
+
+}
+
+
+function updateClocks(){
+
+  const topColor =
+    playerColor==='w'
+      ? 'b'
+      : 'w';
+
+
+  $('#timeTop').textContent =
+    formatTime(
+      topColor==='w'
+        ? timeW
+        : timeB
+    );
+
+
+  $('#timeBottom').textContent =
+    formatTime(
+      playerColor==='w'
+        ? timeW
+        : timeB
+    );
+
+
+  $('#nameTop').textContent =
+    (
+      mode==='ai'
+        ? '🤖 '
+        : ''
+    ) +
+    (
+      topColor==='w'
+        ? '♔ سفید'
+        : '♚ سیاه'
+    );
+
+
+  $('#nameBottom').textContent =
+    (
+      playerColor==='w'
+        ? '♔ سفید'
+        : '♚ سیاه'
+    ) +
+    ' (شما)';
+
+
+  $('#clockTop').classList.toggle(
+    'act',
+    game.turn===topColor &&
+    !gameOver
+  );
+
+
+  $('#clockBottom').classList.toggle(
+    'act',
+    game.turn===playerColor &&
+    !gameOver
+  );
+
+
+  $('#clockTop').classList.toggle(
+    'low',
+    (
+      topColor==='w'
+        ? timeW
+        : timeB
+    )<=30
+  );
+
+
+  $('#clockBottom').classList.toggle(
+    'low',
+    (
+      playerColor==='w'
+        ? timeW
+        : timeB
+    )<=30
+  );
+
+}
+
+
+function startTimer(){
+
+  if(timerInterval) return;
+
+
+  timerInterval =
+    setInterval(()=>{
+
+      if(gameOver){
+
+        stopTimer();
+
+        return;
+
+      }
+
+
+      if(game.turn==='w'){
+
+        timeW--;
+
+        if(timeW<=0){
+
+          timeW=0;
+
+          stopTimer();
+
+          endGame(
+            '⏰ پایان زمان',
+            'سیاه برنده شد!'
+          );
+
+        }
+
+      }
+
+      else{
+
+        timeB--;
+
+        if(timeB<=0){
+
+          timeB=0;
+
+          stopTimer();
+
+          endGame(
+            '⏰ پایان زمان',
+            'سفید برنده شد!'
+          );
+
+        }
+
+      }
+
+
+      updateClocks();
+
+    },1000);
+
+}
+
+
+function stopTimer(){
+
+  if(timerInterval){
+
+    clearInterval(
+      timerInterval
+    );
+
+    timerInterval=null;
+
+  }
+
+}
+
+
+// ======================================================
+// وضعیت بازی
+// ======================================================
+
+function updateStatus(){
+
+  if(gameOver) return;
+
+
+  if(
+    game.isCheckmate()
+  ){
+
+    $('#status').textContent =
+      `کیش و مات! ${
+        game.turn==='w'
+          ? 'سیاه'
+          : 'سفید'
+      } برنده شد 🏆`;
+
+    return;
+
+  }
+
+
+  if(
+    game.isStalemate()
+  ){
+
+    $('#status').textContent =
+      'پات! مساوی 🏳️';
+
+    return;
+
+  }
+
+
+  if(
+    game.inCheck()
+  ){
+
+    $('#status').textContent =
+      `کیش! ${
+        game.turn==='w'
+          ? 'سفید'
+          : 'سیاه'
+      } در خطر است!`;
+
+    return;
+
+  }
+
+
+  $('#status').textContent =
+    `نوبت ${
+      game.turn==='w'
+        ? 'سفید ♔'
+        : 'سیاه ♚'
+    }`;
+
+}
+
+
+// ======================================================
+// لیست حرکات
+// ======================================================
+
+function updateMoves(){
+
+  const moves=
+    game.history;
+
+  const list=
+    $('#moves');
+
+
+  list.innerHTML='';
+
+
+  if(
+    moves.length===0
+  ){
+
+    list.innerHTML =
+      `
+      <li style="
+        display:block;
+        text-align:center;
+        color:#ffffff55;
+        padding:10px
+      ">
+        هنوز حرکتی انجام نشده
+      </li>
+      `;
+
+    return;
+
+  }
+
+
+  for(
+    let i=0;
+    i<moves.length;
+    i+=2
+  ){
+
+    const li =
+      document.createElement(
+        'li'
+      );
+
+
+    li.innerHTML =
+      `
+      <span class="num">
+        ${fa(Math.floor(i/2)+1)}.
+      </span>
+
+      <span class="w">
+        ${moves[i]
+          ? moves[i].san
+          : ''
+        }
+      </span>
+
+      <span class="b">
+        ${moves[i+1]
+          ? moves[i+1].san
+          : ''
+        }
+      </span>
+      `;
+
+
+    list.appendChild(li);
+
+  }
+
+}
+
+
+// ======================================================
+// پایان بازی
+// ======================================================
+
+function endGame(
+  title,
+  msg
+){
+
+  gameOver=true;
+
+  stopTimer();
+
+
+  $('#endTitle').textContent=
+    title;
+
+  $('#endMsg').textContent=
+    msg;
+
+  $('#end').hidden=false;
+
+
+  updateClocks();
+
+}
+
+
+// ======================================================
+// شروع بازی
+// ======================================================
+
+function startGame(){
+
+  initAudio();
+
+
+  game=
+    new Chess();
+
+
+  timeW=
+    initialMinutes*60;
+
+  timeB=
+    initialMinutes*60;
+
+
+  gameOver=false;
+
+  selectedSquare=null;
+
+  legalTargets=[];
+
+  lastMove=null;
+
+
+  flipBoard=
+    playerColor==='b';
+
+
+  stopTimer();
+
+
+  render();
+
+  updateClocks();
+
+  updateStatus();
+
+  updateMoves();
+
+
+  $('#end').hidden=true;
+
+
+  // اگر بازیکن سیاه باشد
+  // AI با سفید شروع می‌کند
+
+  if(
+    mode==='ai' &&
+    playerColor==='b'
+  ){
+
+    setTimeout(
+      aiMove,
+      800
+    );
+
+  }
+  else{
+
+    startTimer();
+
+  }
+
+}
+
+
+// ======================================================
+// تنظیمات حالت بازی
+// ======================================================
+
+$('#modeCtrl')
+.addEventListener(
+  'click',
+  e=>{
+
+    const b =
+      e.target.closest(
+        'button'
+      );
+
+    if(!b) return;
+
+
+    [
+      ...$('#modeCtrl').children
+    ].forEach(
+      x =>
+        x.setAttribute(
+          'aria-pressed',
+          x===b
+        )
+    );
+
+
+    mode=
+      b.dataset.m;
+
+
+    $('#diffWrap')
+      .style.display =
+        mode==='ai'
+          ? 'block'
+          : 'none';
+
+  }
+);
+
+
+// ======================================================
+// درجه سختی
+// ======================================================
+
+$('#diffCtrl')
+.addEventListener(
+  'click',
+  e=>{
+
+    const b =
+      e.target.closest(
+        'button'
+      );
+
+    if(!b) return;
+
+
+    [
+      ...$('#diffCtrl').children
+    ].forEach(
+      x =>
+        x.setAttribute(
+          'aria-pressed',
+          x===b
+        )
+    );
+
+
+    difficulty=
+      b.dataset.d;
+
+  }
+);
+
+
+// ======================================================
+// رنگ
+// ======================================================
+
+$('#colorCtrl')
+.addEventListener(
+  'click',
+  e=>{
+
+    const b =
+      e.target.closest(
+        'button'
+      );
+
+    if(!b) return;
+
+
+    [
+      ...$('#colorCtrl').children
+    ].forEach(
+      x =>
+        x.setAttribute(
+          'aria-pressed',
+          x===b
+        )
+    );
+
+
+    playerColor=
+      b.dataset.c;
+
+  }
+);
+
+
+// ======================================================
+// زمان
+// ======================================================
+
+$('#timeCtrl')
+.addEventListener(
+  'click',
+  e=>{
+
+    const b =
+      e.target.closest(
+        'button'
+      );
+
+    if(!b) return;
+
+
+    [
+      ...$('#timeCtrl').children
+    ].forEach(
+      x =>
+        x.setAttribute(
+          'aria-pressed',
+          x===b
+        )
+    );
+
+
+    initialMinutes=
+      Number(
+        b.dataset.t
+      );
+
+  }
+);
+
+
+// ======================================================
+// شروع
+// ======================================================
+
+$('#startBtn')
+.addEventListener(
+  'click',
+  ()=>{
+
+    initAudio();
+
+    $('#startOv').hidden=true;
+
+    startGame();
+
+  }
+);
+
+
+// ======================================================
+// بازی جدید
+// ======================================================
+
+$('#newGame')
+.addEventListener(
+  'click',
+  ()=>{
+
+    stopTimer();
+
+    gameOver=true;
+
+    $('#startOv').hidden=false;
+
+  }
+);
+
+
+// ======================================================
+// بازی مجدد
+// ======================================================
+
+$('#endAgain')
+.addEventListener(
+  'click',
+  ()=>{
+
+    $('#end').hidden=true;
+
+    $('#startOv').hidden=false;
+
+  }
+);
+
+
+// ======================================================
+// فعال‌سازی صدا با اولین تعامل کاربر
+// ======================================================
+
+document.addEventListener(
+  'pointerdown',
+  initAudio,
+  {once:true}
+);
+
+
+// ======================================================
+// شروع اولیه
+// ======================================================
+
+$('#startOv').hidden=false;
+
+</script>
+
+</body>
+</html>
