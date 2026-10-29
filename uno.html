@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>اونو | کلوپ بازی</title>
+    <link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+    <style>
+        :root {
+            --bg: #070d1c;
+            --ink: #eef2ff;
+            --mut: #9fb0d6;
+            --gold: #f2c14e;
+            --gold2: #ffe08a;
+            --teal: #14b8a6;
+            --card: rgba(255, 255, 255, .06);
+            --line: rgba(255, 255, 255, .12);
+            --red: #e53935;
+            --blue: #1e88e5;
+            --green: #43a047;
+            --yellow: #fdd835;
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Vazirmatn, Tahoma, sans-serif;
+            color: var(--ink);
+            background: radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
+                radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%), var(--bg);
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+            color: inherit;
+            background: none
+        }
+
+        button:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 18px
+        }
+
+        /* header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, #070d1cd9, #070d1c66 70%, transparent);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 12px 0
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            font-size: 19px
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            object-fit: cover;
+            box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
+            background: #0b1329
+        }
+
+        .brand span {
+            background: linear-gradient(180deg, #fff, #f2c14e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            padding: 8px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mut);
+            transition: .2s
+        }
+
+        .nav-links a:hover {
+            background: var(--card);
+            color: var(--ink)
+        }
+
+        .nav-links a.active {
+            background: #f2c14e1a;
+            color: var(--gold2)
+        }
+
+        /* page head */
+        .page-head {
+            padding: 30px 0 14px;
+            text-align: center;
+            position: relative
+        }
+
+        .page-head::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(600px 300px at 50% 0%, #f2c14e1a, transparent 70%)
+        }
+
+        .page-head h1 {
+            margin: 0 0 8px;
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 900;
+            background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .page-head p {
+            margin: 0;
+            color: var(--mut);
+            font-size: clamp(13px, 1.8vw, 15px)
+        }
+
+        /* layout */
+        .app {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 18px 30px;
+            display: grid;
+            gap: 18px;
+            grid-template-columns: minmax(0, 1fr) 320px;
+            align-items: start
+        }
+
+        /* table */
+        .table-wrap {
+            position: relative;
+            border-radius: 26px;
+            padding: 16px;
+            background: radial-gradient(circle at 50% 40%, #1b5e20, #0d3d13 60%, #08260c);
+            box-shadow: 0 30px 80px #000a, inset 0 0 0 2px #00000055, inset 0 0 0 6px #ffffff08;
+            min-height: 540px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .opponents {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            min-height: 90px
+        }
+
+        .opp {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 12px;
+            border-radius: 14px;
+            background: #00000044;
+            border: 1px solid transparent;
+            transition: .25s;
+            min-width: 90px
+        }
+
+        .opp.act {
+            border-color: var(--gold);
+            background: #f2c14e22;
+            box-shadow: 0 0 22px -4px var(--gold)
+        }
+
+        .opp .av {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            background: radial-gradient(circle at 35% 30%, #fff9, #334 55%);
+            box-shadow: 0 3px 10px #0008
+        }
+
+        .opp b {
+            font-size: 13px
+        }
+
+        .opp .cnt {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: #ffffff18;
+            color: var(--mut)
+        }
+
+        .opp.uno-alert .cnt {
+            background: #e53935;
+            color: #fff;
+            font-weight: 700;
+            animation: pulse .8s infinite
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: .6
+            }
+        }
+
+        .center {
+            flex: 1;
+            display: grid;
+            place-items: center;
+            min-height: 220px;
+            position: relative
+        }
+
+        .piles {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            justify-content: center
+        }
+
+        .pile {
+            position: relative;
+            width: 100px;
+            height: 145px;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: transform .2s
+        }
+
+        .pile:hover {
+            transform: translateY(-4px)
+        }
+
+        .pile.draw {
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+            border: 3px solid #ffffff22;
+            box-shadow: 0 10px 24px #000a
+        }
+
+        .pile.draw::after {
+            content: "🃏";
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            font-size: 40px;
+            opacity: .4
+        }
+
+        .pile .empty {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            color: #ffffff44;
+            font-size: 13px;
+            border: 2px dashed #ffffff33;
+            border-radius: 14px
+        }
+
+        /* card */
+        .card {
+            width: 100px;
+            height: 145px;
+            border-radius: 14px;
+            position: relative;
+            background: linear-gradient(160deg, #fff 0%, #f8faff 40%, #eef2fc 100%);
+            color: #141824;
+            box-shadow: 0 10px 24px #000a, 0 2px 4px #0006, inset 0 0 0 1px #ffffffcc;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 8px 9px;
+            font-weight: 900;
+            transition: transform .2s cubic-bezier(.2, .8, .3, 1), box-shadow .2s;
+            user-select: none;
+            overflow: hidden;
+            flex: none;
+        }
+
+        .card::after {
+            content: "";
+            position: absolute;
+            inset: 4px;
+            border-radius: 10px;
+            border: 1px solid #00000010;
+            pointer-events: none
+        }
+
+        .card .corner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1;
+            gap: 0
+        }
+
+        .card .corner.bottom {
+            transform: rotate(180deg);
+            align-self: flex-end
+        }
+
+        .card .corner b {
+            font-size: 18px;
+            letter-spacing: -1px
+        }
+
+        .card .corner i {
+            font-size: 16px;
+            font-style: normal;
+            line-height: 1
+        }
+
+        .card .mid {
+            font-size: 44px;
+            text-align: center;
+            line-height: 1;
+            font-weight: 400;
+            filter: drop-shadow(0 2px 3px #00000030)
+        }
+
+        .card.small {
+            width: 60px;
+            height: 88px;
+            padding: 5px 6px
+        }
+
+        .card.small .corner b {
+            font-size: 13px
+        }
+
+        .card.small .corner i {
+            font-size: 11px
+        }
+
+        .card.small .mid {
+            font-size: 28px
+        }
+
+        .card.red {
+            color: var(--red)
+        }
+
+        .card.blue {
+            color: var(--blue)
+        }
+
+        .card.green {
+            color: var(--green)
+        }
+
+        .card.yellow {
+            color: #b8860b
+        }
+
+        .card.wild {
+            background: linear-gradient(135deg, #e53935 0%, #1e88e5 25%, #43a047 50%, #fdd835 75%, #e53935 100%);
+            color: #fff;
+            text-shadow: 0 1px 2px #0008
+        }
+
+        .card.wild .mid {
+            font-size: 38px
+        }
+
+        .card.back {
+            background: linear-gradient(145deg, #1a1a2e, #0f0f1a);
+            border: 3px solid #ffffff22
+        }
+
+        .card.back::before {
+            content: "UNO";
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffffff55;
+            letter-spacing: 2px;
+            transform: rotate(-20deg)
+        }
+
+        /* hand */
+        .hand-zone {
+            padding-top: 8px
+        }
+
+        .hand-label {
+            font-size: 12px;
+            color: #ffffffaa;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center
+        }
+
+        .hand {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            min-height: 150px;
+            align-items: flex-end;
+            padding-bottom: 6px
+        }
+
+        .hand .card {
+            cursor: pointer;
+            transition: transform .2s, box-shadow .2s, opacity .2s
+        }
+
+        .hand .card.playable:hover {
+            transform: translateY(-16px) scale(1.05);
+            box-shadow: 0 22px 36px #000b, 0 0 0 3px var(--gold)
+        }
+
+        .hand .card.dim {
+            opacity: .4;
+            filter: grayscale(.6);
+            cursor: not-allowed
+        }
+
+        /* color picker */
+        .color-picker {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 14px 0;
+            animation: pop .3s ease
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(.7);
+                opacity: 0
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1
+            }
+        }
+
+        .color-picker button {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid #fff3;
+            transition: .2s;
+            box-shadow: 0 6px 16px #0008
+        }
+
+        .color-picker button:hover {
+            transform: scale(1.12);
+            border-color: #fff
+        }
+
+        .color-picker button.red {
+            background: var(--red)
+        }
+
+        .color-picker button.blue {
+            background: var(--blue)
+        }
+
+        .color-picker button.green {
+            background: var(--green)
+        }
+
+        .color-picker button.yellow {
+            background: var(--yellow)
+        }
+
+        /* uno button */
+        .uno-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-weight: 900;
+            font-size: 20px;
+            background: linear-gradient(180deg, #ff5252, #c62828);
+            color: #fff;
+            box-shadow: 0 8px 0 #7f0000, 0 16px 30px #0008;
+            z-index: 80;
+            animation: bounce 1s infinite;
+            display: none;
+        }
+
+        .uno-btn.show {
+            display: block
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0)
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-8px)
+            }
+        }
+
+        .uno-btn:active {
+            transform: translateX(-50%) translateY(5px);
+            box-shadow: 0 3px 0 #7f0000
+        }
+
+        /* aside */
+        aside {
+            display: grid;
+            gap: 14px
+        }
+
+        .panel {
+            background: linear-gradient(160deg, #152447, #0c142b);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 20px 50px -20px #000c
+        }
+
+        .panel h2 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--mut);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .panel h2::before {
+            content: "";
+            width: 4px;
+            height: 16px;
+            border-radius: 3px;
+            background: linear-gradient(180deg, var(--gold2), var(--gold))
+        }
+
+        .turn-ind {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 14px;
+            background: #ffffff08
+        }
+
+        .turn-ind .dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            box-shadow: 0 0 10px currentColor
+        }
+
+        .turn-ind b {
+            font-size: 16px
+        }
+
+        #log {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            max-height: 200px;
+            overflow: auto;
+            font-size: 13px;
+            color: var(--mut);
+            display: grid;
+            gap: 4px
+        }
+
+        #log li:first-child {
+            color: var(--ink);
+            font-weight: 600
+        }
+
+        .btn-gold {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 16px;
+            color: #2a1b02;
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            box-shadow: 0 8px 0 #9a6a10, 0 14px 24px #0007;
+            transition: transform .1s, box-shadow .1s
+        }
+
+        .btn-gold:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #9a6a10
+        }
+
+        .btn-ghost {
+            padding: 9px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            background: var(--card);
+            border: 1px solid var(--line);
+            transition: .2s;
+            width: 100%
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+
+        /* overlays */
+        .ov {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: #050a16e6;
+            backdrop-filter: blur(10px);
+            z-index: 99;
+            padding: 20px;
+            overflow: auto
+        }
+
+        .ov[hidden] {
+            display: none
+        }
+
+        .box {
+            width: min(480px, 100%);
+            text-align: center;
+            padding: 28px 24px;
+            border-radius: 26px;
+            background: linear-gradient(160deg, #1a2c52, #0d1730);
+            border: 1px solid var(--line);
+            box-shadow: 0 30px 80px #000
+        }
+
+        .box h2 {
+            font-size: 24px;
+            color: var(--ink);
+            font-weight: 900;
+            margin: 0 0 8px
+        }
+
+        .box p {
+            color: var(--mut);
+            line-height: 1.9;
+            margin: 0 0 16px;
+            font-size: 14px
+        }
+
+        .opt-group {
+            margin: 14px 0
+        }
+
+        .opt-label {
+            font-size: 13px;
+            color: var(--mut);
+            margin-bottom: 8px;
+            font-weight: 600
+        }
+
+        .mode,
+        .cnt,
+        .diff {
+            display: grid;
+            gap: 10px
+        }
+
+        .mode {
+            grid-template-columns: 1fr 1fr
+        }
+
+        .cnt {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .diff {
+            grid-template-columns: repeat(3, 1fr)
+        }
+
+        .mode button,
+        .cnt button,
+        .diff button {
+            padding: 12px 0;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            font-weight: 700;
+            font-size: 15px;
+            transition: .2s
+        }
+
+        .mode button:hover,
+        .cnt button:hover,
+        .diff button:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+
+        .mode button[aria-pressed=true],
+        .cnt button[aria-pressed=true] {
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            color: #2a1b02;
+            border-color: transparent
+        }
+
+        .diff button[aria-pressed=true] {
+            background: linear-gradient(180deg, #2dd4bf, #0f766e);
+            color: #04201d;
+            border-color: transparent
+        }
+
+        .cnt button small {
+            display: block;
+            font-size: 11px;
+            font-weight: 400;
+            color: var(--mut);
+            margin-top: 2px
+        }
+
+        .cnt button[aria-pressed=true] small {
+            color: #5a3b05
+        }
+
+        /* footer */
+        .site-footer {
+            margin-top: 40px;
+            padding: 30px 0 40px;
+            border-top: 1px solid var(--line);
+            background: linear-gradient(180deg, transparent, #070d1c 40%)
+        }
+
+        .foot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center
+        }
+
+        .foot .zlogo {
+            height: 56px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 16px #000a);
+            padding: 8px 14px;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--line)
+        }
+
+        .foot .rights {
+            margin: 0;
+            color: var(--mut);
+            font-size: 14px;
+            line-height: 1.9
+        }
+
+        .foot .rights b {
+            color: var(--gold2);
+            font-weight: 800
+        }
+
+        .foot .brandline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            color: var(--ink)
+        }
+
+        .foot .brandline img {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            object-fit: cover;
+            background: #0b1329
+        }
+
+        @media(max-width:860px) {
+            .app {
+                grid-template-columns: 1fr;
+                padding: 0 12px 24px
+            }
+
+            .nav-links {
+                display: none
+            }
+
+            .table-wrap {
+                padding: 10px;
+                min-height: 460px
+            }
+
+            .card {
+                width: 72px;
+                height: 104px;
+                padding: 6px
+            }
+
+            .card .mid {
+                font-size: 32px
+            }
+
+            .card .corner b {
+                font-size: 14px
+            }
+
+            .card .corner i {
+                font-size: 13px
+            }
+
+            .card.small {
+                width: 46px;
+                height: 66px
+            }
+
+            .card.small .mid {
+                font-size: 22px
+            }
+
+            .pile {
+                width: 72px;
+                height: 104px
+            }
+
+            .opp {
+                min-width: 76px;
+                padding: 6px 8px
+            }
+
+            .opp .av {
+                width: 34px;
+                height: 34px;
+                font-size: 17px
+            }
+
+            .opp b {
+                font-size: 11px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important;
+                animation: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="wrap nav">
+            <a href="index.html" class="brand">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#games">بازی‌ها</a>
+                <a href="snake-ladder.html">مار و پله</a>
+                <a href="manch.html">منچ</a>
+                <a href="hokm.html">حکم</a>
+                <a href="chess.html">شطرنج</a>
+                <a href="uno.html" class="active">اونو</a>
+                <a href="learn.html">آموزش‌ها</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-head">
+        <h1>🃏 اونو</h1>
+        <p>اولین کسی باش که همه کارت‌هاشو تموم می‌کنه — UNO!</p>
+    </div>
+
+    <div class="app">
+        <main class="table-wrap">
+            <div class="opponents" id="opponents"></div>
+            <div class="center">
+                <div class="piles">
+                    <div class="pile draw" id="drawPile" title="کشیدن کارت"></div>
+                    <div class="pile discard" id="discardPile"></div>
+                </div>
+                <div id="colorPickerWrap"></div>
+            </div>
+            <div class="hand-zone">
+                <div class="hand-label">
+                    <span id="handTitle">دست شما</span>
+                    <span id="handInfo" style="color:#ffffffaa;font-size:11px"></span>
+                </div>
+                <div class="hand" id="hand"></div>
+            </div>
+        </main>
+        <aside>
+            <section class="panel">
+                <h2>وضعیت</h2>
+                <div class="turn-ind" id="turnIndicator">
+                    <span class="dot" id="turnDot"></span>
+                    <b id="turnName">—</b>
+                </div>
+                <div style="margin-top:10px;font-size:12px;color:var(--mut)">
+                    جهت بازی: <b id="dirLabel">↻</b> · رنگ فعلی: <b id="colorLabel" style="color:#fff">—</b>
+                </div>
+            </section>
+            <section class="panel">
+                <h2>گزارش</h2>
+                <ul id="log">
+                    <li>منتظر شروع بازی…</li>
+                </ul>
+            </section>
+            <button class="btn-ghost" id="again" style="width:100%;padding:12px;font-weight:700">بازی تازه</button>
+            <a class="btn-ghost" href="index.html"
+                style="display:block;text-align:center;padding:12px;font-weight:700">← بازگشت به خانه</a>
+        </aside>
+    </div>
+
+    <button class="uno-btn" id="unoBtn">UNO!</button>
+
+    <!-- start -->
+    <div class="ov" id="start">
+        <div class="box">
+            <h2>🃏 شروع بازی اونو</h2>
+            <p>تعداد بازیکنان و حالت بازی را انتخاب کنید.</p>
+            <div class="opt-group">
+                <div class="opt-label">حالت بازی</div>
+                <div class="mode" id="mode">
+                    <button data-mode="human" aria-pressed="true">👥 همه انسانی</button>
+                    <button data-mode="ai" aria-pressed="false">🤖 با رایانه</button>
+                </div>
+            </div>
+            <div class="opt-group">
+                <div class="opt-label">تعداد بازیکنان</div>
+                <div class="cnt" id="cnt">
+                    <button data-n="2" aria-pressed="true">۲<small>نفره</small></button>
+                    <button data-n="3" aria-pressed="false">۳<small>نفره</small></button>
+                    <button data-n="4" aria-pressed="false">۴<small>نفره</small></button>
+                </div>
+            </div>
+            <div class="opt-group" id="diffWrap" style="display:none">
+                <div class="opt-label">سطح هوش مصنوعی</div>
+                <div class="diff" id="diff">
+                    <button data-d="easy" aria-pressed="true">آسان</button>
+                    <button data-d="med" aria-pressed="false">متوسط</button>
+                    <button data-d="hard" aria-pressed="false">سخت</button>
+                </div>
+            </div>
+            <button id="begin" class="btn-gold" style="margin-top:10px">شروع بازی</button>
+        </div>
+    </div>
+
+    <!-- end -->
+    <div class="ov" id="end" hidden>
+        <div class="box">
+            <h2>🏆 برنده!</h2>
+            <p id="wn"></p>
+            <button id="re" class="btn-gold" style="margin-top:6px">بازی دوباره</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrap foot">
+            <div class="brandline">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </div>
+            <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
+            <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
+        </div>
+    </footer>
+
+    <script>
+        const $ = s => document.querySelector(s);
+        const fa = n => Number(n).toLocaleString('fa-IR');
+        const COLORS = ['red', 'blue', 'green', 'yellow'];
+        const COLOR_NAMES = { red: 'قرمز', blue: 'آبی', green: 'سبز', yellow: 'زرد' };
+        const COLOR_HEX = { red: '#e53935', blue: '#1e88e5', green: '#43a047', yellow: '#fdd835' };
+        const wait = ms => new Promise(r => setTimeout(r, ms));
+
+        /* ============ state ============ */
+        let state = {};
+        let selectedCard = null;
+        let aiTimer = null;
+
+        /* ============ audio ============ */
+        let AC;
+        function beep(f, d = .08, ty = 'triangle', v = .06, at = 0) {
+            try {
+                AC = AC || new AudioContext();
+                const o = AC.createOscillator(), g = AC.createGain(), t = AC.currentTime + at;
+                o.type = ty; o.frequency.setValueAtTime(f, t); g.gain.setValueAtTime(v, t);
+                g.gain.exponentialRampToValueAtTime(.0001, t + d); o.connect(g).connect(AC.destination);
+                o.start(t); o.stop(t + d);
+            } catch (e) { }
+        }
+        function sndPlay() { beep(600, .06); beep(800, .08, 'sine', .04, .05); }
+        function sndDraw() { beep(300, .08, 'square', .04); }
+        function sndWild() { [523, 659, 784, 1047].forEach((f, i) => beep(f, .1, 'triangle', .05, i * .08)); }
+        function sndWin() { [523, 659, 784, 1047, 1319].forEach((f, i) => beep(f, .2, 'triangle', .07, i * .12)); }
+        function sndUno() { [800, 1000, 1200].forEach((f, i) => beep(f, .12, 'square', .06, i * .08)); }
+
+        /* ============ deck ============ */
+        function makeDeck() {
+            const d = [];
+            for (const c of COLORS) {
+                d.push({ color: c, type: 'num', value: 0 });
+                for (let v = 1; v <= 9; v++) { d.push({ color: c, type: 'num', value: v }); d.push({ color: c, type: 'num', value: v }); }
+                for (const t of ['skip', 'reverse', 'draw2']) { d.push({ color: c, type: t }); d.push({ color: c, type: t }); }
+            }
+            for (let i = 0; i < 4; i++) { d.push({ color: 'wild', type: 'wild' }); d.push({ color: 'wild', type: 'wild4' }); }
+            return d;
+        }
+        function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.random() * (i + 1) | 0;[a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+        /* ============ helpers ============ */
+        function topCard() { return state.discard[state.discard.length - 1]; }
+        function currentColor() { return state.currentColor; }
+
+        function canPlay(card) {
+            const top = topCard();
+            if (!top) return true;
+            if (card.type === 'wild' || card.type === 'wild4') return true;
+            if (card.color === currentColor()) return true;
+            if (card.type === 'num' && top.type === 'num' && card.value === top.value) return true;
+            if (card.type !== 'num' && top.type === card.type) return true;
+            return false;
+        }
+        function hasPlayable(hand) { return hand.some(c => canPlay(c)); }
+
+        /* ============ render ============ */
+        function cardEl(card, opts = {}) {
+            const cls = [];
+            if (card.color === 'wild') cls.push('wild');
+            else cls.push(card.color);
+            if (opts.small) cls.push('small');
+            if (opts.extra) cls.push(opts.extra);
+
+            let mid = '', corner = '';
+            if (card.type === 'num') { mid = card.value; corner = card.value; }
+            else if (card.type === 'skip') { mid = '🚫'; corner = 'S'; }
+            else if (card.type === 'reverse') { mid = '🔄'; corner = 'R'; }
+            else if (card.type === 'draw2') { mid = '+2'; corner = '+2'; }
+            else if (card.type === 'wild') { mid = '🎨'; corner = 'W'; }
+            else if (card.type === 'wild4') { mid = '+4'; corner = '+4'; }
+
+            const suit = card.color === 'wild' ? '🌈' : (card.color === 'red' ? '♦' : card.color === 'blue' ? '♠' : card.color === 'green' ? '♣' : '♥');
+
+            return `<div class="card ${cls.join(' ')}" data-id="${card.id || ''}">
+    <div class="corner"><b>${corner}</b><i>${suit}</i></div>
+    <div class="mid">${mid}</div>
+    <div class="corner bottom"><b>${corner}</b><i>${suit}</i></div>
+  </div>`;
+        }
+
+        function render() {
+            const me = state.players[0];
+
+            // opponents
+            $('#opponents').innerHTML = state.players.slice(1).map((p, i) => {
+                const isAct = state.turn === p.id && state.phase === 'play';
+                const uno = p.hand.length === 1;
+                return `<div class="opp ${isAct ? 'act' : ''} ${uno ? 'uno-alert' : ''}">
+      <div class="av">${p.ai ? '🤖' : '🧑'}</div>
+      <b>${p.name}</b>
+      <span class="cnt">${fa(p.hand.length)} کارت</span>
+    </div>`;
+            }).join('');
+
+            // draw pile
+            $('#drawPile').innerHTML = state.deck.length ? `<div class="card back" style="position:absolute;inset:0;width:100%;height:100%"></div>` : '<div class="empty">خالی</div>';
+
+            // discard pile
+            const top = topCard();
+            if (top) {
+                const prev = state.discard.length > 1 ? state.discard[state.discard.length - 2] : null;
+                $('#discardPile').innerHTML = `
+      ${prev ? `<div style="position:absolute;inset:0;opacity:.3;transform:rotate(-8deg) scale(.95)">${cardEl(prev)}</div>` : ''}
+      <div style="position:absolute;inset:0">${cardEl(top)}</div>
+      <div style="position:absolute;bottom:-24px;left:50%;transform:translateX(-50%);font-size:11px;color:#ffffffaa;white-space:nowrap">رنگ: <b style="color:${COLOR_HEX[currentColor()] || '#fff'}">${COLOR_NAMES[currentColor()] || '—'}</b></div>
+    `;
+            }
+
+            // hand
+            const hand = me.hand.slice().sort((a, b) => {
+                if (a.color === b.color) return (a.value || 0) - (b.value || 0);
+                return COLORS.indexOf(a.color) - COLORS.indexOf(b.color);
+            });
+            const isMyTurn = state.turn === me.id && state.phase === 'play';
+            $('#hand').innerHTML = hand.map(c => {
+                const ok = isMyTurn && canPlay(c);
+                return cardEl(c, { extra: isMyTurn ? (ok ? 'playable' : 'dim') : '' });
+            }).join('');
+            $('#handInfo').textContent = `${fa(me.hand.length)} کارت`;
+
+            // hand click handlers
+            document.querySelectorAll('#hand .card').forEach((el, idx) => {
+                el.addEventListener('click', () => {
+                    if (!isMyTurn) return;
+                    const card = hand[idx];
+                    if (!canPlay(card)) return;
+                    playCard(me, card);
+                });
+            });
+
+            // turn indicator
+            const cur = state.players.find(p => p.id === state.turn);
+            $('#turnName').textContent = cur ? cur.name : '—';
+            $('#turnDot').style.background = cur ? cur.color : '#fff';
+            $('#turnDot').style.color = cur ? cur.color : '#fff';
+            $('#dirLabel').textContent = state.dir === 1 ? '↻' : '↺';
+            $('#colorLabel').textContent = COLOR_NAMES[currentColor()] || '—';
+            $('#colorLabel').style.color = COLOR_HEX[currentColor()] || '#fff';
+
+            // uno button
+            const shouldShowUno = isMyTurn && me.hand.length === 2 && !me.saidUno;
+            $('#unoBtn').classList.toggle('show', shouldShowUno);
+
+            // color picker
+            if (state.pendingWild) {
+                $('#colorPickerWrap').innerHTML = `<div class="color-picker">
+      ${COLORS.map(c => `<button class="${c}" data-color="${c}"></button>`).join('')}
+    </div>`;
+                document.querySelectorAll('.color-picker button').forEach(b => {
+                    b.onclick = () => {
+                        state.currentColor = b.dataset.color;
+                        state.pendingWild = false;
+                        $('#colorPickerWrap').innerHTML = '';
+                        log(`رنگ به ${COLOR_NAMES[b.dataset.color]} تغییر کرد`);
+                        advanceTurn();
+                    };
+                });
+            } else {
+                $('#colorPickerWrap').innerHTML = '';
+            }
+        }
+
+        function log(t) {
+            const li = document.createElement('li'); li.textContent = t;
+            $('#log').prepend(li);
+            while ($('#log').children.length > 40) $('#log').lastChild.remove();
+        }
+
+        /* ============ game flow ============ */
+        function initGame(count, mode, diff) {
+            const deck = shuffle(makeDeck());
+            deck.forEach((c, i) => c.id = i);
+
+            const players = [];
+            for (let i = 0; i < count; i++) {
+                const isAI = mode === 'ai' && i > 0;
+                players.push({
+                    id: i,
+                    name: isAI ? 'رایانه ' + fa(i) : (i === 0 ? 'شما' : 'بازیکن ' + fa(i + 1)),
+                    ai: isAI,
+                    hand: [],
+                    saidUno: false,
+                    color: COLORS[i % 4]
+                });
+            }
+
+            // تعیین شروع‌کننده: هر بازیکن یک کارت می‌کشد، بالاترین عدد شروع می‌کند
+            // طبق قوانین رسمی متل [citation:14]
+            let starter = 0;
+            let highest = -1;
+            for (const p of players) {
+                let c = deck.pop();
+                // کارت‌های ویژه صفر حساب می‌شن
+                let v = (c.type === 'num') ? c.value : 0;
+                if (v > highest) { highest = v; starter = p.id; }
+            }
+            // کارت‌های کشیده‌شده برای تعیین شروع‌کننده به دسته برمی‌گردند
+            // (چون کارت‌ها هنوز به کسی داده نشدن، همین که deck رو دوباره shuffle نکنیم کافیه)
+            // اما برای سادگی، deck رو دوباره می‌سازیم
+            const freshDeck = shuffle(makeDeck());
+            freshDeck.forEach((c, i) => c.id = i);
+            state = { players, deck: freshDeck, discard: [], currentColor: null, turn: starter, dir: 1, phase: 'play', pendingWild: false, over: false, count };
+
+            // تقسیم ۷ کارت به هر بازیکن
+            for (let r = 0; r < 7; r++) for (const p of players) p.hand.push(state.deck.pop());
+
+            // اولین کارت روی زمین (نباید Wild باشه)
+            let first = state.deck.pop();
+            while (first.type === 'wild' || first.type === 'wild4') { state.deck.unshift(first); first = state.deck.pop(); }
+            state.discard.push(first);
+            state.currentColor = first.color;
+
+            selectedCard = null;
+            $('#start').hidden = true; $('#end').hidden = true;
+            $('#log').innerHTML = '<li>بازی شروع شد!</li>';
+            log(`شروع‌کننده: ${players[starter].name} (بالاترین کارت در قرعه‌کشی)`);
+            log(`کارت شروع: ${first.type === 'num' ? first.value : first.type} ${COLOR_NAMES[first.color] || ''}`);
+
+            handleFirstCard(first);
+
+            render();
+            if (players[state.turn] && players[state.turn].ai) scheduleAI();
+        }
+
+        function handleFirstCard(card) {
+            if (card.type === 'skip') {
+                log('کارت شروع Skip بود — بازیکن اول رد شد');
+                state.turn = (state.turn + 1) % state.count;
+            } else if (card.type === 'reverse') {
+                state.dir = -1;
+                log('کارت شروع Reverse بود — جهت برعکس شد');
+            } else if (card.type === 'draw2') {
+                log('کارت شروع +2 بود — بازیکن اول ۲ کارت کشید و رد شد');
+                const p = state.players[state.turn];
+                for (let i = 0; i < 2; i++) p.hand.push(state.deck.pop());
+                state.turn = (state.turn + 1) % state.count;
+            }
+        }
+
+        function nextTurn() {
+            return (state.turn + state.dir + state.count) % state.count;
+        }
+
+        function advanceTurn() {
+            if (state.over) return;
+            state.turn = nextTurn();
+            state.players.forEach(p => p.saidUno = false);
+            render();
+            if (state.players[state.turn] && state.players[state.turn].ai) scheduleAI();
+        }
+
+        function playCard(player, card) {
+            if (state.over) return;
+            const idx = player.hand.findIndex(c => c.id === card.id);
+            if (idx < 0) return;
+
+            // بررسی UNO: اگر بازیکن بعد از این حرکت ۱ کارت داشت و نگفت، جریمه
+            // (در نسخه ساده، فقط AI خودکار می‌گه، انسان باید دکمه بزنه)
+
+            player.hand.splice(idx, 1);
+            state.discard.push(card);
+
+            if (card.type === 'wild' || card.type === 'wild4') sndWild();
+            else sndPlay();
+
+            log(`${player.name} کارت ${cardLabel(card)} را بازی کرد`);
+
+            if (card.type === 'wild' || card.type === 'wild4') {
+                state.pendingWild = true;
+                if (player.ai) {
+                    // AI بهترین رنگ رو انتخاب می‌کنه
+                    const counts = { red: 0, blue: 0, green: 0, yellow: 0 };
+                    player.hand.forEach(c => { if (c.color !== 'wild') counts[c.color]++; });
+                    const best = COLORS.reduce((a, b) => counts[a] > counts[b] ? a : b);
+                    state.currentColor = best;
+                    state.pendingWild = false;
+                    log(`رنگ به ${COLOR_NAMES[best]} تغییر کرد`);
+
+                    if (card.type === 'wild4') {
+                        const victim = state.players[nextTurn()];
+                        for (let i = 0; i < 4; i++) victim.hand.push(state.deck.pop());
+                        log(`${victim.name} ۴ کارت کشید و رد شد`);
+                        state.turn = nextTurn();
+                    }
+                    checkWin(player);
+                    if (!state.over) advanceTurn();
+                } else {
+                    render();
+                    return;
+                }
+            } else if (card.type === 'skip') {
+                log('بازیکن بعدی رد شد');
+                state.turn = nextTurn();
+                checkWin(player);
+                if (!state.over) advanceTurn();
+            } else if (card.type === 'reverse') {
+                state.dir *= -1;
+                log('جهت بازی برعکس شد');
+                checkWin(player);
+                if (!state.over) advanceTurn();
+            } else if (card.type === 'draw2') {
+                const victim = state.players[nextTurn()];
+                for (let i = 0; i < 2; i++) victim.hand.push(state.deck.pop());
+                log(`${victim.name} ۲ کارت کشید و رد شد`);
+                state.turn = nextTurn();
+                checkWin(player);
+                if (!state.over) advanceTurn();
+            } else {
+                checkWin(player);
+                if (!state.over) advanceTurn();
+            }
+        }
+
+        function cardLabel(c) {
+            if (c.type === 'num') return `${c.value} ${COLOR_NAMES[c.color] || ''}`;
+            if (c.type === 'skip') return 'Skip';
+            if (c.type === 'reverse') return 'Reverse';
+            if (c.type === 'draw2') return '+2';
+            if (c.type === 'wild') return 'Wild';
+            if (c.type === 'wild4') return 'Wild +4';
+            return c.type;
+        }
+
+        function checkWin(player) {
+            if (player.hand.length === 0) {
+                state.over = true;
+                state.phase = 'done';
+                sndWin();
+                $('#wn').textContent = `${player.name} برنده شد! 🎉`;
+                $('#end').hidden = false;
+                log(`${player.name} برنده شد!`);
+            }
+        }
+
+        /* ============ AI ============ */
+        function scheduleAI() {
+            clearTimeout(aiTimer);
+            aiTimer = setTimeout(() => aiTurn(), 600 + Math.random() * 500);
+        }
+
+        function aiTurn() {
+            if (state.over || state.pendingWild) return;
+            const p = state.players[state.turn];
+            if (!p || !p.ai) return;
+
+            const playable = p.hand.filter(c => canPlay(c));
+
+            if (p.hand.length === 2 && playable.length > 0) {
+                p.saidUno = true;
+                log(`${p.name} گفت UNO!`);
+            }
+
+            if (playable.length === 0) {
+                const drawn = state.deck.pop();
+                p.hand.push(drawn);
+                log(`${p.name} یک کارت کشید`);
+                sndDraw();
+                render();
+                if (canPlay(drawn)) {
+                    setTimeout(() => playCard(p, drawn), 400);
+                } else {
+                    advanceTurn();
+                }
+                return;
+            }
+
+            // انتخاب کارت: ترجیح کارت‌های تهاجمی اگر حریف کارت کم دارد
+            let best = playable[0];
+            const opponentMin = Math.min(...state.players.filter(x => x.id !== p.id).map(x => x.hand.length));
+
+            if (opponentMin <= 2) {
+                const aggressive = playable.find(c => ['skip', 'draw2', 'wild4'].includes(c.type));
+                if (aggressive) best = aggressive;
+            }
+            const wild4 = playable.find(c => c.type === 'wild4');
+            if (wild4) best = wild4;
+
+            playCard(p, best);
+        }
+
+        /* ============ events ============ */
+        $('#drawPile').addEventListener('click', () => {
+            if (state.over || state.phase !== 'play') return;
+            const me = state.players[0];
+            if (state.turn !== me.id) return;
+            if (hasPlayable(me.hand)) return;
+
+            const drawn = state.deck.pop();
+            me.hand.push(drawn);
+            log('شما یک کارت کشیدید');
+            sndDraw();
+            render();
+            if (canPlay(drawn)) {
+                setTimeout(() => {
+                    if (confirm('کارت کشیده شده قابل بازی است. می‌خواهید آن را بازی کنید؟')) {
+                        playCard(me, drawn);
+                    } else {
+                        advanceTurn();
+                    }
+                }, 200);
+            } else {
+                advanceTurn();
+            }
+        });
+
+        $('#unoBtn').addEventListener('click', () => {
+            const me = state.players[0];
+            if (me.hand.length === 2 && !me.saidUno) {
+                me.saidUno = true;
+                sndUno();
+                log('شما گفتید UNO! 🎉');
+                $('#unoBtn').classList.remove('show');
+            }
+        });
+
+        $('#mode').onclick = e => {
+            const b = e.target.closest('button'); if (!b) return;
+            [...$('#mode').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+            $('#diffWrap').style.display = b.dataset.mode === 'ai' ? 'block' : 'none';
+        };
+        $('#cnt').onclick = e => {
+            const b = e.target.closest('button'); if (!b) return;
+            [...$('#cnt').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+        };
+        $('#diff').onclick = e => {
+            const b = e.target.closest('button'); if (!b) return;
+            [...$('#diff').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+        };
+        $('#begin').onclick = () => {
+            const count = +$('#cnt button[aria-pressed=true]').dataset.n;
+            const mode = $('#mode button[aria-pressed=true]').dataset.mode;
+            const diff = $('#diff button[aria-pressed=true]').dataset.d;
+            initGame(count, mode, diff);
+        };
+        $('#again').onclick = () => { $('#start').hidden = false; $('#end').hidden = true; state.over = true; };
+        $('#re').onclick = () => { $('#end').hidden = true; $('#start').hidden = false; state.over = true; };
+    </script>
+</body>
+
+</html>
