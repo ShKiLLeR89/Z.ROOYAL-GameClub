@@ -1,560 +1,1465 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>آموزش‌ها | کلوپ بازی</title>
-<link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
-<style>
-:root {
-  --bg: #070d1c;
-  --bg2: #0c142b;
-  --ink: #eef2ff;
-  --mut: #9fb0d6;
-  --gold: #f2c14e;
-  --gold2: #ffe08a;
-  --teal: #14b8a6;
-  --teal2: #0f766e;
-  --card: rgba(255, 255, 255, .06);
-  --line: rgba(255, 255, 255, .12);
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0; min-height: 100vh;
-  font-family: Vazirmatn, Tahoma, sans-serif; color: var(--ink);
-  background:
-    radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
-    radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%),
-    var(--bg);
-  padding-top: env(safe-area-inset-top, 0px);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
-}
-a { color: inherit; text-decoration: none; }
-button { font: inherit; cursor: pointer; border: 0; color: inherit; background: none; }
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 18px; }
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>آموزش‌ها | کلوپ بازی</title>
+  <link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+  <style>
+    :root {
+      --bg: #070d1c;
+      --bg2: #0c142b;
+      --ink: #eef2ff;
+      --mut: #9fb0d6;
+      --gold: #f2c14e;
+      --gold2: #ffe08a;
+      --teal: #14b8a6;
+      --teal2: #0f766e;
+      --red: #e53935;
+      --blue: #1e88e5;
+      --green: #43a047;
+      --yellow: #fdd835;
+      --card: rgba(255, 255, 255, .06);
+      --line: rgba(255, 255, 255, .12);
+      color-scheme: dark;
+    }
 
-/* ---------- header ---------- */
-.site-header {
-  position: sticky; top: 0; z-index: 50;
-  backdrop-filter: blur(14px);
-  background: linear-gradient(180deg, #070d1cd9, #070d1c66 70%, transparent);
-  border-bottom: 1px solid var(--line);
-}
-.nav {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 18px; padding: 12px 0;
-}
-.brand {
-  display: flex; align-items: center; gap: 12px;
-  font-weight: 900; font-size: 19px; letter-spacing: .2px;
-}
-.brand img {
-  width: 42px; height: 42px; border-radius: 11px; object-fit: cover;
-  box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
-  background: #0b1329;
-}
-.brand span {
-  background: linear-gradient(180deg, #fff, #f2c14e);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
-.nav-links a {
-  padding: 8px 13px; border-radius: 10px; font-size: 14px; font-weight: 600;
-  color: var(--mut); transition: background .2s, color .2s;
-}
-.nav-links a:hover { background: var(--card); color: var(--ink); }
-.nav-links a.active { background: #f2c14e1a; color: var(--gold2); }
+    * {
+      box-sizing: border-box
+    }
 
-/* ---------- page head ---------- */
-.page-head {
-  padding: 40px 0 20px; text-align: center; position: relative;
-}
-.page-head::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: radial-gradient(600px 300px at 50% 0%, #f2c14e1a, transparent 70%);
-}
-.page-head h1 {
-  margin: 0 0 10px; font-size: clamp(30px, 5vw, 46px); font-weight: 900;
-  background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
-  -webkit-background-clip: text; background-clip: text; color: transparent;
-}
-.page-head p { margin: 0; color: var(--mut); font-size: clamp(14px, 2vw, 17px); }
+    html {
+      scroll-behavior: smooth
+    }
 
-/* ---------- layout ---------- */
-.app {
-  max-width: 1180px; margin: 0 auto; padding: 0 18px 50px;
-  display: grid; gap: 30px; grid-template-columns: 280px minmax(0, 1fr);
-  align-items: start;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Vazirmatn, Tahoma, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
+        radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%),
+        var(--bg);
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      perspective: 1200px;
+    }
 
-/* ---------- sidebar ---------- */
-.sidebar {
-  position: sticky; top: 85px;
-  background: linear-gradient(160deg, #152447, #0c142b);
-  border: 1px solid var(--line); border-radius: 24px; padding: 20px;
-  box-shadow: 0 20px 50px -20px #000c;
-  display: flex; flex-direction: column; gap: 8px;
-}
-.sidebar h3 {
-  margin: 0 0 12px; padding: 0 10px; font-size: 13px; color: var(--mut); font-weight: 700; letter-spacing: 1px;
-}
-.sidebar a {
-  padding: 12px 16px; border-radius: 14px; font-size: 15px; font-weight: 700;
-  color: var(--mut); transition: .2s; display: flex; align-items: center; gap: 12px;
-  border: 1px solid transparent;
-}
-.sidebar a:hover { background: rgba(255,255,255,.05); color: var(--ink); }
-.sidebar a.active { background: #f2c14e1a; color: var(--gold2); border-color: #f2c14e33; box-shadow: 0 0 20px -5px #f2c14e33 inset; }
-.sidebar a .icon { font-size: 22px; }
+    a {
+      color: inherit;
+      text-decoration: none
+    }
 
-/* ---------- content ---------- */
-.content { display: flex; flex-direction: column; gap: 30px; }
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: 0;
+      color: inherit;
+      background: none
+    }
 
-/* game section container */
-.game-section {
-  background: linear-gradient(160deg, #152447, #0c142b);
-  border: 1px solid var(--line); border-radius: 28px;
-  box-shadow: 0 30px 60px -30px #000c;
-  overflow: hidden; scroll-margin-top: 90px;
-}
-.game-header {
-  padding: 30px 30px 20px;
-  background: linear-gradient(180deg, #ffffff05, transparent);
-  border-bottom: 1px solid var(--line);
-  display: flex; align-items: center; gap: 16px;
-}
-.game-header .icon {
-  font-size: 48px; line-height: 1; filter: drop-shadow(0 4px 12px #000a);
-}
-.game-header h2 { margin: 0; font-size: clamp(22px, 4vw, 30px); font-weight: 900; }
-.game-header p { margin: 4px 0 0; color: var(--mut); font-size: 14px; }
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 18px
+    }
 
-.game-body { padding: 30px; display: flex; flex-direction: column; gap: 26px; }
+    /* header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, #070d1cd9, #070d1c66 70%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
 
-/* section blocks inside game */
-.block { display: flex; flex-direction: column; gap: 12px; }
-.block h3 {
-  margin: 0; font-size: 18px; font-weight: 800; color: var(--gold2);
-  display: flex; align-items: center; gap: 10px;
-}
-.block h3::before {
-  content: ""; width: 6px; height: 20px; border-radius: 4px;
-  background: linear-gradient(180deg, var(--gold2), var(--gold));
-}
-.block p, .block li { color: var(--mut); line-height: 2; font-size: 15px; margin: 0; }
-.block ul, .block ol { margin: 0; padding-right: 22px; }
-.block li { margin-bottom: 8px; }
-.block b, .block strong { color: var(--ink); font-weight: 800; }
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 12px 0
+    }
 
-/* callouts */
-.callout {
-  padding: 16px 20px; border-radius: 14px; font-size: 14px; line-height: 1.9; color: var(--mut);
-  display: flex; gap: 14px; align-items: flex-start;
-}
-.callout .icon { font-size: 20px; flex: none; line-height: 1.4; }
-.callout.teal { background: #14b8a610; border: 1px solid #14b8a633; border-right: 4px solid var(--teal); }
-.callout.gold { background: #f2c14e10; border: 1px solid #f2c14e33; border-right: 4px solid var(--gold); }
-.callout b { color: var(--ink); }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      font-size: 19px
+    }
 
-/* pieces grid */
-.pieces-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 14px;
-}
-.piece-card {
-  background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 16px;
-  padding: 18px 14px; text-align: center; transition: .2s;
-}
-.piece-card:hover { background: rgba(255,255,255,.07); border-color: #f2c14e55; transform: translateY(-2px); }
-.piece-card .sym { font-size: 48px; line-height: 1; margin-bottom: 10px; color: #fff; }
-.piece-card .name { font-weight: 800; font-size: 15px; color: var(--ink); margin-bottom: 6px; }
-.piece-card .desc { font-size: 13px; color: var(--mut); line-height: 1.7; }
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      object-fit: cover;
+      box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
+      background: #0b1329
+    }
 
-/* table */
-.table-wrap { overflow-x: auto; border-radius: 14px; border: 1px solid var(--line); }
-table { width: 100%; border-collapse: collapse; font-size: 14px; }
-th, td { padding: 14px 16px; text-align: right; border-bottom: 1px solid var(--line); }
-th { background: #ffffff0a; color: var(--gold2); font-weight: 800; font-size: 14px; white-space: nowrap; }
-tr:last-child td { border-bottom: none; }
-tr:hover td { background: #ffffff05; }
-td:first-child { color: var(--ink); font-weight: 800; white-space: nowrap; }
+    .brand span {
+      background: linear-gradient(180deg, #fff, #f2c14e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
 
-/* footer */
-.site-footer {
-  margin-top: 40px; padding: 40px 0; border-top: 1px solid var(--line);
-  background: linear-gradient(180deg, transparent, #070d1c 40%);
-}
-.foot { display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
-.foot .brandline { display: flex; align-items: center; gap: 10px; font-weight: 800; }
-.foot .brandline img { width: 36px; height: 36px; border-radius: 10px; background: #0b1329; }
-.foot .zlogo {
-  height: 56px; padding: 8px 16px; border-radius: 14px; background: var(--card); border: 1px solid var(--line);
-}
-.foot .rights { margin: 0; color: var(--mut); font-size: 14px; }
-.foot .rights b { color: var(--gold2); }
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center
+    }
 
-/* ---------- responsive ---------- */
-@media (max-width: 900px) {
-  .app { grid-template-columns: 1fr; padding: 0 12px 40px; gap: 20px; }
-  .sidebar {
-    position: static; flex-direction: row; overflow-x: auto; padding: 10px; gap: 6px;
-    border-radius: 16px;
-  }
-  .sidebar h3 { display: none; }
-  .sidebar a { flex: none; padding: 10px 14px; white-space: nowrap; font-size: 14px; }
-  .sidebar a .icon { font-size: 18px; }
-  .game-header { padding: 22px 20px 16px; gap: 12px; }
-  .game-header .icon { font-size: 36px; }
-  .game-body { padding: 22px 20px; gap: 22px; }
-  .nav-links { display: none; }
-}
-@media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
-}
-</style>
+    .nav-links a {
+      padding: 8px 13px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--mut);
+      transition: .2s
+    }
+
+    .nav-links a:hover {
+      background: var(--card);
+      color: var(--ink)
+    }
+
+    .nav-links a.active {
+      background: #f2c14e1a;
+      color: var(--gold2)
+    }
+
+    .lan-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #04201d;
+      background: linear-gradient(180deg, #2dd4bf, #0f766e);
+      box-shadow: 0 4px 0 #0a5049;
+      transition: .15s;
+      margin-right: 6px
+    }
+
+    .lan-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #0a5049
+    }
+
+    .donate-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(180deg, #ff6b9d, #c2185b);
+      box-shadow: 0 4px 0 #8e0e42;
+      transition: .15s;
+      margin-right: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .donate-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #8e0e42
+    }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      place-items: center;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0
+    }
+
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: .3s
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg)
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg)
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(300px, 85vw);
+      background: linear-gradient(160deg, #152447, #0c142b);
+      border-left: 1px solid var(--line);
+      z-index: 150;
+      transform: translateX(100%);
+      transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 6px;
+      overflow-y: auto;
+      box-shadow: -20px 0 60px #000c
+    }
+
+    .mobile-menu.open {
+      transform: translateX(0)
+    }
+
+    .mobile-menu .mm-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .mobile-menu .mm-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--card);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      color: var(--mut)
+    }
+
+    .mobile-menu a {
+      padding: 13px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--mut);
+      transition: .2s;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a.active {
+      background: #f2c14e1a;
+      color: var(--gold2)
+    }
+
+    .mobile-menu .mm-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 10px 0
+    }
+
+    .mobile-menu .mm-donate {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(180deg, #ff6b9d, #c2185b);
+      box-shadow: 0 6px 0 #8e0e42;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px
+    }
+
+    .mm-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000a;
+      backdrop-filter: blur(4px);
+      z-index: 140;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s
+    }
+
+    .mm-overlay.open {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    /* page head */
+    .page-head {
+      padding: 40px 0 20px;
+      text-align: center;
+      position: relative
+    }
+
+    .page-head::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(600px 300px at 50% 0%, #f2c14e1a, transparent 70%)
+    }
+
+    .page-head h1 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 6vw, 50px);
+      font-weight: 900;
+      background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes heroFloat {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .page-head p {
+      margin: 0;
+      color: var(--mut);
+      font-size: clamp(14px, 2vw, 17px);
+      line-height: 1.9
+    }
+
+    /* layout */
+    .app {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 18px 50px;
+      display: grid;
+      gap: 28px;
+      grid-template-columns: 260px minmax(0, 1fr);
+      align-items: start;
+    }
+
+    /* sidebar */
+    .sidebar {
+      position: sticky;
+      top: 85px;
+      background: linear-gradient(160deg, #152447, #0c142b);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 20px 50px -20px #000c;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar h3 {
+      margin: 0 0 10px;
+      padding: 0 8px;
+      font-size: 12px;
+      color: var(--mut);
+      font-weight: 700;
+      letter-spacing: 1px
+    }
+
+    .sidebar a {
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--mut);
+      transition: .2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+    }
+
+    .sidebar a:hover {
+      background: rgba(255, 255, 255, .05);
+      color: var(--ink)
+    }
+
+    .sidebar a.active {
+      background: #f2c14e1a;
+      color: var(--gold2);
+      border-color: #f2c14e33;
+      box-shadow: 0 0 20px -5px #f2c14e33 inset
+    }
+
+    .sidebar a .icon {
+      font-size: 20px;
+      width: 24px;
+      text-align: center;
+      flex-shrink: 0
+    }
+
+    /* content */
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      min-width: 0
+    }
+
+    /* game section */
+    .game-section {
+      background: linear-gradient(160deg, #152447, #0c142b);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      box-shadow: 0 30px 60px -30px #000c;
+      overflow: hidden;
+      scroll-margin-top: 90px;
+      transition: transform .3s, border-color .3s;
+    }
+
+    .game-section:hover {
+      border-color: #f2c14e33
+    }
+
+    .game-header {
+      padding: 28px 28px 20px;
+      background: linear-gradient(180deg, #ffffff05, transparent);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .game-header .icon {
+      font-size: 46px;
+      line-height: 1;
+      filter: drop-shadow(0 4px 12px #000a);
+      animation: iconFloat 4s ease-in-out infinite
+    }
+
+    @keyframes iconFloat {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0)
+      }
+
+      50% {
+        transform: translateY(-4px) rotate(3deg)
+      }
+    }
+
+    .game-header h2 {
+      margin: 0;
+      font-size: clamp(20px, 4vw, 28px);
+      font-weight: 900
+    }
+
+    .game-header p {
+      margin: 4px 0 0;
+      color: var(--mut);
+      font-size: 14px
+    }
+
+    .game-body {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px
+    }
+
+    /* block */
+    .block {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .block h3 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--gold2);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .block h3::before {
+      content: "";
+      width: 5px;
+      height: 19px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, var(--gold2), var(--gold))
+    }
+
+    .block p,
+    .block li {
+      color: var(--mut);
+      line-height: 2;
+      font-size: 15px;
+      margin: 0
+    }
+
+    .block ul,
+    .block ol {
+      margin: 0;
+      padding-right: 20px
+    }
+
+    .block li {
+      margin-bottom: 6px
+    }
+
+    .block b,
+    .block strong {
+      color: var(--ink);
+      font-weight: 800
+    }
+
+    /* callout */
+    .callout {
+      padding: 16px 20px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--mut);
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .callout .ic {
+      font-size: 22px;
+      flex: none;
+      line-height: 1.4
+    }
+
+    .callout.teal {
+      background: #14b8a610;
+      border: 1px solid #14b8a633;
+      border-right: 4px solid var(--teal)
+    }
+
+    .callout.gold {
+      background: #f2c14e10;
+      border: 1px solid #f2c14e33;
+      border-right: 4px solid var(--gold)
+    }
+
+    .callout.red {
+      background: #e5393510;
+      border: 1px solid #e5393533;
+      border-right: 4px solid var(--red)
+    }
+
+    .callout b {
+      color: var(--ink)
+    }
+
+    /* pieces grid */
+    .pieces-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px
+    }
+
+    .piece-card {
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 12px;
+      text-align: center;
+      transition: .25s;
+    }
+
+    .piece-card:hover {
+      background: rgba(255, 255, 255, .07);
+      border-color: #f2c14e55;
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 10px 25px -10px #000
+    }
+
+    .piece-card .sym {
+      font-size: 44px;
+      line-height: 1;
+      margin-bottom: 8px;
+      color: #fff;
+      filter: drop-shadow(0 2px 4px #0008)
+    }
+
+    .piece-card .name {
+      font-weight: 800;
+      font-size: 14px;
+      color: var(--ink);
+      margin-bottom: 4px
+    }
+
+    .piece-card .desc {
+      font-size: 12px;
+      color: var(--mut);
+      line-height: 1.7
+    }
+
+    /* table */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 14px;
+      border: 1px solid var(--line)
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px
+    }
+
+    th,
+    td {
+      padding: 12px 14px;
+      text-align: right;
+      border-bottom: 1px solid var(--line)
+    }
+
+    th {
+      background: #ffffff0a;
+      color: var(--gold2);
+      font-weight: 800;
+      font-size: 13px;
+      white-space: nowrap
+    }
+
+    tr:last-child td {
+      border-bottom: none
+    }
+
+    tr:hover td {
+      background: #ffffff05
+    }
+
+    td:first-child {
+      color: var(--ink);
+      font-weight: 800;
+      white-space: nowrap
+    }
+
+    /* card examples */
+    .card-examples {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 6px 0
+    }
+
+    .card-ex {
+      width: 60px;
+      height: 86px;
+      border-radius: 10px;
+      position: relative;
+      background: linear-gradient(160deg, #fff, #eef2fc);
+      color: #141824;
+      box-shadow: 0 6px 16px #000a, inset 0 0 0 1px #ffffffcc;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 5px 6px;
+      font-weight: 900;
+      transition: .2s;
+    }
+
+    .card-ex:hover {
+      transform: translateY(-4px) rotate(-2deg);
+      box-shadow: 0 12px 24px #000b
+    }
+
+    .card-ex .c {
+      font-size: 13px;
+      line-height: 1
+    }
+
+    .card-ex .m {
+      font-size: 24px;
+      text-align: center;
+      line-height: 1
+    }
+
+    .card-ex.red {
+      color: #c8103a
+    }
+
+    .card-ex.blue {
+      color: #1e88e5
+    }
+
+    .card-ex.green {
+      color: #43a047
+    }
+
+    .card-ex.yellow {
+      color: #b8860b
+    }
+
+    .card-ex.wild {
+      background: linear-gradient(135deg, #e53935 0%, #1e88e5 25%, #43a047 50%, #fdd835 75%);
+      color: #fff;
+      text-shadow: 0 1px 2px #0008
+    }
+
+    /* footer */
+    .site-footer {
+      margin-top: 40px;
+      padding: 34px 0 40px;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, transparent, #070d1c 40%)
+    }
+
+    .foot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-align: center
+    }
+
+    .foot .zlogo {
+      height: 56px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 16px #000a);
+      padding: 8px 14px;
+      border-radius: 14px;
+      background: var(--card);
+      border: 1px solid var(--line)
+    }
+
+    .foot .rights {
+      margin: 0;
+      color: var(--mut);
+      font-size: 14px;
+      line-height: 1.9
+    }
+
+    .foot .rights b {
+      color: var(--gold2);
+      font-weight: 800
+    }
+
+    .foot .brandline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: var(--ink)
+    }
+
+    .foot .brandline img {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      object-fit: cover;
+      background: #0b1329
+    }
+
+    /* responsive */
+    @media(max-width:900px) {
+      .app {
+        grid-template-columns: 1fr;
+        padding: 0 12px 40px;
+        gap: 20px
+      }
+
+      .sidebar {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 10px;
+        gap: 6px;
+        border-radius: 16px
+      }
+
+      .sidebar h3 {
+        display: none
+      }
+
+      .sidebar a {
+        flex: none;
+        padding: 10px 14px;
+        white-space: nowrap;
+        font-size: 13px
+      }
+
+      .sidebar a .icon {
+        font-size: 18px
+      }
+
+      .game-header {
+        padding: 22px 20px 16px;
+        gap: 12px
+      }
+
+      .game-header .icon {
+        font-size: 36px
+      }
+
+      .game-body {
+        padding: 22px 20px;
+        gap: 20px
+      }
+
+      .nav-links {
+        display: none
+      }
+
+      .hamburger {
+        display: flex
+      }
+    }
+
+    @media(max-width:500px) {
+      .piece-card .sym {
+        font-size: 36px
+      }
+
+      .game-body {
+        padding: 18px 16px
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        transition: none !important;
+        animation: none !important
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="site-header">
-  <div class="wrap nav">
-    <a href="index.html" class="brand">
-      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
-      <span>کلوپ بازی</span>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="brand">
+        <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+        <span>کلوپ بازی</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html#games">بازی‌ها</a>
+        <a href="lan.html" class="lan-btn">📡 بازی لن</a>
+        <a href="learn.html" class="active">آموزش‌ها</a>
+        <a href="https://reymit.ir/z.rooyal" target="_blank" rel="noopener" class="donate-btn">❤️ حمایت</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="منو">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mm-overlay" id="mmOverlay"></div>
+  <aside class="mobile-menu" id="mobileMenu">
+    <div class="mm-header">
+      <div class="brand">
+        <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+        <span>کلوپ بازی</span>
+      </div>
+      <button class="mm-close" id="mmClose">✕</button>
+    </div>
+    <a href="index.html#games">🎮 بازی‌ها</a>
+    <a href="lan.html">📡 بازی لن</a>
+    <a href="learn.html" class="active">📚 آموزش‌ها</a>
+    <div class="mm-divider"></div>
+    <a href="https://reymit.ir/z.rooyal" target="_blank" rel="noopener" class="mm-donate">
+      <span>❤️</span> حمایت از ما
     </a>
-    <nav class="nav-links">
-      <a href="index.html#games">بازی‌ها</a>
-      <a href="snake-ladder.html">مار و پله</a>
-      <a href="manch.html">منچ</a>
-      <a href="hokm.html">حکم</a>
-      <a href="chess.html">شطرنج</a>
-      <a href="learn.html" class="active">آموزش‌ها</a>
-    </nav>
-  </div>
-</header>
-
-<div class="page-head">
-  <h1>📚 آموزش جامع بازی‌ها</h1>
-  <p>راهنمای کامل قوانین، استراتژی‌ها و اصطلاحات هر بازی</p>
-</div>
-
-<div class="app">
-  
-  <!-- منوی کناری -->
-  <aside class="sidebar">
-    <h3>فهرست آموزش‌ها</h3>
-    <a href="#chess" class="active"><span class="icon">♞</span> شطرنج</a>
-    <a href="#hokm"><span class="icon">🃏</span> حکم</a>
-    <a href="#manch"><span class="icon">🎯</span> منچ</a>
-    <a href="#snake"><span class="icon">🐍</span> مار و پله</a>
   </aside>
 
-  <!-- محتوای اصلی -->
-  <main class="content">
-
-    <!-- ==================== شطرنج ==================== -->
-    <section class="game-section" id="chess">
-      <div class="game-header">
-        <div class="icon">♞</div>
-        <div>
-          <h2>آموزش کامل شطرنج</h2>
-          <p>بازی پادشاهان — استراتژی، تاکتیک و قوانین</p>
-        </div>
-      </div>
-      <div class="game-body">
-        <div class="block">
-          <p>شطرنج یک بازی فکری دو نفره است که روی یک صفحه ۸×۸ خانه بازی می‌شود. هر بازیکن ۱۶ مهره دارد (یک شاه، یک ملکه، دو رخ، دو فیل، دو اسب و هشت سرباز). هدف نهایی، <b>مات کردن شاه حریف</b> است؛ یعنی قرار دادن شاه در وضعیتی که در خطر باشد و هیچ حرکت قانونی برای فرار نداشته باشد.</p>
-        </div>
-
-        <div class="block">
-          <h3>مهره‌ها و نحوه حرکت</h3>
-          <div class="pieces-grid">
-            <div class="piece-card">
-              <div class="sym">♔</div>
-              <div class="name">شاه (King)</div>
-              <div class="desc">مهم‌ترین مهره. فقط یک خانه در هر جهت (افقی، عمودی، مورب) حرکت می‌کند.</div>
-            </div>
-            <div class="piece-card">
-              <div class="sym">♕</div>
-              <div class="name">وزیر (Queen)</div>
-              <div class="desc">قدرتمندترین مهره. هر تعداد خانه در هر جهت (افقی، عمودی، مورب).</div>
-            </div>
-            <div class="piece-card">
-              <div class="sym">♖</div>
-              <div class="name">رخ (Rook)</div>
-              <div class="desc">هر تعداد خانه به صورت افقی یا عمودی. در قلعه دادن شرکت می‌کند.</div>
-            </div>
-            <div class="piece-card">
-              <div class="sym">♗</div>
-              <div class="name">فیل (Bishop)</div>
-              <div class="desc">هر تعداد خانه به صورت مورب. هر فیل همیشه روی یک رنگ خانه باقی می‌ماند.</div>
-            </div>
-            <div class="piece-card">
-              <div class="sym">♘</div>
-              <div class="name">اسب (Knight)</div>
-              <div class="desc">حرکت L شکل: دو خانه در یک جهت و یک خانه عمود بر آن. تنها مهره‌ای که از روی مهره‌ها می‌پرد.</div>
-            </div>
-            <div class="piece-card">
-              <div class="sym">♙</div>
-              <div class="name">سرباز (Pawn)</div>
-              <div class="desc">یک خانه به جلو. از خانه شروع می‌تواند دو خانه برود. فقط به صورت مورب مهره می‌گیرد.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="block">
-          <h3>قوانین ویژه</h3>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th>قانون</th><th>توضیح</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>کیش (Check)</td><td>وقتی شاه در تیررس مهره حریف باشد. باید فوراً شاه را نجات دهید (با حرکت دادن، زدن مهره مهاجم یا قرار دادن مانع).</td></tr>
-                <tr><td>کیش و مات (Checkmate)</td><td>شاه در کیش است و هیچ راه قانونی برای فرار ندارد. بازی تمام می‌شود و فرد مات‌کننده برنده است.</td></tr>
-                <tr><td>پات (Stalemate)</td><td>شاه در کیش نیست، اما بازیکن هیچ حرکت قانونی ندارد. بازی مساوی می‌شود.</td></tr>
-                <tr><td>قلعه (Castling)</td><td>حرکت همزمان شاه و رخ. شاه دو خانه به سمت رخ می‌رود و رخ از طرف دیگر شاه می‌پرد. شرایط: نه شاه و نه رخ قبلاً حرکت نکرده باشند، خانه‌های بین خالی باشد، شاه در کیش نباشد و از خانه‌های تحت حمله عبور نکند.</td></tr>
-                <tr><td>آن پاسان (En Passant)</td><td>اگر سرباز حریف دو خانه جلو برود و کنار سرباز شما قرار بگیرد، می‌توانید او را بزنید و به خانه‌ای بروید که از آن رد شده است. فقط بلافاصله بعد از حرکت حریف مجاز است.</td></tr>
-                <tr><td>ارتقا (Promotion)</td><td>اگر سرباز به ردیف آخر (ردیف ۸ برای سفید، ردیف ۱ برای سیاه) برسد، باید به مهره دلخواه (ملکه، رخ، فیل یا اسب) تبدیل شود.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="block">
-          <h3>نکات استراتژیک برای مبتدیان</h3>
-          <ul>
-            <li><b>کنترل مرکز:</b> خانه‌های مرکزی (e4, d4, e5, d5) را کنترل کنید.</li>
-            <li><b>توسعه مهره‌ها:</b> در ابتدای بازی، اسب‌ها و فیل‌ها را بیرون بیاورید.</li>
-            <li><b>امنیت شاه:</b> زودتر قلعه بدهید تا شاه در امان باشد.</li>
-            <li><b>ارزش مهره‌ها:</b> سرباز=۱، اسب=۳، فیل=۳، رخ=۵، ملکه=۹، شاه=بی‌نهایت.</li>
-            <li><b>نگاه به حرکات حریف:</b> قبل از هر حرکت، ببینید حریف چه تهدیدی دارد.</li>
-          </ul>
-        </div>
-
-        <div class="callout gold">
-          <div class="icon">💡</div>
-          <div><b>در کلوپ بازی:</b> می‌توانید با هوش مصنوعی در سه سطح (آسان، متوسط، سخت) بازی کنید. زمان بازی را از ۱۵ تا ۶۰ دقیقه انتخاب کنید و رنگ خود را مشخص کنید.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== حکم ==================== -->
-    <section class="game-section" id="hokm">
-      <div class="game-header">
-        <div class="icon">🃏</div>
-        <div>
-          <h2>آموزش کامل حکم</h2>
-          <p>محبوب‌ترین بازی کارتی ایرانی — تیمی و استراتژیک</p>
-        </div>
-      </div>
-      <div class="game-body">
-        <div class="block">
-          <p>حکم یکی از پرطرفدارترین بازی‌های کارتی ایرانی است که با یک دسته ۵۲ تایی کارت انجام می‌شود. این بازی می‌تواند ۲، ۳ یا ۴ نفره باشد. در حالت ۴ نفره، به صورت تیمی ۲ در ۲ بازی می‌شود (افراد روبرو هم‌تیمی هستند). هدف بازی، بردن ۷ دست از ۱۳ دست ممکن است.</p>
-        </div>
-
-        <div class="block">
-          <h3>اصطلاحات و مفاهیم</h3>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th>اصطلاح</th><th>توضیح</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>حاکم</td><td>کسی که حکم (خال برنده) را تعیین می‌کند. در این بازی، کسی که اولین آس را بگیرد حاکم می‌شود.</td></tr>
-                <tr><td>حکم</td><td>خال برنده (مثلاً دل، خشت، خاج یا گشنیز). کارت‌های این خال از تمام کارت‌های دیگر قوی‌تر هستند.</td></tr>
-                <tr><td>سرس</td><td>نوعی حکم که در آن ترتیب کارت‌ها عادی است (۲ پایین‌ترین، آس بالاترین).</td></tr>
-                <tr><td>نرس</td><td>نوعی حکم که در آن ترتیب برعکس است (۲ بالاترین، آس پایین‌ترین).</td></tr>
-                <tr><td>تک‌نرس</td><td>نوعی حکم که در آن آس بالاترین است، سپس ۲، ۳، ۴ و ... تا شاه.</td></tr>
-                <tr><td>کُت</td><td>وقتی تیمی ۷ دست ببرد و تیم حریف صفر دست ببرد (۷-۰).</td></tr>
-                <tr><td>حاکم‌کُت</td><td>وقتی تیم حاکم صفر دست ببرد و تیم حریف ۷ دست ببرد (۰-۷ برای تیم حاکم).</td></tr>
-                <tr><td>بام</td><td>وقتی یک تیم هر ۱۳ دست را ببرد. نادرترین و شیرین‌ترین برد!</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="block">
-          <h3>جریان کامل بازی</h3>
-          <ol>
-            <li><b>تقسیم اولیه:</b> ابتدا ۵ کارت به هر بازیکن داده می‌شود.</li>
-            <li><b>تعیین حاکم:</b> کسی که در این ۵ کارت آس داشته باشد، حاکم می‌شود. اگر چند نفر آس داشته باشند، اولین نفر (بر اساس ترتیب تقسیم) حاکم است.</li>
-            <li><b>انتخاب حکم:</b> حاکم خال حکم (یا نوع حکم مانند سرس، نرس، تک‌نرس) را انتخاب می‌کند.</li>
-            <li><b>ادامه تقسیم:</b> بقیه کارت‌ها تقسیم می‌شوند تا هر بازیکن ۱۳ کارت داشته باشد.</li>
-            <li><b>شروع بازی:</b> حاکم اولین کارت را بازی می‌کند و بقیه باید از همان خال بازی کنند (اگر دارند).</li>
-            <li><b>بردن دست:</b> بزرگ‌ترین کارت حکم (اگر بازی شده باشد) یا بزرگ‌ترین کارت خال زمین، دست را می‌برد.</li>
-            <li><b>ادامه:</b> برنده هر دست، دست بعدی را شروع می‌کند.</li>
-            <li><b>پایان:</b> تیمی که اول به ۷ دست برسد، برنده است.</li>
-          </ol>
-        </div>
-
-        <div class="block">
-          <h3>قوانین اجباری</h3>
-          <ul>
-            <li><b>پیروی از خال:</b> اگر خال زمین را دارید، باید از همان خال بازی کنید.</li>
-            <li><b>بریدن (قطع کردن):</b> اگر خال زمین را ندارید، می‌توانید حکم (یا هر کارت دیگر) بازی کنید.</li>
-            <li><b>ارزش کارت‌ها:</b> در حالت عادی، آس بالاترین و ۲ پایین‌ترین است.</li>
-            <li><b>حکم بالاتر از همه:</b> هر کارت حکم، از تمام کارت‌های خال‌های دیگر قوی‌تر است.</li>
-          </ul>
-        </div>
-
-        <div class="callout teal">
-          <div class="icon">🎯</div>
-          <div><b>استراتژی:</b> سعی کنید حکم را زمانی بازی کنید که مطمئن هستید دست را می‌برید. آس‌ها و شاه‌های خود را برای دست‌های حساس نگه دارید و به یاد داشته باشید چه کارت‌هایی بازی شده‌اند.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== منچ ==================== -->
-    <section class="game-section" id="manch">
-      <div class="game-header">
-        <div class="icon">🎯</div>
-        <div>
-          <h2>آموزش کامل منچ</h2>
-          <p>بازی کلاسیک صفحه‌ای — استراتژی و شانس</p>
-        </div>
-      </div>
-      <div class="game-body">
-        <div class="block">
-          <p>منچ یک بازی صفحه‌ای کلاسیک است که با ۴ مهره برای هر بازیکن و یک تاس انجام می‌شود. هدف، رساندن هر ۴ مهره به خانه پایانی (خانه رنگی خودتان) است. این بازی ترکیبی از شانس (تاس) و استراتژی (انتخاب حرکت) است.</p>
-        </div>
-
-        <div class="block">
-          <h3>قوانین حرکت</h3>
-          <ul>
-            <li>هر بازیکن در نوبت خود تاس می‌اندازد و یکی از مهره‌هایش را به اندازه عدد تاس حرکت می‌دهد.</li>
-            <li><b>خروج از پایگاه:</b> برای خارج کردن مهره از پایگاه (خانه شروع)، باید عدد ۶ بیاورید.</li>
-            <li><b>نوبت اضافه:</b> با آوردن ۶، یک نوبت اضافه می‌گیرید و دوباره تاس می‌اندازید.</li>
-            <li><b>زدن حریف:</b> اگر روی خانه‌ای فرود بیایید که مهره حریف آنجاست، مهره حریف را می‌زنید و او به پایگاه برمی‌گردد.</li>
-            <li><b>مهره خودی:</b> نمی‌توانید روی خانه‌ای فرود بیایید که مهره خودتان آنجاست (پرش مجاز نیست).</li>
-            <li><b>خانه پایانی:</b> برای رسیدن به خانه پایانی باید عدد دقیق بیاورید. اگر عدد بزرگ‌تر بیاورید، حرکت نمی‌کنید.</li>
-          </ul>
-        </div>
-
-        <div class="block">
-          <h3>سه چیز که باید بدانید</h3>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th>موقعیت</th><th>نتیجه</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>تاس ۶ می‌آورید</td><td>می‌توانید مهره از پایگاه خارج کنید و یک نوبت اضافه بگیرید.</td></tr>
-                <tr><td>روی مهره حریف فرود می‌آیید</td><td>مهره حریف به پایگاه برمی‌گردد و شما جای او را می‌گیرید.</td></tr>
-                <tr><td>هر ۴ مهره به خانه پایانی برسند</td><td>شما برنده بازی هستید!</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="callout gold">
-          <div class="icon">💡</div>
-          <div><b>در کلوپ بازی:</b> می‌توانید با هوش مصنوعی (سه سطح) یا با دوستان خود (۲ تا ۴ نفره) بازی کنید. استراتژی هوش مصنوعی بر اساس زدن مهره حریف و رساندن مهره‌ها به خانه پایانی تنظیم شده است.</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ==================== مار و پله ==================== -->
-    <section class="game-section" id="snake">
-      <div class="game-header">
-        <div class="icon">🐍</div>
-        <div>
-          <h2>آموزش کامل مار و پله</h2>
-          <p>بازی شانس و هیجان — ساده اما جذاب</p>
-        </div>
-      </div>
-      <div class="game-body">
-        <div class="block">
-          <p>مار و پله یک بازی ساده و سرگرم‌کننده است که بر اساس شانس (تاس) پیش می‌رود. صفحه شامل ۱۰۰ خانه است و هدف، رسیدن به خانه ۱۰۰ است. در مسیر، نردبان‌ها شما را بالا می‌برند و مارها شما را پایین می‌آورند.</p>
-        </div>
-
-        <div class="block">
-          <h3>قوانین کامل</h3>
-          <ul>
-            <li>هر بازیکن در نوبت خود تاس می‌اندازد و مهره‌اش را به اندازه عدد تاس جلو می‌برد.</li>
-            <li><b>نردبان:</b> اگر روی خانه‌ای فرود بیایید که ابتدای نردبان است، به بالای نردبان می‌روید.</li>
-            <li><b>مار:</b> اگر روی خانه‌ای فرود بیایید که سر مار است، به انتهای مار سقوط می‌کنید.</li>
-            <li><b>رسیدن به ۱۰۰:</b> برای رسیدن به خانه ۱۰۰ باید عدد دقیق بیاورید. اگر عدد بزرگ‌تر بیاورید، حرکت نمی‌کنید.</li>
-            <li><b>نوبت اضافه:</b> با آوردن ۶، یک نوبت اضافه می‌گیرید.</li>
-            <li><b>برنده:</b> اولین کسی که به خانه ۱۰۰ برسد، برنده است.</li>
-          </ul>
-        </div>
-
-        <div class="block">
-          <h3>نردبان‌ها و مارهای معروف</h3>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th>نردبان</th><th>مار</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>۴ به ۱۴</td><td>۱۷ به ۷</td></tr>
-                <tr><td>۹ به ۳۱</td><td>۵۴ به ۳۴</td></tr>
-                <tr><td>۲۰ به ۳۸</td><td>۶۲ به ۱۹</td></tr>
-                <tr><td>۲۸ به ۸۴</td><td>۶۴ به ۶۰</td></tr>
-                <tr><td>۴۰ به ۵۹</td><td>۸۷ به ۲۴</td></tr>
-                <tr><td>۵۱ به ۶۷</td><td>۹۳ به ۷۳</td></tr>
-                <tr><td>۶۳ به ۸۱</td><td>۹۵ به ۷۵</td></tr>
-                <tr><td>۷۱ به ۹۱</td><td>۹۹ به ۷۸</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="callout teal">
-          <div class="icon">🎲</div>
-          <div><b>در کلوپ بازی:</b> می‌توانید ۱ تا ۴ نفره بازی کنید. اگر یک‌نفره بازی کنید، رایانه حریف شما می‌شود. شانس و هیجان را با دوستان خود تجربه کنید!</div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-</div>
-
-<footer class="site-footer">
-  <div class="wrap foot">
-    <div class="brandline">
-      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
-      <span>کلوپ بازی</span>
-    </div>
-    <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
-    <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
+  <div class="page-head">
+    <h1>📚 آموزش جامع بازی‌ها</h1>
+    <p>راهنمای کامل قوانین، استراتژی‌ها و اصطلاحات هر بازی</p>
   </div>
-</footer>
 
-<script>
-// اسکرول نرم و فعال‌سازی لینک‌ها
-const sections = document.querySelectorAll('.game-section');
-const navLinks = document.querySelectorAll('.sidebar a');
+  <div class="app">
+    <aside class="sidebar">
+      <h3>فهرست آموزش‌ها</h3>
+      <a href="#chess"><span class="icon">♞</span> شطرنج</a>
+      <a href="#hokm"><span class="icon">🃏</span> حکم</a>
+      <a href="#uno"><span class="icon">🎴</span> اونو</a>
+      <a href="#manch"><span class="icon">🎯</span> منچ</a>
+      <a href="#snake"><span class="icon">🐍</span> مار و پله</a>
+      <a href="#soccer"><span class="icon">⚽</span> فوتبال</a>
+    </aside>
 
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    if (window.scrollY >= sectionTop - 120) {
-      current = section.getAttribute('id');
-    }
-  });
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href') === '#' + current) {
-      link.classList.add('active');
-    }
-  });
-});
+    <main class="content">
 
-navLinks.forEach(link => {
-  link.addEventListener('click', (e) => {
-    e.preventDefault();
-    const target = document.querySelector(link.getAttribute('href'));
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-});
-</script>
+      <!-- ==================== شطرنج ==================== -->
+      <section class="game-section" id="chess">
+        <div class="game-header">
+          <div class="icon">♞</div>
+          <div>
+            <h2>آموزش کامل شطرنج</h2>
+            <p>بازی پادشاهان — استراتژی، تاکتیک و قوانین</p>
+          </div>
+        </div>
+        <div class="game-body">
+          <div class="block">
+            <p>شطرنج یک بازی فکری دو نفره است که روی یک صفحه ۸×۸ خانه بازی می‌شود. هر بازیکن ۱۶ مهره دارد. هدف نهایی،
+              <b>مات کردن شاه حریف</b> است؛ یعنی قرار دادن شاه در وضعیتی که در خطر باشد و هیچ حرکت قانونی برای فرار
+              نداشته باشد.</p>
+          </div>
+
+          <div class="block">
+            <h3>مهره‌ها و نحوه حرکت</h3>
+            <div class="pieces-grid">
+              <div class="piece-card">
+                <div class="sym">♔</div>
+                <div class="name">شاه (King)</div>
+                <div class="desc">مهم‌ترین مهره. فقط یک خانه در هر جهت حرکت می‌کند.</div>
+              </div>
+              <div class="piece-card">
+                <div class="sym">♕</div>
+                <div class="name">وزیر (Queen)</div>
+                <div class="desc">قدرتمندترین مهره. هر تعداد خانه در هر جهت.</div>
+              </div>
+              <div class="piece-card">
+                <div class="sym">♖</div>
+                <div class="name">رخ (Rook)</div>
+                <div class="desc">هر تعداد خانه افقی یا عمودی. در قلعه شرکت می‌کند.</div>
+              </div>
+              <div class="piece-card">
+                <div class="sym">♗</div>
+                <div class="name">فیل (Bishop)</div>
+                <div class="desc">هر تعداد خانه مورب. همیشه روی یک رنگ باقی می‌ماند.</div>
+              </div>
+              <div class="piece-card">
+                <div class="sym">♘</div>
+                <div class="name">اسب (Knight)</div>
+                <div class="desc">حرکت L شکل. تنها مهره‌ای که از روی مهره‌ها می‌پرد.</div>
+              </div>
+              <div class="piece-card">
+                <div class="sym">♙</div>
+                <div class="name">سرباز (Pawn)</div>
+                <div class="desc">یک خانه به جلو. از خانه شروع دو خانه. مورب مهره می‌گیرد.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block">
+            <h3>قوانین ویژه</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>قانون</th>
+                    <th>توضیح</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>کیش</td>
+                    <td>شاه در تیررس مهره حریف. باید فوراً نجات داده شود.</td>
+                  </tr>
+                  <tr>
+                    <td>کیش و مات</td>
+                    <td>شاه در کیش است و هیچ راه قانونی برای فرار ندارد. بازی تمام می‌شود.</td>
+                  </tr>
+                  <tr>
+                    <td>پات</td>
+                    <td>شاه در کیش نیست، اما بازیکن هیچ حرکت قانونی ندارد. مساوی.</td>
+                  </tr>
+                  <tr>
+                    <td>قلعه</td>
+                    <td>حرکت همزمان شاه و رخ. شرایط: نه شاه و نه رخ حرکت نکرده باشند، خانه‌های بین خالی باشد، شاه در کیش
+                      نباشد.</td>
+                  </tr>
+                  <tr>
+                    <td>آن پاسان</td>
+                    <td>اگر سرباز حریف دو خانه جلو برود و کنار سرباز شما قرار بگیرد، می‌توانید او را بزنید.</td>
+                  </tr>
+                  <tr>
+                    <td>ارتقا</td>
+                    <td>سرباز به ردیف آخر برسد، به مهره دلخواه تبدیل می‌شود.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="block">
+            <h3>نکات استراتژیک</h3>
+            <ul>
+              <li><b>کنترل مرکز:</b> خانه‌های e4, d4, e5, d5 را کنترل کنید.</li>
+              <li><b>توسعه مهره‌ها:</b> در ابتدا اسب‌ها و فیل‌ها را بیرون بیاورید.</li>
+              <li><b>امنیت شاه:</b> زودتر قلعه بدهید.</li>
+              <li><b>ارزش مهره‌ها:</b> سرباز=۱، اسب=۳، فیل=۳، رخ=۵، وزیر=۹، شاه=بی‌نهایت.</li>
+            </ul>
+          </div>
+
+          <div class="callout gold">
+            <div class="ic">💡</div>
+            <div><b>در کلوپ بازی:</b> با هوش مصنوعی در سه سطح (آسان، متوسط، سخت) بازی کنید. زمان بازی از ۱۵ تا ۶۰ دقیقه
+              و رنگ خود را انتخاب کنید.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== حکم ==================== -->
+      <section class="game-section" id="hokm">
+        <div class="game-header">
+          <div class="icon">🃏</div>
+          <div>
+            <h2>آموزش کامل حکم</h2>
+            <p>محبوب‌ترین بازی کارتی ایرانی — تیمی و استراتژیک</p>
+          </div>
+        </div>
+        <div class="game-body">
+          <div class="block">
+            <p>حکم یکی از پرطرفدارترین بازی‌های کارتی ایرانی است که با یک دسته ۵۲ تایی کارت انجام می‌شود. این بازی
+              می‌تواند ۲، ۳ یا ۴ نفره باشد. در حالت ۴ نفره، تیمی ۲ در ۲ بازی می‌شود (افراد روبرو هم‌تیمی هستند). هدف،
+              بردن ۷ دست از ۱۳ دست ممکن است.</p>
+          </div>
+
+          <div class="block">
+            <h3>اصطلاحات و مفاهیم</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>اصطلاح</th>
+                    <th>توضیح</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>حاکم</td>
+                    <td>کسی که حکم (خال برنده) را تعیین می‌کند. کسی که اولین آس را بگیرد حاکم می‌شود.</td>
+                  </tr>
+                  <tr>
+                    <td>حکم</td>
+                    <td>خال برنده (دل، خشت، خاج یا گشنیز). کارت‌های این خال از همه قوی‌تر هستند.</td>
+                  </tr>
+                  <tr>
+                    <td>سرس</td>
+                    <td>ترتیب عادی: ۲ پایین‌ترین، آس بالاترین.</td>
+                  </tr>
+                  <tr>
+                    <td>نرس</td>
+                    <td>ترتیب برعکس: ۲ بالاترین، آس پایین‌ترین.</td>
+                  </tr>
+                  <tr>
+                    <td>تک‌نرس</td>
+                    <td>آس بالاترین، سپس ۲، ۳، ۴... تا شاه.</td>
+                  </tr>
+                  <tr>
+                    <td>کُت</td>
+                    <td>تیمی ۷ دست ببرد و حریف صفر دست (۷-۰).</td>
+                  </tr>
+                  <tr>
+                    <td>حاکم‌کُت</td>
+                    <td>تیم حاکم صفر دست ببرد و حریف ۷ دست (۰-۷).</td>
+                  </tr>
+                  <tr>
+                    <td>بام</td>
+                    <td>یک تیم هر ۱۳ دست را ببرد. نادرترین برد!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="block">
+            <h3>جریان کامل بازی</h3>
+            <ol>
+              <li><b>تقسیم اولیه:</b> ۵ کارت به هر بازیکن داده می‌شود.</li>
+              <li><b>تعیین حاکم:</b> کسی که آس داشته باشد، حاکم می‌شود.</li>
+              <li><b>انتخاب حکم:</b> حاکم خال حکم (یا نوع حکم) را انتخاب می‌کند.</li>
+              <li><b>ادامه تقسیم:</b> بقیه کارت‌ها تا ۱۳ کارت به هر نفر تقسیم می‌شوند.</li>
+              <li><b>شروع بازی:</b> حاکم اولین کارت را بازی می‌کند.</li>
+              <li><b>بردن دست:</b> بزرگ‌ترین کارت حکم یا بزرگ‌ترین کارت خال زمین، دست را می‌برد.</li>
+              <li><b>پایان:</b> تیمی که اول به ۷ دست برسد، برنده است.</li>
+            </ol>
+          </div>
+
+          <div class="block">
+            <h3>قوانین اجباری</h3>
+            <ul>
+              <li><b>پیروی از خال:</b> اگر خال زمین را دارید، باید از همان خال بازی کنید.</li>
+              <li><b>بریدن:</b> اگر خال زمین را ندارید، می‌توانید حکم یا هر کارت دیگر بازی کنید.</li>
+              <li><b>حکم بالاتر از همه:</b> هر کارت حکم، از تمام کارت‌های خال‌های دیگر قوی‌تر است.</li>
+            </ul>
+          </div>
+
+          <div class="callout teal">
+            <div class="ic">🎯</div>
+            <div><b>استراتژی:</b> حکم را زمانی بازی کنید که مطمئن هستید دست را می‌برید. آس‌ها و شاه‌ها را برای دست‌های
+              حساس نگه دارید.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== اونو ==================== -->
+      <section class="game-section" id="uno">
+        <div class="game-header">
+          <div class="icon">🎴</div>
+          <div>
+            <h2>آموزش کامل اونو</h2>
+            <p>بازی کارتی سریع و هیجانی — با کارت‌های ویژه</p>
+          </div>
+        </div>
+        <div class="game-body">
+          <div class="block">
+            <p>اونو یک بازی کارتی سریع و هیجانی است که با ۱۰۸ کارت انجام می‌شود. هر بازیکن ۷ کارت می‌گیرد و هدف، خالی
+              کردن دست قبل از بقیه است. وقتی یک کارت برایتان می‌ماند، باید بگویید <b>UNO!</b></p>
+          </div>
+
+          <div class="block">
+            <h3>انواع کارت‌ها</h3>
+            <div class="card-examples">
+              <div class="card-ex red"><span class="c">5</span><span class="m">♦</span><span class="c"
+                  style="align-self:flex-end;transform:rotate(180deg)">5</span></div>
+              <div class="card-ex blue"><span class="c">7</span><span class="m">♠</span><span class="c"
+                  style="align-self:flex-end;transform:rotate(180deg)">7</span></div>
+              <div class="card-ex green"><span class="c">S</span><span class="m">🚫</span><span class="c"
+                  style="align-self:flex-end;transform:rotate(180deg)">S</span></div>
+              <div class="card-ex yellow"><span class="c">R</span><span class="m">🔄</span><span class="c"
+                  style="align-self:flex-end;transform:rotate(180deg)">R</span></div>
+              <div class="card-ex red"><span class="c">+2</span><span class="m">+2</span><span class="c"
+                  style="align-self:flex-end;transform:rotate(180deg)">+2</span></div>
+              <div class="card-ex wild"><span class="c">W</span><span class="m">🎨</span><span class="c"
+                  style="align-self:flex-end;transform:rotate(180deg)">W</span></div>
+              <div class="card-ex wild"><span class="c">+4</span><span class="m">+4</span><span class="c"
+                  style="align-self:flex-end;transform:rotate(180deg)">+4</span></div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>کارت</th>
+                    <th>توضیح</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>عددی (0-9)</td>
+                    <td>باید هم‌رنگ کارت روی زمین یا هم‌عدد با آن باشد.</td>
+                  </tr>
+                  <tr>
+                    <td>Skip (🚫)</td>
+                    <td>بازیکن بعدی یک نوبت از دست می‌دهد.</td>
+                  </tr>
+                  <tr>
+                    <td>Reverse (🔄)</td>
+                    <td>جهت بازی برعکس می‌شود.</td>
+                  </tr>
+                  <tr>
+                    <td>+2</td>
+                    <td>بازیکن بعدی ۲ کارت می‌کشد و رد می‌شود.</td>
+                  </tr>
+                  <tr>
+                    <td>Wild (🎨)</td>
+                    <td>رنگ را انتخاب می‌کنید.</td>
+                  </tr>
+                  <tr>
+                    <td>Wild +4</td>
+                    <td>رنگ را انتخاب می‌کنید + حریف ۴ کارت می‌کشد.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="block">
+            <h3>قوانین بازی</h3>
+            <ul>
+              <li>هر بازیکن ۷ کارت می‌گیرد.</li>
+              <li>یک کارت روی زمین گذاشته می‌شود (نباید Wild باشد).</li>
+              <li>در نوبت خود، کارتی بازی کنید که با کارت روی زمین هم‌رنگ یا هم‌عدد باشد.</li>
+              <li>اگر کارت قابل بازی ندارید، یک کارت از دسته بکشید.</li>
+              <li>وقتی یک کارت برایتان ماند، باید <b>UNO</b> بگویید. اگر نگویید و کسی بفهمد، ۲ کارت جریمه دارید.</li>
+              <li>اولین کسی که دستش خالی شود، برنده است.</li>
+            </ul>
+          </div>
+
+          <div class="callout gold">
+            <div class="ic">💡</div>
+            <div><b>استراتژی:</b> کارت‌های Wild و +4 را برای مواقع حساس نگه دارید. رنگ حکم را طوری انتخاب کنید که
+              بیشترین کارت را در آن دارید.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== منچ ==================== -->
+      <section class="game-section" id="manch">
+        <div class="game-header">
+          <div class="icon">🎯</div>
+          <div>
+            <h2>آموزش کامل منچ</h2>
+            <p>بازی کلاسیک صفحه‌ای — استراتژی و شانس</p>
+          </div>
+        </div>
+        <div class="game-body">
+          <div class="block">
+            <p>منچ یک بازی صفحه‌ای کلاسیک است که با ۴ مهره برای هر بازیکن و یک تاس انجام می‌شود. هدف، رساندن هر ۴ مهره
+              به خانه پایانی است. این بازی ترکیبی از شانس (تاس) و استراتژی (انتخاب حرکت) است.</p>
+          </div>
+
+          <div class="block">
+            <h3>قوانین حرکت</h3>
+            <ul>
+              <li>هر بازیکن در نوبت خود تاس می‌اندازد و یکی از مهره‌هایش را حرکت می‌دهد.</li>
+              <li><b>خروج از پایگاه:</b> برای خارج کردن مهره از پایگاه، باید عدد <b>۶</b> بیاورید.</li>
+              <li><b>نوبت اضافه:</b> با آوردن ۶، یک نوبت اضافه می‌گیرید.</li>
+              <li><b>زدن حریف:</b> اگر روی خانه‌ای فرود بیایید که مهره حریف آنجاست، مهره حریف را می‌زنید و او به پایگاه
+                برمی‌گردد.</li>
+              <li><b>مهره خودی:</b> نمی‌توانید روی خانه‌ای فرود بیایید که مهره خودتان آنجاست.</li>
+              <li><b>خانه پایانی:</b> برای رسیدن به خانه پایانی باید عدد دقیق بیاورید.</li>
+            </ul>
+          </div>
+
+          <div class="block">
+            <h3>سه چیز که باید بدانید</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>موقعیت</th>
+                    <th>نتیجه</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>تاس ۶ می‌آورید</td>
+                    <td>می‌توانید مهره از پایگاه خارج کنید و نوبت اضافه بگیرید.</td>
+                  </tr>
+                  <tr>
+                    <td>روی مهره حریف فرود می‌آیید</td>
+                    <td>مهره حریف به پایگاه برمی‌گردد و شما جای او را می‌گیرید.</td>
+                  </tr>
+                  <tr>
+                    <td>هر ۴ مهره به خانه پایانی برسند</td>
+                    <td>شما برنده بازی هستید!</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="callout gold">
+            <div class="ic">💡</div>
+            <div><b>در کلوپ بازی:</b> با هوش مصنوعی (سه سطح) یا با دوستان خود (۲ تا ۴ نفره) بازی کنید. رنگ خود را انتخاب
+              کنید.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== مار و پله ==================== -->
+      <section class="game-section" id="snake">
+        <div class="game-header">
+          <div class="icon">🐍</div>
+          <div>
+            <h2>آموزش کامل مار و پله</h2>
+            <p>بازی شانس و هیجان — ساده اما جذاب</p>
+          </div>
+        </div>
+        <div class="game-body">
+          <div class="block">
+            <p>مار و پله یک بازی ساده و سرگرم‌کننده است که بر اساس شانس (تاس) پیش می‌رود. صفحه شامل ۱۰۰ خانه است و هدف،
+              رسیدن به خانه ۱۰۰ است. در مسیر، نردبان‌ها شما را بالا می‌برند و مارها شما را پایین می‌آورند.</p>
+          </div>
+
+          <div class="block">
+            <h3>قوانین کامل</h3>
+            <ul>
+              <li>هر بازیکن در نوبت خود تاس می‌اندازد و مهره‌اش را به اندازه عدد تاس جلو می‌برد.</li>
+              <li><b>نردبان:</b> اگر روی خانه‌ای فرود بیایید که ابتدای نردبان است، به بالای نردبان می‌روید.</li>
+              <li><b>مار:</b> اگر روی خانه‌ای فرود بیایید که سر مار است، به انتهای مار سقوط می‌کنید.</li>
+              <li><b>رسیدن به ۱۰۰:</b> برای رسیدن به خانه ۱۰۰ باید عدد دقیق بیاورید.</li>
+              <li><b>نوبت اضافه:</b> با آوردن ۶، یک نوبت اضافه می‌گیرید.</li>
+              <li><b>برنده:</b> اولین کسی که به خانه ۱۰۰ برسد.</li>
+            </ul>
+          </div>
+
+          <div class="block">
+            <h3>نردبان‌ها و مارهای معروف</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>نردبان</th>
+                    <th>مار</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>۴ به ۱۴</td>
+                    <td>۱۷ به ۷</td>
+                  </tr>
+                  <tr>
+                    <td>۹ به ۳۱</td>
+                    <td>۵۴ به ۳۴</td>
+                  </tr>
+                  <tr>
+                    <td>۲۰ به ۳۸</td>
+                    <td>۶۲ به ۱۹</td>
+                  </tr>
+                  <tr>
+                    <td>۲۸ به ۸۴</td>
+                    <td>۶۴ به ۶۰</td>
+                  </tr>
+                  <tr>
+                    <td>۴۰ به ۵۹</td>
+                    <td>۸۷ به ۲۴</td>
+                  </tr>
+                  <tr>
+                    <td>۵۱ به ۶۷</td>
+                    <td>۹۳ به ۷۳</td>
+                  </tr>
+                  <tr>
+                    <td>۶۳ به ۸۱</td>
+                    <td>۹۵ به ۷۵</td>
+                  </tr>
+                  <tr>
+                    <td>۷۱ به ۹۱</td>
+                    <td>۹۹ به ۷۸</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="callout teal">
+            <div class="ic">🎲</div>
+            <div><b>در کلوپ بازی:</b> ۱ تا ۴ نفره بازی کنید. اگر یک‌نفره بازی کنید، رایانه حریف شما می‌شود.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== فوتبال ==================== -->
+      <section class="game-section" id="soccer">
+        <div class="game-header">
+          <div class="icon">⚽</div>
+          <div>
+            <h2>آموزش کامل فوتبال</h2>
+            <p>بازی سریع و هیجانی روی زمین فوتبال</p>
+          </div>
+        </div>
+        <div class="game-body">
+          <div class="block">
+            <p>فوتبال یک بازی دو نفره است که روی یک زمین مستطیلی انجام می‌شود. هر بازیکن یک مهره دارد و باید توپ را به
+              دروازه حریف برساند. اول کسی که ۳ گل بزند، برنده است.</p>
+          </div>
+
+          <div class="block">
+            <h3>قوانین</h3>
+            <ul>
+              <li><b>کنترل:</b> با موس یا انگشت، بازیکن خود را حرکت دهید.</li>
+              <li><b>محدودیت نیمه:</b> هر بازیکن فقط در نیمه خودش حرکت می‌کند.</li>
+              <li><b>شوت:</b> وقتی توپ به بازیکن برخورد کند، با سرعت به سمت مقابل شوت می‌شود.</li>
+              <li><b>گل:</b> توپ به بالای زمین (دروازه قرمز) = گل آبی. توپ به پایین (دروازه آبی) = گل قرمز.</li>
+              <li><b>برد:</b> اولین کسی که ۳ گل بزند، برنده است.</li>
+            </ul>
+          </div>
+
+          <div class="block">
+            <h3>رنگ‌ها در حالت‌های مختلف</h3>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>حالت</th>
+                    <th>شما</th>
+                    <th>حریف</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>با رایانه</td>
+                    <td>آبی (پایین)</td>
+                    <td>قرمز (بالا) — رایانه</td>
+                  </tr>
+                  <tr>
+                    <td>لن (میزبان)</td>
+                    <td>قرمز (بالا)</td>
+                    <td>آبی (پایین) — مهمان</td>
+                  </tr>
+                  <tr>
+                    <td>لن (مهمان)</td>
+                    <td>آبی (پایین)</td>
+                    <td>قرمز (بالا) — میزبان</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="callout red">
+            <div class="ic">⚡</div>
+            <div><b>استراتژی:</b> توپ را به گوشه‌ها بفرستید تا حریف نتواند دفاع کند. از شوت‌های مستقیم و قدرتمند استفاده
+              کنید.</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <div class="brandline">
+        <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+        <span>کلوپ بازی</span>
+      </div>
+      <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
+      <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
+    </div>
+  </footer>
+
+  <script>
+    /* mobile menu */
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mmOverlay = document.getElementById('mmOverlay');
+    function openMenu() { hamburger.classList.add('open'); mobileMenu.classList.add('open'); mmOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeMenu() { hamburger.classList.remove('open'); mobileMenu.classList.remove('open'); mmOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+    hamburger.onclick = () => mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+    mmOverlay.onclick = closeMenu;
+    document.getElementById('mmClose').onclick = closeMenu;
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setTimeout(closeMenu, 100)));
+
+    /* sidebar active */
+    const sections = document.querySelectorAll('.game-section');
+    const navLinks = document.querySelectorAll('.sidebar a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+      navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+    });
+    navLinks.forEach(l => {
+      l.addEventListener('click', e => {
+        e.preventDefault();
+        const t = document.querySelector(l.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  </script>
 </body>
+
 </html>
