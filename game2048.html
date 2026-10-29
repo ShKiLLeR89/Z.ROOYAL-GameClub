@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+    <title>۲۰۴۸ | کلوپ بازی</title>
+    <link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+    <style>
+        :root {
+            --bg: #070d1c;
+            --ink: #eef2ff;
+            --mut: #9fb0d6;
+            --gold: #f2c14e;
+            --gold2: #ffe08a;
+            --teal: #14b8a6;
+            --card: rgba(255, 255, 255, .06);
+            --line: rgba(255, 255, 255, .12);
+            --gap: 2.2%;
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Vazirmatn, Tahoma, sans-serif;
+            color: var(--ink);
+            background: radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
+                radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%), var(--bg);
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+            padding-left: env(safe-area-inset-left, 0px);
+            padding-right: env(safe-area-inset-right, 0px);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+            color: inherit;
+            background: none
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 14px
+        }
+
+        /* header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, #070d1cf2, #070d1ccc 70%, transparent);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 0
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 900;
+            font-size: 17px;
+            flex-shrink: 0
+        }
+
+        .brand img {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
+            background: #0b1329
+        }
+
+        .brand span {
+            background: linear-gradient(180deg, #fff, #f2c14e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .nav-links a {
+            padding: 7px 11px;
+            border-radius: 9px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mut);
+            transition: .2s
+        }
+
+        .nav-links a:hover {
+            background: var(--card);
+            color: var(--ink)
+        }
+
+        .nav-links a.active {
+            background: #f2c14e1a;
+            color: var(--gold2)
+        }
+
+        /* page head */
+        .page-head {
+            padding: 22px 0 12px;
+            text-align: center;
+            position: relative
+        }
+
+        .page-head::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(600px 300px at 50% 0%, #f2c14e1a, transparent 70%)
+        }
+
+        .page-head h1 {
+            margin: 0 0 6px;
+            font-size: clamp(24px, 6vw, 38px);
+            font-weight: 900;
+            background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .page-head p {
+            margin: 0;
+            color: var(--mut);
+            font-size: clamp(12px, 3vw, 14px);
+            padding: 0 10px
+        }
+
+        /* layout */
+        .app {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 14px 30px;
+            display: grid;
+            gap: 16px;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            align-items: start
+        }
+
+        /* board */
+        .board-wrap {
+            position: relative;
+            border-radius: 20px;
+            padding: 10px;
+            background: linear-gradient(145deg, #1a2c52, #0d1730);
+            box-shadow: 0 30px 80px #000a, inset 0 0 0 1px #ffffff15;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center
+        }
+
+        #board {
+            width: 100%;
+            max-width: 460px;
+            aspect-ratio: 1 / 1;
+            background: #0c142b;
+            border-radius: 14px;
+            padding: var(--gap);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            gap: var(--gap);
+            position: relative;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            overflow: hidden;
+        }
+
+        .cell {
+            background: #ffffff08;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            transition: background .15s, box-shadow .15s, transform .1s;
+        }
+
+        .cell:hover {
+            background: #ffffff12;
+        }
+
+        .cell:active {
+            transform: scale(.96);
+        }
+
+        .cell.target {
+            background: #14b8a622;
+            box-shadow: inset 0 0 0 2px #14b8a6, inset 0 0 20px #14b8a644;
+        }
+
+        .cell.target::after {
+            content: "";
+            position: absolute;
+            inset: 25%;
+            border-radius: 50%;
+            background: #14b8a688;
+            animation: pulse 1.2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: .5;
+                transform: scale(.9);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+        }
+
+        .tile {
+            position: absolute;
+            inset: 0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: clamp(16px, 7vw, 34px);
+            transition: transform .15s ease, background .15s ease, color .15s ease, box-shadow .15s;
+            will-change: transform;
+            pointer-events: none;
+        }
+
+        .tile[data-val="2"] {
+            background: #eee4da;
+            color: #776e65
+        }
+
+        .tile[data-val="4"] {
+            background: #ede0c8;
+            color: #776e65
+        }
+
+        .tile[data-val="8"] {
+            background: #f2b179;
+            color: #fff
+        }
+
+        .tile[data-val="16"] {
+            background: #f59563;
+            color: #fff
+        }
+
+        .tile[data-val="32"] {
+            background: #f67c5f;
+            color: #fff
+        }
+
+        .tile[data-val="64"] {
+            background: #f65e3b;
+            color: #fff
+        }
+
+        .tile[data-val="128"] {
+            background: #edcf72;
+            color: #fff;
+            box-shadow: 0 0 12px #edcf7288
+        }
+
+        .tile[data-val="256"] {
+            background: #edcc61;
+            color: #fff;
+            box-shadow: 0 0 14px #edcc6188
+        }
+
+        .tile[data-val="512"] {
+            background: #edc850;
+            color: #fff;
+            box-shadow: 0 0 16px #edc85088
+        }
+
+        .tile[data-val="1024"] {
+            background: #edc53f;
+            color: #fff;
+            box-shadow: 0 0 18px #edc53f88
+        }
+
+        .tile[data-val="2048"] {
+            background: linear-gradient(145deg, #f7d98b, #a8721c);
+            color: #fff;
+            box-shadow: 0 0 22px #f2c14e
+        }
+
+        .tile[data-val="4096"] {
+            background: linear-gradient(145deg, #7cf2e3, #0f766e);
+            color: #fff;
+            box-shadow: 0 0 22px #14b8a6
+        }
+
+        .tile[data-val="8192"] {
+            background: linear-gradient(145deg, #ff8aa2, #c2185b);
+            color: #fff;
+            box-shadow: 0 0 22px #ff5d6c
+        }
+
+        .tile.selected {
+            box-shadow: 0 0 0 3px #f2c14e, 0 0 20px #f2c14e88 !important;
+            transform: scale(1.05);
+            z-index: 2;
+        }
+
+        .tile.pop {
+            animation: pop .2s ease;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .tile.new {
+            animation: appear .2s ease;
+        }
+
+        @keyframes appear {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* aside */
+        aside {
+            display: grid;
+            gap: 12px
+        }
+
+        .panel {
+            background: linear-gradient(160deg, #152447, #0c142b);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px;
+            box-shadow: 0 20px 50px -20px #000c
+        }
+
+        .panel h2 {
+            margin: 0 0 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--mut);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .panel h2::before {
+            content: "";
+            width: 4px;
+            height: 14px;
+            border-radius: 3px;
+            background: linear-gradient(180deg, var(--gold2), var(--gold))
+        }
+
+        .score-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px
+        }
+
+        .score-item {
+            background: #ffffff08;
+            border-radius: 12px;
+            padding: 10px 8px;
+            text-align: center;
+            min-width: 0
+        }
+
+        .score-item small {
+            font-size: 11px;
+            color: var(--mut);
+            display: block;
+            margin-bottom: 4px
+        }
+
+        .score-item b {
+            font-size: clamp(16px, 4vw, 22px);
+            font-weight: 900;
+            color: var(--gold2);
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+
+        .btn-gold {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 15px;
+            color: #2a1b02;
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            box-shadow: 0 6px 0 #9a6a10;
+            transition: transform .1s
+        }
+
+        .btn-gold:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #9a6a10
+        }
+
+        .btn-ghost {
+            padding: 9px 14px;
+            border-radius: 11px;
+            font-weight: 600;
+            background: var(--card);
+            border: 1px solid var(--line);
+            transition: .2s;
+            width: 100%;
+            margin-top: 8px;
+            font-size: 13px
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+
+        .hint {
+            margin: 8px 0 0;
+            font-size: 12px;
+            color: var(--mut);
+            line-height: 1.7
+        }
+
+        /* overlay */
+        .ov {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: #050a16e6;
+            backdrop-filter: blur(10px);
+            z-index: 99;
+            padding: 16px
+        }
+
+        .ov[hidden] {
+            display: none
+        }
+
+        .box {
+            width: min(380px, 100%);
+            text-align: center;
+            padding: 26px 20px;
+            border-radius: 22px;
+            background: linear-gradient(160deg, #1a2c52, #0d1730);
+            border: 1px solid var(--line);
+            box-shadow: 0 30px 80px #000;
+            animation: boxIn .3s
+        }
+
+        @keyframes boxIn {
+            0% {
+                transform: scale(.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .box h2 {
+            font-size: 22px;
+            color: var(--ink);
+            font-weight: 900;
+            margin: 0 0 8px
+        }
+
+        .box p {
+            color: var(--mut);
+            line-height: 1.8;
+            margin: 0 0 16px;
+            font-size: 14px
+        }
+
+        /* footer */
+        .site-footer {
+            margin-top: 30px;
+            padding: 26px 0 34px;
+            border-top: 1px solid var(--line);
+            background: linear-gradient(180deg, transparent, #070d1c 40%)
+        }
+
+        .foot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+            padding: 0 10px
+        }
+
+        .foot .zlogo {
+            height: 48px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 16px #000a);
+            padding: 6px 12px;
+            border-radius: 12px;
+            background: var(--card);
+            border: 1px solid var(--line)
+        }
+
+        .foot .rights {
+            margin: 0;
+            color: var(--mut);
+            font-size: 13px;
+            line-height: 1.8
+        }
+
+        .foot .rights b {
+            color: var(--gold2);
+            font-weight: 800
+        }
+
+        .foot .brandline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 800;
+            color: var(--ink);
+            font-size: 15px
+        }
+
+        .foot .brandline img {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #0b1329
+        }
+
+        /* responsive */
+        @media(max-width:860px) {
+            .app {
+                grid-template-columns: 1fr;
+                padding: 0 10px 24px;
+                gap: 14px
+            }
+
+            .nav-links {
+                display: none
+            }
+
+            .board-wrap {
+                padding: 8px;
+                border-radius: 16px
+            }
+
+            .page-head {
+                padding: 16px 0 8px
+            }
+
+            .panel {
+                padding: 12px;
+                border-radius: 16px
+            }
+        }
+
+        @media(max-width:400px) {
+            :root {
+                --gap: 2%;
+            }
+
+            .brand {
+                font-size: 15px
+            }
+
+            .brand img {
+                width: 32px;
+                height: 32px
+            }
+
+            #board {
+                border-radius: 12px
+            }
+
+            .cell,
+            .tile {
+                border-radius: 8px
+            }
+
+            .tile {
+                font-size: clamp(14px, 6.5vw, 26px)
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important;
+                animation: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="wrap nav">
+            <a href="index.html" class="brand">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#games">بازی‌ها</a>
+                <a href="snake-ladder.html">مار و پله</a>
+                <a href="manch.html">منچ</a>
+                <a href="hokm.html">حکم</a>
+                <a href="chess.html">شطرنج</a>
+                <a href="uno.html">اونو</a>
+                <a href="soccer.html">فوتبال</a>
+                <a href="game2048.html" class="active">۲۰۴۸</a>
+                <a href="learn.html">آموزش‌ها</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-head">
+        <h1>🔢 ۲۰۴۸</h1>
+        <p>کاشی رو انتخاب کن، بعد روی خونه مجاور بزن</p>
+    </div>
+
+    <div class="app">
+        <main class="board-wrap">
+            <div id="board"></div>
+        </main>
+        <aside>
+            <section class="panel">
+                <h2>امتیاز</h2>
+                <div class="score-box">
+                    <div class="score-item"><small>امتیاز</small><b id="score">۰</b></div>
+                    <div class="score-item"><small>بهترین</small><b id="best">۰</b></div>
+                </div>
+            </section>
+            <section class="panel">
+                <h2>چطور بازی کنم؟</h2>
+                <p class="hint">
+                    ۱. روی یه کاشی کلیک کن (سلکت می‌شه)<br>
+                    ۲. روی خونه خالی مجاور کلیک کن تا حرکت کنه<br>
+                    ۳. اگه کاشی مجاور هم‌عدد باشه، ادغام می‌شن<br>
+                    ۴. کاشی ۲۰۴۸ رو بساز!
+                </p>
+            </section>
+            <section class="panel">
+                <h2>کنترل</h2>
+                <button class="btn-gold" id="newGame">بازی جدید</button>
+            </section>
+            <a class="btn-ghost" href="index.html"
+                style="display:block;text-align:center;padding:10px;font-weight:700">← بازگشت</a>
+        </aside>
+    </div>
+
+    <div class="ov" id="end" hidden>
+        <div class="box">
+            <h2 id="endTitle">🏆 برنده!</h2>
+            <p id="endMsg"></p>
+            <button id="endAgain" class="btn-gold" style="margin-top:6px">بازی دوباره</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrap foot">
+            <div class="brandline">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </div>
+            <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
+            <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
+        </div>
+    </footer>
+
+    <script>
+        const $ = s => document.querySelector(s);
+        const fa = n => Number(n).toLocaleString('fa-IR');
+
+        const SIZE = 4;
+        const board = $('#board');
+
+        let grid = [];
+        let score = 0;
+        let best = parseInt(localStorage.getItem('game2048_best') || '0');
+        let won = false;
+        let over = false;
+        let selected = null; // {r, c}
+
+        /* ============ init ============ */
+        function init() {
+            grid = Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+            score = 0;
+            won = false;
+            over = false;
+            selected = null;
+            $('#score').textContent = fa(score);
+            $('#best').textContent = fa(best);
+            addRandom();
+            addRandom();
+            render();
+            $('#end').hidden = true;
+        }
+
+        /* ============ random ============ */
+        function addRandom() {
+            const empty = [];
+            for (let r = 0; r < SIZE; r++) for (let c = 0; c < SIZE; c++) if (!grid[r][c]) empty.push([r, c]);
+            if (!empty.length) return;
+            const [r, c] = empty[Math.floor(Math.random() * empty.length)];
+            grid[r][c] = Math.random() < 0.9 ? 2 : 4;
+            return [r, c];
+        }
+
+        /* ============ render ============ */
+        function render(newPos = null) {
+            board.innerHTML = '';
+            for (let r = 0; r < SIZE; r++) for (let c = 0; c < SIZE; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.dataset.r = r;
+                cell.dataset.c = c;
+
+                // اگه کاشی سلکت شده و این خونه مجاورشه (خالی یا هم‌عدد)
+                if (selected) {
+                    const dr = Math.abs(r - selected.r);
+                    const dc = Math.abs(c - selected.c);
+                    const isAdjacent = (dr === 1 && dc === 0) || (dr === 0 && dc === 1);
+                    if (isAdjacent) {
+                        const targetVal = grid[r][c];
+                        const sourceVal = grid[selected.r][selected.c];
+                        if (targetVal === 0 || targetVal === sourceVal) {
+                            cell.classList.add('target');
+                        }
+                    }
+                }
+
+                const val = grid[r][c];
+                if (val) {
+                    const t = document.createElement('div');
+                    t.className = 'tile';
+                    t.dataset.val = val;
+                    t.textContent = fa(val);
+                    if (selected && selected.r === r && selected.c === c) {
+                        t.classList.add('selected');
+                    }
+                    if (newPos && newPos[0] === r && newPos[1] === c) {
+                        t.classList.add('new');
+                    }
+                    cell.appendChild(t);
+                }
+
+                cell.addEventListener('click', () => onCellClick(r, c));
+                board.appendChild(cell);
+            }
+        }
+
+        /* ============ click ============ */
+        function onCellClick(r, c) {
+            if (over) return;
+
+            const val = grid[r][c];
+
+            // اگه کاشی سلکت شده
+            if (selected) {
+                const sr = selected.r, sc = selected.c;
+                const dr = Math.abs(r - sr);
+                const dc = Math.abs(c - sc);
+                const isAdjacent = (dr === 1 && dc === 0) || (dr === 0 && dc === 1);
+                const isSame = (sr === r && sc === c);
+
+                if (isSame) {
+                    // لغو انتخاب
+                    selected = null;
+                    render();
+                    return;
+                }
+
+                if (isAdjacent) {
+                    const srcVal = grid[sr][sc];
+                    const dstVal = grid[r][c];
+
+                    if (dstVal === 0) {
+                        // حرکت به خونه خالی
+                        grid[r][c] = srcVal;
+                        grid[sr][sc] = 0;
+                        selected = null;
+                        afterMove([r, c]);
+                        return;
+                    }
+
+                    if (dstVal === srcVal) {
+                        // ادغام
+                        grid[r][c] = srcVal * 2;
+                        grid[sr][sc] = 0;
+                        score += srcVal * 2;
+                        if (srcVal * 2 > best) {
+                            best = srcVal * 2;
+                            localStorage.setItem('game2048_best', best);
+                        }
+                        if (srcVal * 2 === 2048 && !won) {
+                            won = true;
+                            setTimeout(() => showEnd('🏆 ۲۰۴۸!', 'به کاشی ۲۰۴۸ رسیدی!'), 250);
+                        }
+                        selected = null;
+                        afterMove([r, c], true);
+                        return;
+                    }
+
+                    // نمی‌تونه حرکت کنه — انتخاب جدید
+                    selected = { r, c };
+                    render();
+                    return;
+                }
+
+                // کلیک روی کاشی غیرمجاور — انتخاب جدید
+                if (val) {
+                    selected = { r, c };
+                } else {
+                    selected = null;
+                }
+                render();
+                return;
+            }
+
+            // اگه چیزی سلکت نشده، کاشی رو انتخاب کن
+            if (val) {
+                selected = { r, c };
+                render();
+            }
+        }
+
+        function afterMove(newPos, merged) {
+            // ذخیره موقعیت‌های قبلی برای انیمیشن (فعلاً ساده)
+            render();
+            // پاپ روی کاشی جدید
+            if (merged) {
+                const idx = newPos[0] * SIZE + newPos[1];
+                const tile = board.children[idx]?.firstChild;
+                if (tile) tile.classList.add('pop');
+            }
+
+            // اضافه کردن کاشی جدید
+            const pos = addRandom();
+            if (pos) {
+                setTimeout(() => {
+                    render(pos);
+                }, 50);
+            } else {
+                render();
+            }
+
+            $('#score').textContent = fa(score);
+            $('#best').textContent = fa(best);
+
+            // بررسی پایان
+            setTimeout(() => {
+                if (!canMove() && !over) {
+                    over = true;
+                    showEnd('😢 بازی تموم شد', `امتیاز نهایی: ${fa(score)}`);
+                }
+            }, 200);
+        }
+
+        function canMove() {
+            for (let r = 0; r < SIZE; r++) for (let c = 0; c < SIZE; c++) {
+                if (!grid[r][c]) return true;
+                if (r + 1 < SIZE && grid[r + 1][c] && grid[r][c] === grid[r + 1][c]) return true;
+                if (c + 1 < SIZE && grid[r][c + 1] && grid[r][c] === grid[r][c + 1]) return true;
+            }
+            return false;
+        }
+
+        function showEnd(title, msg) {
+            $('#endTitle').textContent = title;
+            $('#endMsg').textContent = msg;
+            $('#end').hidden = false;
+        }
+
+        /* ============ buttons ============ */
+        $('#newGame').onclick = init;
+        $('#endAgain').onclick = init;
+
+        /* ============ boot ============ */
+        init();
+    </script>
+</body>
+
+</html>
