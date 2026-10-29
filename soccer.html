@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>فوتبال | کلوپ بازی</title>
+    <link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <style>
+        :root {
+            --bg: #070d1c;
+            --ink: #eef2ff;
+            --mut: #9fb0d6;
+            --gold: #f2c14e;
+            --gold2: #ffe08a;
+            --teal: #14b8a6;
+            --card: rgba(255, 255, 255, .06);
+            --line: rgba(255, 255, 255, .12);
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Vazirmatn, Tahoma, sans-serif;
+            color: var(--ink);
+            background: radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
+                radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%), var(--bg);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+            color: inherit;
+            background: none
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 18px
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, #070d1cd9, #070d1c66 70%, transparent);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 12px 0
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            font-size: 19px
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            object-fit: cover;
+            box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
+            background: #0b1329
+        }
+
+        .brand span {
+            background: linear-gradient(180deg, #fff, #f2c14e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap
+        }
+
+        .nav-links a {
+            padding: 8px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mut);
+            transition: .2s
+        }
+
+        .nav-links a:hover {
+            background: var(--card);
+            color: var(--ink)
+        }
+
+        .nav-links a.active {
+            background: #f2c14e1a;
+            color: var(--gold2)
+        }
+
+        .page-head {
+            padding: 30px 0 14px;
+            text-align: center;
+            position: relative
+        }
+
+        .page-head::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(600px 300px at 50% 0%, #f2c14e1a, transparent 70%)
+        }
+
+        .page-head h1 {
+            margin: 0 0 8px;
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 900;
+            background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .page-head p {
+            margin: 0;
+            color: var(--mut);
+            font-size: clamp(13px, 1.8vw, 15px)
+        }
+
+        .app {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 18px 30px;
+            display: grid;
+            gap: 18px;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            align-items: start
+        }
+
+        .field-wrap {
+            position: relative;
+            border-radius: 20px;
+            padding: 10px;
+            background: linear-gradient(145deg, #0a3d1a, #052a10);
+            box-shadow: 0 30px 80px #000a, inset 0 0 0 2px #00000055;
+            display: flex;
+            justify-content: center
+        }
+
+        #field {
+            width: 100%;
+            max-width: 600px;
+            aspect-ratio: 2/3;
+            display: block;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px #000c;
+            touch-action: none
+        }
+
+        aside {
+            display: grid;
+            gap: 14px
+        }
+
+        .panel {
+            background: linear-gradient(160deg, #152447, #0c142b);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 20px 50px -20px #000c
+        }
+
+        .panel h2 {
+            margin: 0 0 12px;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--mut);
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .panel h2::before {
+            content: "";
+            width: 4px;
+            height: 16px;
+            border-radius: 3px;
+            background: linear-gradient(180deg, var(--gold2), var(--gold))
+        }
+
+        .score {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px;
+            border-radius: 14px;
+            background: #ffffff08;
+            font-size: 28px;
+            font-weight: 900
+        }
+
+        .score .team {
+            text-align: center;
+            flex: 1
+        }
+
+        .score .team small {
+            display: block;
+            font-size: 12px;
+            color: var(--mut);
+            font-weight: 600
+        }
+
+        .score .team.blue b {
+            color: #3fc1ff
+        }
+
+        .score .team.red b {
+            color: #ff5d6c
+        }
+
+        .score .sep {
+            color: var(--mut);
+            font-size: 20px
+        }
+
+        .btn-gold {
+            width: 100%;
+            padding: 14px;
+            border-radius: 14px;
+            font-weight: 800;
+            font-size: 16px;
+            color: #2a1b02;
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            box-shadow: 0 8px 0 #9a6a10, 0 14px 24px #0007;
+            transition: transform .1s
+        }
+
+        .btn-gold:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 3px 0 #9a6a10
+        }
+
+        .btn-ghost {
+            padding: 9px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            background: var(--card);
+            border: 1px solid var(--line);
+            transition: .2s;
+            width: 100%;
+            margin-top: 8px
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+
+        #log {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            max-height: 160px;
+            overflow: auto;
+            font-size: 12px;
+            color: var(--mut);
+            display: grid;
+            gap: 4px
+        }
+
+        #log li:first-child {
+            color: var(--ink);
+            font-weight: 600
+        }
+
+        .ov {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            background: #050a16e6;
+            backdrop-filter: blur(10px);
+            z-index: 99;
+            padding: 20px;
+            overflow: auto
+        }
+
+        .ov[hidden] {
+            display: none
+        }
+
+        .box {
+            width: min(440px, 100%);
+            text-align: center;
+            padding: 28px 24px;
+            border-radius: 26px;
+            background: linear-gradient(160deg, #1a2c52, #0d1730);
+            border: 1px solid var(--line);
+            box-shadow: 0 30px 80px #000
+        }
+
+        .box h2 {
+            font-size: 24px;
+            color: var(--ink);
+            font-weight: 900;
+            margin: 0 0 8px
+        }
+
+        .box p {
+            color: var(--mut);
+            line-height: 1.9;
+            margin: 0 0 16px;
+            font-size: 14px
+        }
+
+        .opt-group {
+            margin: 14px 0
+        }
+
+        .opt-label {
+            font-size: 13px;
+            color: var(--mut);
+            margin-bottom: 8px;
+            font-weight: 600
+        }
+
+        .mode {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px
+        }
+
+        .mode button {
+            padding: 12px 0;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            font-weight: 700;
+            font-size: 15px;
+            transition: .2s
+        }
+
+        .mode button[aria-pressed=true] {
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            color: #2a1b02;
+            border-color: transparent
+        }
+
+        .site-footer {
+            margin-top: 40px;
+            padding: 30px 0 40px;
+            border-top: 1px solid var(--line);
+            background: linear-gradient(180deg, transparent, #070d1c 40%)
+        }
+
+        .foot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center
+        }
+
+        .foot .zlogo {
+            height: 56px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 16px #000a);
+            padding: 8px 14px;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--line)
+        }
+
+        .foot .rights {
+            margin: 0;
+            color: var(--mut);
+            font-size: 14px;
+            line-height: 1.9
+        }
+
+        .foot .rights b {
+            color: var(--gold2);
+            font-weight: 800
+        }
+
+        .foot .brandline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            color: var(--ink)
+        }
+
+        .foot .brandline img {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            object-fit: cover;
+            background: #0b1329
+        }
+
+        @media(max-width:860px) {
+            .app {
+                grid-template-columns: 1fr;
+                padding: 0 12px 24px
+            }
+
+            .nav-links {
+                display: none
+            }
+
+            #field {
+                max-width: 100%;
+                aspect-ratio: 2/3
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important;
+                animation: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="wrap nav">
+            <a href="index.html" class="brand">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#games">بازی‌ها</a>
+                <a href="snake-ladder.html">مار و پله</a>
+                <a href="manch.html">منچ</a>
+                <a href="hokm.html">حکم</a>
+                <a href="chess.html">شطرنج</a>
+                <a href="uno.html">اونو</a>
+                <a href="soccer.html" class="active">فوتبال</a>
+                <a href="learn.html">آموزش‌ها</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-head">
+        <h1>⚽ فوتبال</h1>
+        <p>با موس یا انگشت بازیکنت رو حرکت بده — فقط توی نیمه خودت!</p>
+    </div>
+
+    <div class="app">
+        <main class="field-wrap">
+            <canvas id="field"></canvas>
+        </main>
+        <aside>
+            <section class="panel">
+                <h2>نتیجه</h2>
+                <div class="score">
+                    <div class="team red"><small id="labelRed">قرمز (حریف)</small><b id="scoreRed">۰</b></div>
+                    <div class="sep">-</div>
+                    <div class="team blue"><small id="labelBlue">آبی (شما)</small><b id="scoreBlue">۰</b></div>
+                </div>
+                <div style="text-align:center;font-size:13px;color:var(--mut);margin-top:10px">اول به ۳ گل برسه</div>
+            </section>
+            <section class="panel">
+                <h2>کنترل</h2>
+                <button class="btn-gold" id="restartBtn">بازی جدید</button>
+                <p style="font-size:11px;color:var(--mut);margin-top:10px;text-align:center;line-height:1.8">با موس یا
+                    انگشت، بازیکنت رو توی نیمه خودت حرکت بده</p>
+            </section>
+            <section class="panel">
+                <h2>گزارش</h2>
+                <ul id="log">
+                    <li>منتظر شروع…</li>
+                </ul>
+            </section>
+            <a class="btn-ghost" href="index.html"
+                style="display:block;text-align:center;padding:12px;font-weight:700">← بازگشت</a>
+        </aside>
+    </div>
+
+    <div class="ov" id="start">
+        <div class="box">
+            <h2>⚽ شروع فوتبال</h2>
+            <p>حالت بازی را انتخاب کن.</p>
+            <div class="opt-group">
+                <div class="opt-label">حالت بازی</div>
+                <div class="mode" id="mode">
+                    <button data-mode="ai" aria-pressed="true">🤖 با رایانه</button>
+                    <button data-mode="lan" aria-pressed="false">📡 لن</button>
+                </div>
+            </div>
+            <button id="begin" class="btn-gold" style="margin-top:10px">شروع</button>
+        </div>
+    </div>
+
+    <div class="ov" id="lanOv" hidden>
+        <div class="box">
+            <h2>📡 فوتبال لن</h2>
+            <p id="lanStatus">در حال آماده‌سازی…</p>
+            <div style="text-align:center;margin:14px 0">
+                <div style="font-size:12px;color:var(--mut);margin-bottom:6px">کد اتاق</div>
+                <div id="lanRoomCode"
+                    style="font-size:32px;font-weight:900;letter-spacing:8px;color:var(--gold2);font-family:monospace">
+                    ------</div>
+            </div>
+            <button class="btn-gold" id="lanReadyBtn" disabled>شروع بازی</button>
+            <button class="btn-ghost" id="lanCloseBtn" style="margin-top:8px">انصراف</button>
+        </div>
+    </div>
+
+    <div class="ov" id="end" hidden>
+        <div class="box">
+            <h2 id="endTitle">🏆 برنده!</h2>
+            <p id="endMsg"></p>
+            <button id="endAgain" class="btn-gold">بازی دوباره</button>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrap foot">
+            <div class="brandline">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </div>
+            <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
+            <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ======================================================
+           LAN CLIENT
+        ====================================================== */
+        const LanClient = (() => {
+            let peer = null, conn = null;
+            let roomCode = null, role = null;
+            let isConnected = false;
+            let onMsg = null, onConn = null, onDisc = null;
+            function getParams() {
+                const p = new URLSearchParams(window.location.search);
+                return { lan: p.get('lan'), role: p.get('role') };
+            }
+            function isLanMode() { const p = getParams(); return !!(p.lan && p.role); }
+            function init() {
+                const p = getParams();
+                if (!p.lan || !p.role) return false;
+                roomCode = p.lan; role = p.role;
+                if (role === 'host') {
+                    peer = new Peer('klub-game-' + roomCode + '-host', { debug: 1 });
+                    peer.on('open', () => { if (onConn) onConn('waiting'); });
+                    peer.on('connection', (c) => {
+                        conn = c;
+                        conn.on('open', () => { isConnected = true; if (onConn) onConn('connected'); });
+                        conn.on('data', (d) => { if (onMsg) onMsg(d); });
+                        conn.on('close', () => { isConnected = false; if (onDisc) onDisc(); });
+                    });
+                    peer.on('error', (e) => console.error('[LAN host]', e));
+                } else {
+                    peer = new Peer({ debug: 1 });
+                    peer.on('open', () => {
+                        conn = peer.connect('klub-game-' + roomCode + '-host', { reliable: true });
+                        conn.on('open', () => { isConnected = true; if (onConn) onConn('connected'); });
+                        conn.on('data', (d) => { if (onMsg) onMsg(d); });
+                        conn.on('close', () => { isConnected = false; if (onDisc) onDisc(); });
+                        conn.on('error', (e) => console.error('[LAN guest]', e));
+                    });
+                    peer.on('error', (e) => console.error('[LAN guest]', e));
+                }
+                return true;
+            }
+            function send(data) { if (conn && conn.open) { conn.send(data); return true; } return false; }
+            return {
+                isLanMode, init, send,
+                onMessage: (cb) => onMsg = cb,
+                onConnected: (cb) => onConn = cb,
+                onDisconnected: (cb) => onDisc = cb,
+                getInfo: () => ({ roomCode, role, isConnected })
+            };
+        })();
+
+        /* ======================================================
+           SOCCER
+        ====================================================== */
+        const $ = s => document.querySelector(s);
+        const fa = n => Number(n).toLocaleString('fa-IR');
+        const cv = $('#field'), ctx = cv.getContext('2d');
+
+        let W = 400, H = 600;
+        let dpr = Math.min(devicePixelRatio || 1, 2);
+        let players = [];
+        let ball = { x: W / 2, y: H / 2, vx: 0, vy: 0, r: 12 };
+        let blueScore = 0, redScore = 0;
+        let targetScore = 3;
+        let isPlaying = false;
+        let lastTime = 0;
+        let mouse = { x: W / 2, y: H * 0.75 };
+        let mySide = 'blue'; // 'blue' = پایین، 'red' = بالا
+
+        let lanMode = false, lanConnected = false, lanRole = null;
+        let lanLastSend = 0;
+
+        /* ============ resize ============ */
+        function resize() {
+            const wrap = $('.field-wrap');
+            const maxW = Math.min(wrap.clientWidth - 20, 600);
+            W = maxW;
+            H = Math.round(W * 1.5);
+            cv.width = W * dpr;
+            cv.height = H * dpr;
+            cv.style.width = W + 'px';
+            cv.style.height = H + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            if (!isPlaying) draw();
+        }
+
+        /* ============ init ============ */
+        function initPlayers() {
+            const r = W * 0.045;
+            players = [
+                { id: 0, team: 'blue', x: W / 2, y: H * 0.75, r, vx: 0, vy: 0, color: '#3fc1ff' },
+                { id: 1, team: 'red', x: W / 2, y: H * 0.25, r, vx: 0, vy: 0, color: '#ff5d6c' }
+            ];
+            ball = { x: W / 2, y: H / 2, vx: 0, vy: 0, r: W * 0.035 };
+            blueScore = 0; redScore = 0;
+            updateScore();
+        }
+
+        function updateScore() {
+            $('#scoreBlue').textContent = fa(blueScore);
+            $('#scoreRed').textContent = fa(redScore);
+        }
+
+        /* ============ input ============ */
+        function setTarget(e) {
+            const rect = cv.getBoundingClientRect();
+            let cx, cy;
+            if (e.touches && e.touches[0]) {
+                cx = e.touches[0].clientX; cy = e.touches[0].clientY;
+            } else {
+                cx = e.clientX; cy = e.clientY;
+            }
+            mouse.x = (cx - rect.left) / rect.width * W;
+            mouse.y = (cy - rect.top) / rect.height * H;
+        }
+        cv.addEventListener('mousemove', setTarget);
+        cv.addEventListener('touchstart', (e) => { e.preventDefault(); setTarget(e); }, { passive: false });
+        cv.addEventListener('touchmove', (e) => { e.preventDefault(); setTarget(e); }, { passive: false });
+
+        /* ============ physics ============ */
+        function update(dt) {
+            if (!isPlaying) return;
+
+            const me = mySide === 'blue' ? players[0] : players[1];
+            const opp = mySide === 'blue' ? players[1] : players[0];
+
+            // بازیکن من با موس
+            me.x = mouse.x;
+            me.y = mouse.y;
+
+            // محدودیت نیمه: آبی فقط پایین، قرمز فقط بالا
+            const midY = H / 2;
+            if (me.team === 'blue') {
+                me.y = Math.max(midY + me.r + 4, Math.min(H - me.r, me.y));
+            } else {
+                me.y = Math.max(me.r, Math.min(midY - me.r - 4, me.y));
+            }
+            me.x = Math.max(me.r, Math.min(W - me.r, me.x));
+
+            // حریف
+            if (!lanMode) {
+                // AI
+                const targetY = ball.y < midY ? ball.y : (midY - opp.r - 4);
+                const targetX = ball.x;
+                const dx = targetX - opp.x;
+                const dy = targetY - opp.y;
+                const dist = Math.hypot(dx, dy);
+                if (dist > 5) {
+                    const speed = 0.06;
+                    opp.x += dx * speed;
+                    opp.y += dy * speed;
+                }
+                opp.y = Math.max(opp.r, Math.min(midY - opp.r - 4, opp.y));
+                opp.x = Math.max(opp.r, Math.min(W - opp.r, opp.x));
+            }
+
+            // برخورد بازیکن با توپ — شوت
+            for (const p of players) {
+                const dx = ball.x - p.x;
+                const dy = ball.y - p.y;
+                const dist = Math.hypot(dx, dy);
+                const minDist = p.r + ball.r;
+                if (dist < minDist && dist > 0) {
+                    const nx = dx / dist;
+                    const ny = dy / dist;
+                    // جدا کردن
+                    ball.x = p.x + nx * minDist;
+                    ball.y = p.y + ny * minDist;
+                    // شوت: سرعت بیشتر
+                    const power = 14;
+                    ball.vx = nx * power;
+                    ball.vy = ny * power;
+                }
+            }
+
+            // حرکت توپ
+            ball.x += ball.vx * dt;
+            ball.y += ball.vy * dt;
+
+            // اصطکاک
+            ball.vx *= 0.994;
+            ball.vy *= 0.994;
+
+            // برخورد با دیواره‌ها
+            if (ball.x - ball.r < 0) { ball.x = ball.r; ball.vx = -ball.vx * 0.85; }
+            if (ball.x + ball.r > W) { ball.x = W - ball.r; ball.vx = -ball.vx * 0.85; }
+
+            // گل
+            if (ball.y - ball.r <= 0) {
+                // توپ به بالای زمین رسید — گل برای آبی
+                blueScore++;
+                log('⚽ گل برای آبی!');
+                updateScore();
+                if (lanMode && mySide === 'blue') LanClient.send({ type: 'goal', team: 'blue' });
+                resetBall();
+                if (blueScore >= targetScore || redScore >= targetScore) endGame();
+                return;
+            }
+            if (ball.y + ball.r >= H) {
+                // توپ به پایین زمین رسید — گل برای قرمز
+                redScore++;
+                log('⚽ گل برای قرمز!');
+                updateScore();
+                if (lanMode && mySide === 'red') LanClient.send({ type: 'goal', team: 'red' });
+                resetBall();
+                if (blueScore >= targetScore || redScore >= targetScore) endGame();
+                return;
+            }
+        }
+
+        function resetBall() {
+            ball.x = W / 2; ball.y = H / 2;
+            ball.vx = 0; ball.vy = 0;
+            players[0].x = W / 2; players[0].y = H * 0.75;
+            players[1].x = W / 2; players[1].y = H * 0.25;
+        }
+
+        /* ============ draw ============ */
+        function draw() {
+            // زمین
+            const grd = ctx.createLinearGradient(0, 0, 0, H);
+            grd.addColorStop(0, '#0d5c1f');
+            grd.addColorStop(0.5, '#0a4a18');
+            grd.addColorStop(1, '#0d5c1f');
+            ctx.fillStyle = grd;
+            ctx.fillRect(0, 0, W, H);
+
+            // نوارهای چمن
+            for (let i = 0; i < 10; i++) {
+                if (i % 2 === 0) {
+                    ctx.fillStyle = 'rgba(255,255,255,0.03)';
+                    ctx.fillRect(0, i * H / 10, W, H / 10);
+                }
+            }
+
+            // خطوط
+            ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+            ctx.lineWidth = 2;
+            // خط وسط
+            ctx.beginPath();
+            ctx.moveTo(0, H / 2);
+            ctx.lineTo(W, H / 2);
+            ctx.stroke();
+            // دایره وسط
+            ctx.beginPath();
+            ctx.arc(W / 2, H / 2, W * 0.12, 0, Math.PI * 2);
+            ctx.stroke();
+            // نقطه وسط
+            ctx.fillStyle = 'rgba(255,255,255,0.5)';
+            ctx.beginPath();
+            ctx.arc(W / 2, H / 2, 3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // محوطه جریمه بالا
+            ctx.strokeRect(W * 0.25, 0, W * 0.5, H * 0.12);
+            // محوطه جریمه پایین
+            ctx.strokeRect(W * 0.25, H * 0.88, W * 0.5, H * 0.12);
+
+            // دروازه‌ها
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.fillRect(W * 0.35, 0, W * 0.3, 6);
+            ctx.fillRect(W * 0.35, H - 6, W * 0.3, 6);
+
+            // بازیکن‌ها
+            for (const p of players) {
+                // سایه
+                ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                ctx.beginPath();
+                ctx.ellipse(p.x, p.y + p.r * 0.8, p.r * 0.9, p.r * 0.3, 0, 0, Math.PI * 2);
+                ctx.fill();
+
+                // بدن
+                const g = ctx.createRadialGradient(p.x - p.r * 0.3, p.y - p.r * 0.3, p.r * 0.1, p.x, p.y, p.r);
+                g.addColorStop(0, '#fff');
+                g.addColorStop(0.3, p.color);
+                g.addColorStop(1, p.color);
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = g;
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // شماره
+                ctx.fillStyle = '#fff';
+                ctx.font = `bold ${p.r * 0.9}px Vazirmatn`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(p.id + 1, p.x, p.y);
+            }
+
+            // توپ
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+            const bg = ctx.createRadialGradient(ball.x - ball.r * 0.3, ball.y - ball.r * 0.3, ball.r * 0.1, ball.x, ball.y, ball.r);
+            bg.addColorStop(0, '#fff');
+            bg.addColorStop(1, '#ccc');
+            ctx.fillStyle = bg;
+            ctx.fill();
+            ctx.strokeStyle = '#000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            // پنتاگون‌های ساده
+            ctx.fillStyle = '#000';
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, ball.r * 0.35, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function loop(t) {
+            const dt = Math.min((t - lastTime) / 16, 3);
+            lastTime = t;
+            update(dt);
+            draw();
+            requestAnimationFrame(loop);
+        }
+
+        /* ============ game ============ */
+        function startGame() {
+            isPlaying = true;
+            lastTime = performance.now();
+            requestAnimationFrame(loop);
+        }
+
+        function endGame() {
+            isPlaying = false;
+            const winner = blueScore >= targetScore ? 'آبی' : 'قرمز';
+            $('#endTitle').textContent = '🏆 ' + winner + ' برنده شد!';
+            $('#endMsg').textContent = `${fa(blueScore)} - ${fa(redScore)}`;
+            $('#end').hidden = false;
+        }
+
+        function log(t) {
+            const li = document.createElement('li'); li.textContent = t;
+            $('#log').prepend(li);
+            while ($('#log').children.length > 30) $('#log').lastChild.remove();
+        }
+
+        /* ============ LAN MODE ============ */
+        function startLanMode() {
+            lanMode = true;
+            $('#start').hidden = true;
+            $('#lanOv').hidden = false;
+
+            const info = LanClient.getInfo();
+            const code = info.roomCode || new URLSearchParams(window.location.search).get('lan');
+            const role = info.role || new URLSearchParams(window.location.search).get('role');
+
+            if (!code || !role) {
+                $('#lanStatus').textContent = '⚠️ کد اتاق یا نقش پیدا نشد.';
+                return;
+            }
+
+            lanRole = role;
+            // میزبان قرمز (بالا)، مهمان آبی (پایین)
+            mySide = role === 'host' ? 'red' : 'blue';
+
+            $('#lanRoomCode').textContent = code;
+            $('#lanStatus').textContent = role === 'host' ? 'در حال ساخت اتاق…' : 'در حال اتصال…';
+
+            LanClient.onConnected((status) => {
+                if (status === 'connected') {
+                    lanConnected = true;
+                    $('#lanStatus').textContent = '✅ حریف وصل شد!';
+                    $('#lanReadyBtn').disabled = false;
+                } else if (status === 'waiting') {
+                    $('#lanStatus').textContent = '✅ اتاق آماده‌ست. منتظر اتصال حریف…';
+                }
+            });
+
+            LanClient.onDisconnected(() => {
+                lanConnected = false;
+                $('#lanStatus').textContent = '⚠️ اتصال قطع شد';
+            });
+
+            LanClient.onMessage((data) => {
+                if (data.type === 'pos') {
+                    // موقعیت حریف
+                    const opp = mySide === 'blue' ? players[1] : players[0];
+                    if (opp) { opp.x = data.x; opp.y = data.y; }
+                    // توپ
+                    ball.x = data.bx;
+                    ball.y = data.by;
+                    ball.vx = data.bvx || 0;
+                    ball.vy = data.bvy || 0;
+                }
+                if (data.type === 'goal') {
+                    if (data.team === 'blue') blueScore++;
+                    else redScore++;
+                    updateScore();
+                    log('⚽ گل!');
+                    if (blueScore >= targetScore || redScore >= targetScore) endGame();
+                }
+            });
+
+            LanClient.init();
+        }
+
+        function sendState() {
+            if (!lanMode || !lanConnected || !isPlaying) return;
+            const me = mySide === 'blue' ? players[0] : players[1];
+            LanClient.send({
+                type: 'pos',
+                x: me.x, y: me.y,
+                bx: ball.x, by: ball.y,
+                bvx: ball.vx, bvy: ball.vy
+            });
+        }
+
+        /* ============ events ============ */
+        $('#mode').onclick = e => {
+            const b = e.target.closest('button'); if (!b) return;
+            [...$('#mode').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+        };
+
+        $('#begin').onclick = () => {
+            const mode = $('#mode button[aria-pressed=true]').dataset.mode;
+            if (mode === 'lan') {
+                startLanMode();
+                return;
+            }
+            lanMode = false;
+            mySide = 'blue'; // در حالت AI: کاربر آبی
+            $('#start').hidden = true;
+            initPlayers();
+            $('#labelBlue').textContent = 'آبی (شما)';
+            $('#labelRed').textContent = 'قرمز (رایانه)';
+            startGame();
+        };
+
+        $('#restartBtn').onclick = () => {
+            isPlaying = false;
+            $('#start').hidden = false;
+        };
+
+        $('#endAgain').onclick = () => {
+            $('#end').hidden = true;
+            $('#start').hidden = false;
+        };
+
+        $('#lanReadyBtn').onclick = () => {
+            $('#lanOv').hidden = true;
+            initPlayers();
+            if (mySide === 'blue') {
+                $('#labelBlue').textContent = 'آبی (شما)';
+                $('#labelRed').textContent = 'قرمز (حریف)';
+            } else {
+                $('#labelBlue').textContent = 'آبی (حریف)';
+                $('#labelRed').textContent = 'قرمز (شما)';
+            }
+            startGame();
+        };
+
+        $('#lanCloseBtn').onclick = () => {
+            window.location.href = 'lan.html';
+        };
+
+        /* ============ boot ============ */
+        window.addEventListener('resize', resize);
+        resize();
+        initPlayers();
+        draw();
+
+        // ارسال موقعیت هر ۵۰ms
+        setInterval(() => {
+            if (lanMode && lanConnected && isPlaying) {
+                sendState();
+            }
+        }, 50);
+
+        // بررسی خودکار حالت لن
+        if (LanClient.isLanMode()) {
+            $('#start').hidden = true;
+            startLanMode();
+        }
+    </script>
+</body>
+
+</html>
