@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>بازی لن | کلوپ بازی</title>
+    <link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <style>
+        :root {
+            --bg: #070d1c;
+            --ink: #eef2ff;
+            --mut: #9fb0d6;
+            --gold: #f2c14e;
+            --gold2: #ffe08a;
+            --teal: #14b8a6;
+            --card: rgba(255, 255, 255, .06);
+            --line: rgba(255, 255, 255, .12);
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Vazirmatn, Tahoma, sans-serif;
+            color: var(--ink);
+            background: radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
+                radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%), var(--bg);
+            padding-top: env(safe-area-inset-top, 0px);
+            padding-bottom: env(safe-area-inset-bottom, 0px);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+            color: inherit;
+            background: none
+        }
+
+        button:focus-visible {
+            outline: 2px solid var(--gold);
+            outline-offset: 3px
+        }
+
+        .wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 16px
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, #070d1cd9, #070d1c66 70%, transparent);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 12px 0
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 900;
+            font-size: 18px
+        }
+
+        .brand img {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
+            background: #0b1329
+        }
+
+        .brand span {
+            background: linear-gradient(180deg, #fff, #f2c14e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .nav-links a {
+            padding: 8px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mut);
+            transition: .2s
+        }
+
+        .nav-links a:hover {
+            background: var(--card);
+            color: var(--ink)
+        }
+
+        .page-head {
+            padding: 30px 0 18px;
+            text-align: center;
+            position: relative
+        }
+
+        .page-head::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(600px 300px at 50% 0%, #f2c14e1a, transparent 70%)
+        }
+
+        .page-head h1 {
+            margin: 0 0 8px;
+            font-size: clamp(26px, 5vw, 40px);
+            font-weight: 900;
+            background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .page-head p {
+            margin: 0;
+            color: var(--mut);
+            font-size: clamp(13px, 1.8vw, 15px)
+        }
+
+        .lan-img {
+            max-width: 100%;
+            height: auto;
+            margin: 18px auto 0;
+            display: block;
+            border-radius: 14px;
+            box-shadow: 0 20px 50px #000c
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 20px 0 24px
+        }
+
+        .step {
+            background: linear-gradient(160deg, #152447, #0c142b);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 18px;
+            box-shadow: 0 20px 50px -20px #000c
+        }
+
+        .step .num {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 15px;
+            background: linear-gradient(145deg, #f7d98b, #a8721c);
+            color: #2a1b02;
+            margin-bottom: 10px
+        }
+
+        .step h3 {
+            margin: 0 0 5px;
+            font-size: 16px;
+            font-weight: 800
+        }
+
+        .step p {
+            margin: 0;
+            color: var(--mut);
+            font-size: 13px;
+            line-height: 1.85
+        }
+
+        .step.teal .num {
+            background: linear-gradient(145deg, #2dd4bf, #0f766e);
+            color: #04201d
+        }
+
+        .panel {
+            background: linear-gradient(160deg, #152447, #0c142b);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 22px;
+            box-shadow: 0 30px 70px -30px #000c;
+            margin-bottom: 24px
+        }
+
+        .panel h2 {
+            margin: 0 0 16px;
+            font-size: 18px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .panel h2::before {
+            content: "";
+            width: 5px;
+            height: 20px;
+            border-radius: 3px;
+            background: linear-gradient(180deg, var(--gold2), var(--gold))
+        }
+
+        .field {
+            margin-bottom: 14px
+        }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            color: var(--mut);
+            margin-bottom: 6px;
+            font-weight: 600
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            font: inherit;
+            font-size: 15px;
+            outline: none;
+            transition: .2s
+        }
+
+        .field input:focus,
+        .field select:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px #f2c14e33
+        }
+
+        .opt-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px
+        }
+
+        .opt-grid button {
+            padding: 10px 0;
+            border-radius: 12px;
+            background: var(--card);
+            border: 1px solid var(--line);
+            font-weight: 700;
+            font-size: 14px;
+            transition: .2s
+        }
+
+        .opt-grid button:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+
+        .opt-grid button[aria-pressed=true] {
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            color: #2a1b02;
+            border-color: transparent
+        }
+
+        .opt-grid button:disabled {
+            opacity: .35;
+            cursor: not-allowed
+        }
+
+        .btn-gold {
+            width: 100%;
+            padding: 14px;
+            border-radius: 13px;
+            font-weight: 800;
+            font-size: 15px;
+            color: #2a1b02;
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            box-shadow: 0 7px 0 #9a6a10;
+            transition: transform .1s, box-shadow .1s;
+            margin-top: 4px
+        }
+
+        .btn-gold:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #9a6a10
+        }
+
+        .btn-gold:disabled {
+            filter: grayscale(.8) brightness(.7);
+            cursor: not-allowed
+        }
+
+        .btn-teal {
+            width: 100%;
+            padding: 14px;
+            border-radius: 13px;
+            font-weight: 800;
+            font-size: 15px;
+            color: #04201d;
+            background: linear-gradient(180deg, #2dd4bf, #0f766e);
+            box-shadow: 0 7px 0 #0a5049;
+            transition: transform .1s, box-shadow .1s;
+            margin-top: 4px
+        }
+
+        .btn-teal:active {
+            transform: translateY(4px);
+            box-shadow: 0 3px 0 #0a5049
+        }
+
+        .btn-teal:disabled {
+            filter: grayscale(.8) brightness(.7);
+            cursor: not-allowed
+        }
+
+        .btn-ghost {
+            padding: 11px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            background: var(--card);
+            border: 1px solid var(--line);
+            transition: .2s;
+            width: 100%;
+            margin-top: 10px
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, .12)
+        }
+
+        .room-code-box {
+            text-align: center;
+            padding: 22px 18px;
+            border-radius: 18px;
+            background: #ffffff06;
+            border: 1px dashed #f2c14e55;
+            margin: 14px 0
+        }
+
+        .room-code-box .label {
+            font-size: 12px;
+            color: var(--mut);
+            margin-bottom: 8px
+        }
+
+        .room-code-box .code {
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 8px;
+            color: var(--gold2);
+            font-family: monospace
+        }
+
+        .room-code-box .hint {
+            font-size: 11px;
+            color: var(--mut);
+            margin-top: 8px
+        }
+
+        .status {
+            text-align: center;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 10px 0;
+            background: #ffffff08;
+            color: var(--mut);
+            min-height: 20px
+        }
+
+        .status.ok {
+            background: #14b8a622;
+            color: #7cf2e3;
+            border: 1px solid #14b8a655
+        }
+
+        .status.err {
+            background: #e5393522;
+            color: #ff8a9a;
+            border: 1px solid #e5393555
+        }
+
+        .peers {
+            display: grid;
+            gap: 6px;
+            margin: 12px 0
+        }
+
+        .peer {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            background: #ffffff08;
+            font-size: 13px
+        }
+
+        .peer .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #14b8a6;
+            box-shadow: 0 0 8px #14b8a6
+        }
+
+        .peer .name {
+            font-weight: 700
+        }
+
+        [hidden] {
+            display: none !important
+        }
+
+        @media(max-width:640px) {
+            .steps {
+                grid-template-columns: 1fr
+            }
+
+            .nav-links {
+                display: none
+            }
+
+            .room-code-box .code {
+                font-size: 26px;
+                letter-spacing: 5px
+            }
+
+            .panel {
+                padding: 18px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="wrap nav">
+            <a href="index.html" class="brand">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html">خانه</a>
+                <a href="lan.html" class="active">بازی لن</a>
+                <a href="learn.html">آموزش‌ها</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <div class="page-head">
+            <h1>📡 بازی لن</h1>
+            <p>بدون سرور، مستقیم به دوستت وصل شو — یک نفر میزبان، بقیه مهمان</p>
+            <img class="lan-img" src="https://cdn.imgurl.ir/uploads/p399746_.png" alt="راهنمای بازی لن"
+                onerror="this.style.display='none'">
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="num">۱</div>
+                <h3>میزبان (Host)</h3>
+                <p>روی «ساخت اتاق» بزن، یه بازی و تعداد بازیکن انتخاب کن، کد ۶ رقمی که بهت داده می‌شه رو برای دوستات
+                    بفرست.</p>
+            </div>
+            <div class="step teal">
+                <div class="num">۲</div>
+                <h3>مهمان (Guest)</h3>
+                <p>کد ۶ رقمی که میزبان بهت داده رو وارد کن و روی «اتصال» بزن. خودکار به اتاق وصل می‌شی.</p>
+            </div>
+        </div>
+
+        <div class="panel" id="mainPanel">
+            <div id="initialView">
+                <h2>شروع کن</h2>
+                <button class="btn-gold" id="createRoomBtn">🏠 ساخت اتاق (میزبان)</button>
+                <button class="btn-teal" id="showJoinBtn" style="margin-top:10px">🔑 اتصال به اتاق (مهمان)</button>
+            </div>
+
+            <div id="createView" hidden>
+                <h2>ساخت اتاق جدید</h2>
+                <div class="field">
+                    <label>بازی</label>
+                    <select id="gameSelect">
+                        <option value="chess">♞ شطرنج (۲ نفره)</option>
+                        <option value="hokm">🃏 حکم</option>
+                        <option value="uno">🎴 اونو</option>
+                        <option value="soccer">⚽ فوتبال (۲ نفره)</option>
+                    </select>
+                </div>
+                <div class="field" id="maxPlayersField">
+                    <label>تعداد بازیکنان</label>
+                    <div class="opt-grid" id="maxPlayers">
+                        <button data-n="2" aria-pressed="true">۲</button>
+                        <button data-n="3" aria-pressed="false">۳</button>
+                        <button data-n="4" aria-pressed="false">۴</button>
+                    </div>
+                </div>
+                <button class="btn-gold" id="doCreateBtn">ساخت اتاق</button>
+                <button class="btn-ghost" id="backFromCreate">← بازگشت</button>
+            </div>
+
+            <div id="hostView" hidden>
+                <h2>اتاق تو آماده‌ست</h2>
+                <div class="room-code-box">
+                    <div class="label">کد اتاق را برای دوستات بفرست</div>
+                    <div class="code" id="roomCode">------</div>
+                    <div class="hint">بازی: <b id="hostGameName">—</b> · حداکثر <b id="hostMaxPlayers">—</b> نفر</div>
+                </div>
+                <div class="status" id="hostStatus">در حال اتصال…</div>
+                <div class="peers" id="hostPeers"></div>
+                <button class="btn-gold" id="startGameBtn" style="margin-top:14px" disabled>🚀 شروع بازی</button>
+                <button class="btn-ghost" id="hostCancelBtn">لغو اتاق</button>
+            </div>
+
+            <div id="joinView" hidden>
+                <h2>اتصال به اتاق</h2>
+                <div class="field">
+                    <label>کد ۶ رقمی اتاق</label>
+                    <input type="text" id="joinCodeInput" placeholder="A1B2C3" maxlength="6"
+                        style="text-transform:uppercase;letter-spacing:6px;font-size:20px;font-weight:800;text-align:center;font-family:monospace">
+                </div>
+                <button class="btn-teal" id="doJoinBtn">اتصال</button>
+                <div class="status" id="joinStatus"></div>
+                <button class="btn-ghost" id="backFromJoin">← بازگشت</button>
+            </div>
+
+            <div id="guestView" hidden>
+                <h2>وصل شدی! 🎉</h2>
+                <div class="status ok" id="guestStatus">به اتاق میزبان متصل شدی. منتظر شروع بازی باش…</div>
+                <button class="btn-ghost" id="guestLeaveBtn">خروج از اتاق</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const $ = s => document.querySelector(s);
+        const fa = n => Number(n).toLocaleString('fa-IR');
+
+        let peer = null;
+        let connections = [];
+        let hostConn = null;
+        let currentRoomCode = null;
+        let isHost = false;
+        let selectedMax = 2;
+        let selectedGame = 'chess';
+        let gameNames = {
+            uno: 'اونو', chess: 'شطرنج', hokm: 'حکم',
+            soccer: 'فوتبال', manch: 'منچ', snake: 'مار و پله'
+        };
+
+        /* بازی‌هایی که فقط ۲ نفره هستن */
+        const FIXED_2P = ['chess', 'soccer'];
+
+        function genCode() {
+            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+            let code = '';
+            for (let i = 0; i < 6; i++) code += chars[Math.floor(Math.random() * chars.length)];
+            return code;
+        }
+
+        function setStatus(el, msg, type) {
+            el.textContent = msg;
+            el.className = 'status' + (type ? ' ' + type : '');
+        }
+
+        function showView(id) {
+            ['initialView', 'createView', 'hostView', 'joinView', 'guestView'].forEach(v => {
+                $('#' + v).hidden = (v !== id);
+            });
+        }
+
+        function cleanup() {
+            try {
+                connections.forEach(c => { try { c.close() } catch (e) { } });
+                connections = [];
+                if (hostConn) { try { hostConn.close() } catch (e) { } hostConn = null; }
+                if (peer) { try { peer.destroy() } catch (e) { } peer = null; }
+                currentRoomCode = null;
+                isHost = false;
+            } catch (e) { }
+        }
+
+        /* ============ HOST ============ */
+        function createRoom() {
+            cleanup();
+            isHost = true;
+            selectedGame = $('#gameSelect').value;
+            currentRoomCode = genCode();
+
+            $('#roomCode').textContent = currentRoomCode;
+            $('#hostGameName').textContent = gameNames[selectedGame] || selectedGame;
+            $('#hostMaxPlayers').textContent = fa(selectedMax);
+            $('#startGameBtn').disabled = true;
+
+            showView('hostView');
+            setStatus($('#hostStatus'), 'در حال اتصال به سرور PeerJS…');
+
+            peer = new Peer('klub-' + currentRoomCode, { debug: 1 });
+
+            peer.on('open', (id) => {
+                setStatus($('#hostStatus'), '✅ اتاق آماده‌ست. منتظر اتصال بازیکنان…', 'ok');
+            });
+
+            peer.on('connection', (conn) => {
+                if (connections.length + 1 >= selectedMax) {
+                    conn.on('open', () => {
+                        conn.send({ type: 'room_full' });
+                        setTimeout(() => conn.close(), 300);
+                    });
+                    return;
+                }
+
+                connections.push(conn);
+
+                conn.on('open', () => {
+                    conn.send({
+                        type: 'welcome',
+                        game: selectedGame,
+                        maxPlayers: selectedMax,
+                        playerCount: connections.length + 1
+                    });
+                    renderHostPeers();
+                    setStatus($('#hostStatus'), `✅ ${fa(connections.length + 1)} بازیکن متصل شد`, 'ok');
+
+                    if (connections.length + 1 >= selectedMax) {
+                        $('#startGameBtn').disabled = false;
+                        setStatus($('#hostStatus'), `✅ اتاق پر شد (${fa(selectedMax)}/${fa(selectedMax)}) — می‌تونی بازی رو شروع کنی`, 'ok');
+                    }
+                });
+
+                conn.on('data', (data) => {
+                    console.log('Host received:', data);
+                });
+
+                conn.on('close', () => {
+                    connections = connections.filter(c => c !== conn);
+                    renderHostPeers();
+                    $('#startGameBtn').disabled = true;
+                    if (connections.length + 1 < selectedMax) {
+                        setStatus($('#hostStatus'), `بازیکن قطع شد. ${fa(connections.length + 1)} نفر متصل`, '');
+                    }
+                });
+            });
+
+            peer.on('error', (err) => {
+                console.error('PeerJS error:', err);
+                if (err.type === 'unavailable-id') {
+                    setStatus($('#hostStatus'), '⚠️ این کد قبلاً استفاده شده. دوباره تلاش کن.', 'err');
+                } else {
+                    setStatus($('#hostStatus'), '⚠️ خطا: ' + err.type, 'err');
+                }
+            });
+        }
+
+        function renderHostPeers() {
+            const el = $('#hostPeers');
+            el.innerHTML = `<div class="peer"><span class="dot"></span><span class="name">شما (میزبان)</span></div>`;
+            connections.forEach((c, i) => {
+                el.innerHTML += `<div class="peer"><span class="dot"></span><span class="name">بازیکن ${fa(i + 2)}</span></div>`;
+            });
+        }
+
+        /* ============ START GAME ============ */
+        function startGame() {
+            if (!isHost || !currentRoomCode) return;
+
+            const game = selectedGame;
+            const code = currentRoomCode;
+            const maxP = selectedMax;
+
+            connections.forEach(conn => {
+                if (conn.open) {
+                    conn.send({ type: 'start_game', game: game, roomCode: code, maxPlayers: maxP });
+                }
+            });
+
+            setTimeout(() => {
+                window.location.href = `${game}.html?lan=${code}&role=host&max=${maxP}`;
+            }, 300);
+        }
+
+        /* ============ JOIN ============ */
+        function joinRoom() {
+            const code = $('#joinCodeInput').value.trim().toUpperCase();
+            if (code.length !== 6) {
+                setStatus($('#joinStatus'), 'کد باید ۶ کاراکتر باشه', 'err');
+                return;
+            }
+
+            cleanup();
+            isHost = false;
+            currentRoomCode = code;
+            setStatus($('#joinStatus'), 'در حال اتصال…');
+
+            peer = new Peer({ debug: 1 });
+
+            peer.on('open', () => {
+                hostConn = peer.connect('klub-' + code, { reliable: true });
+
+                hostConn.on('open', () => {
+                    setStatus($('#joinStatus'), '✅ وصل شدی! منتظر شروع بازی…', 'ok');
+                    showView('guestView');
+                });
+
+                hostConn.on('data', (data) => {
+                    console.log('Guest received:', data);
+                    if (data.type === 'welcome') {
+                        setStatus($('#guestStatus'), `به اتاق وصل شدی — بازی: ${gameNames[data.game] || data.game}`, 'ok');
+                    }
+                    if (data.type === 'room_full') {
+                        setStatus($('#joinStatus'), '⚠️ اتاق پر است', 'err');
+                        cleanup();
+                        showView('joinView');
+                    }
+                    if (data.type === 'start_game') {
+                        setStatus($('#guestStatus'), '🚀 بازی در حال شروع…', 'ok');
+                        setTimeout(() => {
+                            window.location.href = `${data.game}.html?lan=${data.roomCode}&role=guest&max=${data.maxPlayers}`;
+                        }, 500);
+                    }
+                });
+
+                hostConn.on('error', (err) => {
+                    setStatus($('#joinStatus'), '⚠️ خطا: ' + err, 'err');
+                });
+
+                hostConn.on('close', () => {
+                    setStatus($('#guestStatus'), 'اتصال قطع شد', 'err');
+                });
+            });
+
+            peer.on('error', (err) => {
+                console.error('PeerJS error:', err);
+                if (err.type === 'peer-unavailable') {
+                    setStatus($('#joinStatus'), '⚠️ اتاقی با این کد پیدا نشد. مطمئن شو میزبان آنلاینه.', 'err');
+                } else {
+                    setStatus($('#joinStatus'), '⚠️ خطا: ' + err.type, 'err');
+                }
+            });
+        }
+
+        /* ============ EVENTS ============ */
+        $('#createRoomBtn').onclick = () => showView('createView');
+        $('#backFromCreate').onclick = () => showView('initialView');
+
+        $('#maxPlayers').onclick = (e) => {
+            const b = e.target.closest('button'); if (!b) return;
+            if (b.disabled) return;
+            selectedMax = +b.dataset.n;
+            [...$('#maxPlayers').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+        };
+
+        $('#gameSelect').addEventListener('change', (e) => {
+            const game = e.target.value;
+            const isFixed = FIXED_2P.includes(game);
+
+            // اگه بازی ۲ نفره ثابت بود، فقط ۲ نفر قابل انتخاب باشه
+            [...$('#maxPlayers').children].forEach(btn => {
+                const n = +btn.dataset.n;
+                btn.disabled = isFixed && n !== 2;
+                btn.setAttribute('aria-pressed', isFixed ? (n === 2) : (n === selectedMax));
+            });
+
+            if (isFixed) {
+                selectedMax = 2;
+            }
+        });
+
+        $('#doCreateBtn').onclick = () => {
+            $('#doCreateBtn').disabled = true;
+            createRoom();
+            setTimeout(() => { $('#doCreateBtn').disabled = false; }, 1000);
+        };
+
+        $('#startGameBtn').onclick = startGame;
+
+        $('#hostCancelBtn').onclick = () => {
+            cleanup();
+            showView('initialView');
+        };
+
+        $('#showJoinBtn').onclick = () => {
+            showView('joinView');
+            $('#joinCodeInput').value = '';
+            setStatus($('#joinStatus'), '');
+            setTimeout(() => $('#joinCodeInput').focus(), 100);
+        };
+
+        $('#backFromJoin').onclick = () => {
+            cleanup();
+            showView('initialView');
+        };
+
+        $('#doJoinBtn').onclick = () => {
+            $('#doJoinBtn').disabled = true;
+            joinRoom();
+            setTimeout(() => { $('#doJoinBtn').disabled = false; }, 1000);
+        };
+
+        $('#joinCodeInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') $('#doJoinBtn').click();
+        });
+
+        $('#guestLeaveBtn').onclick = () => {
+            cleanup();
+            showView('initialView');
+        };
+
+        window.addEventListener('beforeunload', cleanup);
+
+        showView('initialView');
+    </script>
+</body>
+
+</html>
