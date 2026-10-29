@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>اخبار | کلوپ بازی</title>
+    <link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+    <style>
+        :root {
+            --bg: #070d1c;
+            --ink: #eef2ff;
+            --mut: #9fb0d6;
+            --gold: #f2c14e;
+            --gold2: #ffe08a;
+            --teal: #14b8a6;
+            --card: rgba(255, 255, 255, .06);
+            --line: rgba(255, 255, 255, .12);
+            color-scheme: dark;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Vazirmatn, Tahoma, sans-serif;
+            color: var(--ink);
+            background: radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
+                radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%), var(--bg);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        button {
+            font: inherit;
+            cursor: pointer;
+            border: 0;
+            color: inherit;
+            background: none
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 18px
+        }
+
+        /* header */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, #070d1cd9, #070d1c66 70%, transparent);
+            border-bottom: 1px solid var(--line)
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            padding: 12px 0
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 900;
+            font-size: 19px
+        }
+
+        .brand img {
+            width: 42px;
+            height: 42px;
+            border-radius: 11px;
+            object-fit: cover;
+            box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
+            background: #0b1329
+        }
+
+        .brand span {
+            background: linear-gradient(180deg, #fff, #f2c14e);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .nav-links a {
+            padding: 8px 13px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--mut);
+            transition: .2s
+        }
+
+        .nav-links a:hover {
+            background: var(--card);
+            color: var(--ink)
+        }
+
+        .nav-links a.active {
+            background: #f2c14e1a;
+            color: var(--gold2)
+        }
+
+        .lan-btn {
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #04201d;
+            background: linear-gradient(180deg, #2dd4bf, #0f766e);
+            box-shadow: 0 4px 0 #0a5049;
+            transition: .15s;
+            margin-right: 6px
+        }
+
+        .lan-btn:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0a5049
+        }
+
+        /* page head */
+        .page-head {
+            padding: 36px 0 16px;
+            text-align: center;
+            position: relative
+        }
+
+        .page-head::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: radial-gradient(600px 300px at 50% 0%, #f2c14e1a, transparent 70%)
+        }
+
+        .page-head h1 {
+            margin: 0 0 8px;
+            font-size: clamp(28px, 5vw, 44px);
+            font-weight: 900;
+            background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent
+        }
+
+        .page-head p {
+            margin: 0;
+            color: var(--mut);
+            font-size: clamp(13px, 1.8vw, 15px)
+        }
+
+        /* filter */
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 16px 0 24px;
+            padding: 0 18px
+        }
+
+        .filter-bar button {
+            padding: 9px 18px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            background: var(--card);
+            border: 1px solid var(--line);
+            color: var(--mut);
+            transition: .2s;
+        }
+
+        .filter-bar button:hover {
+            background: rgba(255, 255, 255, .12);
+            color: var(--ink)
+        }
+
+        .filter-bar button.active {
+            background: linear-gradient(180deg, #ffe08a, #f2b434);
+            color: #2a1b02;
+            border-color: transparent
+        }
+
+        /* news grid */
+        .news-grid {
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            padding-bottom: 40px
+        }
+
+        .news-card {
+            background: linear-gradient(160deg, #152447, #0c142b);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform .3s, border-color .3s, box-shadow .3s;
+            box-shadow: 0 20px 50px -20px #000c;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            border-color: #f2c14e55;
+            box-shadow: 0 30px 60px -20px #000, 0 0 0 1px #f2c14e33 inset
+        }
+
+        .news-card .thumb {
+            height: 170px;
+            background: linear-gradient(145deg, #1a2c52, #0d1730);
+            display: grid;
+            place-items: center;
+            font-size: 48px;
+            border-bottom: 1px solid var(--line);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-card .thumb::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(400px 200px at 50% 0%, #f2c14e22, transparent 70%);
+            pointer-events: none;
+            z-index: 2
+        }
+
+        .news-card .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: relative;
+            z-index: 1;
+            transition: transform .4s
+        }
+
+        .news-card:hover .thumb img {
+            transform: scale(1.06)
+        }
+
+        .news-card .body {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex: 1
+        }
+
+        .news-card .meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 11px;
+            color: var(--mut);
+            flex-wrap: wrap
+        }
+
+        .news-card .cat {
+            padding: 3px 10px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 11px
+        }
+
+        .news-card .cat.game {
+            background: #f2c14e1a;
+            color: var(--gold2);
+            border: 1px solid #f2c14e44
+        }
+
+        .news-card .cat.sport {
+            background: #14b8a61a;
+            color: #7cf2e3;
+            border: 1px solid #14b8a644
+        }
+
+        .news-card .cat.tech {
+            background: #3fc1ff1a;
+            color: #8fe0ff;
+            border: 1px solid #3fc1ff44
+        }
+
+        .news-card .cat.notice {
+            background: #ff5d6c1a;
+            color: #ff8a9a;
+            border: 1px solid #ff5d6c44
+        }
+
+        .news-card h3 {
+            margin: 0;
+            font-size: 17px;
+            font-weight: 800;
+            line-height: 1.5
+        }
+
+        .news-card p {
+            margin: 0;
+            color: var(--mut);
+            font-size: 13px;
+            line-height: 1.8;
+            flex: 1
+        }
+
+        .news-card .more {
+            margin-top: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold2);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .news-card .more::after {
+            content: "←";
+            transition: transform .2s
+        }
+
+        .news-card:hover .more::after {
+            transform: translateX(-4px)
+        }
+
+        /* empty state */
+        .empty {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--mut);
+            background: linear-gradient(160deg, #152447, #0c142b);
+            border: 1px dashed var(--line);
+            border-radius: 22px;
+            margin-bottom: 40px;
+        }
+
+        .empty .big {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: .6
+        }
+
+        .empty h3 {
+            margin: 0 0 8px;
+            color: var(--ink);
+            font-size: 18px
+        }
+
+        .empty p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.8
+        }
+
+        /* footer */
+        .site-footer {
+            margin-top: 40px;
+            padding: 30px 0 40px;
+            border-top: 1px solid var(--line);
+            background: linear-gradient(180deg, transparent, #070d1c 40%)
+        }
+
+        .foot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center
+        }
+
+        .foot .zlogo {
+            height: 56px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 6px 16px #000a);
+            padding: 8px 14px;
+            border-radius: 14px;
+            background: var(--card);
+            border: 1px solid var(--line)
+        }
+
+        .foot .rights {
+            margin: 0;
+            color: var(--mut);
+            font-size: 14px;
+            line-height: 1.9
+        }
+
+        .foot .rights b {
+            color: var(--gold2);
+            font-weight: 800
+        }
+
+        .foot .brandline {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            color: var(--ink)
+        }
+
+        .foot .brandline img {
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            object-fit: cover;
+            background: #0b1329
+        }
+
+        @media(max-width:720px) {
+            .nav-links {
+                display: none
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr
+            }
+
+            .filter-bar {
+                gap: 6px
+            }
+
+            .filter-bar button {
+                padding: 8px 14px;
+                font-size: 12px
+            }
+        }
+
+        @media(prefers-reduced-motion:reduce) {
+            * {
+                transition: none !important;
+                animation: none !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site-header">
+        <div class="wrap nav">
+            <a href="index.html" class="brand">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html#games">بازی‌ها</a>
+                <a href="news.html" class="active">اخبار</a>
+                <a href="lan.html" class="lan-btn">📡 بازی لن</a>
+                <a href="learn.html">آموزش‌ها</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-head">
+        <h1>📰 اخبار کلوپ بازی</h1>
+        <p>آخرین خبرها، اطلاعیه‌ها و به‌روزرسانی‌های سایت</p>
+    </div>
+
+    <div class="filter-bar" id="filterBar">
+        <button class="active" data-cat="all">همه</button>
+        <button data-cat="game">🎮 بازی‌ها</button>
+        <button data-cat="sport">⚽ ورزش</button>
+        <button data-cat="tech">💻 فناوری</button>
+        <button data-cat="notice">📢 اطلاعیه‌ها</button>
+    </div>
+
+    <div class="wrap">
+        <div class="news-grid" id="newsGrid"></div>
+        <div class="empty" id="emptyState" hidden>
+            <div class="big">📭</div>
+            <h3>هنوز خبری ثبت نشده</h3>
+            <p>به‌زودی اخبار جدید اینجا نمایش داده می‌شه.</p>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="wrap foot">
+            <div class="brandline">
+                <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+                <span>کلوپ بازی</span>
+            </div>
+            <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
+            <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
+        </div>
+    </footer>
+
+    <script>
+        /* ======================================================
+           اخبار
+        ====================================================== */
+        const DEFAULT_IMAGE = 'https://cdn.imgurl.ir/uploads/m897528_.png';
+
+        const NEWS = [
+            {
+                id: 1,
+                cat: 'notice',
+                title: 'به کلوپ بازی خوش آمدید!',
+                excerpt: 'سایت کلوپ بازی با بازی‌های مار و پله، منچ، حکم، شطرنج، اونو، فوتبال و ۲۰۴۸ راه‌اندازی شد. از بازی لذت ببرید!',
+                date: '۱۴۰۵/۰۸/۰۷',
+                icon: '🎉',
+                image: DEFAULT_IMAGE,
+                link: null
+            },
+            {
+                id: 2,
+                cat: 'game',
+                title: 'بازی ۲۰۴۸ اضافه شد',
+                excerpt: 'حالا می‌تونید ۲۰۴۸ رو با مکانیک انتخاب و حرکت کاشی‌ها بازی کنید. کاشی‌ها رو سلکت کنید و جابه‌جا کنید!',
+                date: '۱۴۰۵/۰۸/۰۶',
+                icon: '🔢',
+                image: DEFAULT_IMAGE,
+                link: 'game2048.html'
+            },
+            {
+                id: 3,
+                cat: 'game',
+                title: 'حالت لن برای شطرنج، حکم و فوتبال فعال شد',
+                excerpt: 'می‌تونید از طریق صفحه «بازی لن» یه اتاق بسازید و دوستاتون رو به بازی دعوت کنید. بدون سرور، مستقیم به هم وصل می‌شید.',
+                date: '۱۴۰۵/۰۸/۰۵',
+                icon: '📡',
+                image: DEFAULT_IMAGE,
+                link: 'lan.html'
+            }
+        ];
+
+        /* ======================================================
+           رندر
+        ====================================================== */
+        const grid = document.getElementById('newsGrid');
+        const empty = document.getElementById('emptyState');
+        const filterBar = document.getElementById('filterBar');
+        let currentCat = 'all';
+
+        const CAT_NAMES = { game: 'بازی', sport: 'ورزش', tech: 'فناوری', notice: 'اطلاعیه' };
+
+        function render() {
+            const filtered = currentCat === 'all' ? NEWS : NEWS.filter(n => n.cat === currentCat);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                empty.hidden = false;
+                return;
+            }
+            empty.hidden = true;
+
+            grid.innerHTML = filtered.map(n => {
+                const img = n.image || DEFAULT_IMAGE;
+                return `
+      <article class="news-card">
+        <div class="thumb">
+          <img src="${img}" alt="${n.title}" onerror="this.style.display='none';this.parentNode.innerHTML='${n.icon || '📰'}'">
+        </div>
+        <div class="body">
+          <div class="meta">
+            <span class="cat ${n.cat}">${CAT_NAMES[n.cat] || n.cat}</span>
+            <span>${n.date}</span>
+          </div>
+          <h3>${n.title}</h3>
+          <p>${n.excerpt}</p>
+          ${n.link ? `<a class="more" href="${n.link}">ادامه</a>` : ''}
+        </div>
+      </article>
+    `;
+            }).join('');
+        }
+
+        filterBar.addEventListener('click', e => {
+            const b = e.target.closest('button');
+            if (!b) return;
+            currentCat = b.dataset.cat;
+            [...filterBar.children].forEach(x => x.classList.toggle('active', x === b));
+            render();
+        });
+
+        render();
+    </script>
+</body>
+
+</html>
