@@ -1,307 +1,1473 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>کلوپ بازی | خانه بازی‌های فکری</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
-<link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
-<style>
-:root{
-  --bg:#070d1c;
-  --bg2:#12213f;
-  --ink:#eef2ff;
-  --mut:#9fb0d6;
-  --gold:#f2c14e;
-  --gold2:#ffe08a;
-  --teal:#14b8a6;
-  --teal2:#0f766e;
-  --card:rgba(255,255,255,.06);
-  --line:rgba(255,255,255,.12);
-  color-scheme:dark;
-}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;min-height:100vh;
-  font-family:Vazirmatn,Tahoma,"Segoe UI",sans-serif;
-  color:var(--ink);
-  background:
-    radial-gradient(1200px 700px at 80% -10%,#21407a55,transparent 60%),
-    radial-gradient(900px 600px at 0% 110%,#0f766e44,transparent 60%),
-    var(--bg);
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
-}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1180px;margin:0 auto;padding:0 18px}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>کلوپ بازی | خانه بازی‌های فکری</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+  <link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+  <style>
+    :root {
+      --bg: #070d1c;
+      --ink: #eef2ff;
+      --mut: #9fb0d6;
+      --gold: #f2c14e;
+      --gold2: #ffe08a;
+      --teal: #14b8a6;
+      --card: rgba(255, 255, 255, .06);
+      --line: rgba(255, 255, 255, .12);
+      color-scheme: dark;
+    }
 
-/* ---------- header ---------- */
-.site-header{
-  position:sticky;top:0;z-index:50;
-  backdrop-filter:blur(14px);
-  background:linear-gradient(180deg,#070d1cd9,#070d1c66 70%,transparent);
-  border-bottom:1px solid var(--line);
-}
-.nav{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:18px;padding:14px 0;
-}
-.brand{
-  display:flex;align-items:center;gap:12px;
-  font-weight:900;font-size:20px;letter-spacing:.2px;
-}
-.brand img{
-  width:46px;height:46px;border-radius:12px;object-fit:cover;
-  box-shadow:0 6px 20px #000a,0 0 0 1px #ffffff22 inset;
-  background:#0b1329;
-}
-.brand span{
-  background:linear-gradient(180deg,#fff,#f2c14e);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.nav-links{display:flex;gap:6px;flex-wrap:wrap}
-.nav-links a{
-  padding:9px 14px;border-radius:11px;font-size:15px;font-weight:600;
-  color:var(--mut);transition:background .2s,color .2s;
-}
-.nav-links a:hover{background:var(--card);color:var(--ink)}
+    * {
+      box-sizing: border-box
+    }
 
-/* ---------- hero ---------- */
-.hero{
-  padding:70px 0 40px;text-align:center;position:relative;
-}
-.hero::before{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:radial-gradient(600px 300px at 50% 0%,#f2c14e22,transparent 70%);
-}
-.hero h1{
-  margin:0 0 16px;font-size:clamp(34px,6vw,58px);font-weight:900;line-height:1.15;
-  background:linear-gradient(180deg,#fff 20%,#f2c14e 120%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-.hero p{
-  margin:0 auto;max-width:620px;color:var(--mut);
-  font-size:clamp(15px,2vw,18px);line-height:1.95;
-}
-.hero .cta{
-  display:inline-flex;align-items:center;gap:8px;margin-top:28px;
-  padding:14px 28px;border-radius:16px;font-weight:800;font-size:16px;
-  color:#2a1b02;
-  background:linear-gradient(180deg,#ffe08a,#f2b434);
-  box-shadow:0 8px 0 #9a6a10,0 18px 34px #0007;
-  transition:transform .12s,box-shadow .12s;
-}
-.hero .cta:active{transform:translateY(4px);box-shadow:0 4px 0 #9a6a10,0 10px 22px #0007}
+    html {
+      scroll-behavior: smooth
+    }
 
-/* ---------- section title ---------- */
-.sec{padding:30px 0 10px}
-.sec h2{
-  margin:0 0 6px;font-size:clamp(22px,3.5vw,30px);font-weight:900;
-  display:flex;align-items:center;gap:10px;
-}
-.sec h2::before{
-  content:"";width:6px;height:26px;border-radius:4px;
-  background:linear-gradient(180deg,var(--gold2),var(--gold));
-}
-.sec p.lead{margin:0 0 26px;color:var(--mut);font-size:15px}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Vazirmatn, Tahoma, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 700px at 80% -10%, #21407a55, transparent 60%),
+        radial-gradient(900px 600px at 0% 110%, #0f766e44, transparent 60%),
+        var(--bg);
+      padding-top: env(safe-area-inset-top, 0px);
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+      overflow-x: hidden;
+    }
 
-/* ---------- game grid ---------- */
-.games{
-  display:grid;gap:18px;
-  grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
-  padding-bottom:40px;
-}
-.game{
-  position:relative;overflow:hidden;
-  border-radius:22px;padding:24px;
-  background:linear-gradient(160deg,#152447,#0c142b);
-  border:1px solid var(--line);
-  box-shadow:0 20px 50px -20px #000c;
-  transition:transform .25s cubic-bezier(.2,.7,.2,1),box-shadow .25s,border-color .25s;
-  display:flex;flex-direction:column;gap:14px;min-height:230px;
-}
-.game::after{
-  content:"";position:absolute;inset:0;z-index:0;opacity:.0;
-  background:radial-gradient(400px 200px at var(--mx,50%) var(--my,0%),#f2c14e33,transparent 70%);
-  transition:opacity .3s;pointer-events:none;
-}
-.game:hover{transform:translateY(-6px);border-color:#f2c14e55;box-shadow:0 30px 60px -20px #000,0 0 0 1px #f2c14e33 inset}
-.game:hover::after{opacity:1}
-.game .ico{
-  width:64px;height:64px;border-radius:18px;display:grid;place-items:center;
-  font-size:34px;background:linear-gradient(145deg,#f7d98b,#a8721c 55%,#f2c14e);
-  box-shadow:0 8px 22px #0008,0 0 0 1px #fff3 inset;
-  position:relative;z-index:1;
-}
-.game h3{margin:0;font-size:20px;font-weight:800;position:relative;z-index:1}
-.game p{margin:0;color:var(--mut);font-size:14px;line-height:1.8;position:relative;z-index:1}
-.game .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;position:relative;z-index:1}
-.tag{
-  font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px;
-  background:#ffffff10;color:var(--mut);border:1px solid var(--line);
-}
-.tag.gold{background:#f2c14e1a;color:var(--gold2);border-color:#f2c14e44}
-.tag.teal{background:#14b8a61a;color:#7cf2e3;border-color:#14b8a644}
-.game .arrow{
-  position:absolute;top:22px;left:22px;font-size:18px;color:var(--mut);
-  transition:transform .25s,color .25s;z-index:1;
-}
-.game:hover .arrow{transform:translateX(-4px);color:var(--gold)}
+    a {
+      color: inherit;
+      text-decoration: none
+    }
 
-/* ---------- learn card ---------- */
-.learn{
-  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
-  margin-bottom:60px;padding:34px;border-radius:26px;
-  background:
-    radial-gradient(600px 200px at 0% 0%,#14b8a622,transparent 70%),
-    linear-gradient(160deg,#132142,#0b1224);
-  border:1px solid var(--line);
-  box-shadow:0 25px 60px -25px #000c;
-}
-.learn h3{margin:0 0 8px;font-size:clamp(20px,3vw,26px);font-weight:900}
-.learn p{margin:0;color:var(--mut);line-height:1.9;max-width:640px}
-.learn .btn{
-  padding:14px 26px;border-radius:14px;font-weight:800;white-space:nowrap;
-  background:linear-gradient(180deg,#2dd4bf,#0f766e);color:#04201d;
-  box-shadow:0 8px 0 #0a5049,0 16px 30px #0007;
-  transition:transform .12s,box-shadow .12s;
-}
-.learn .btn:active{transform:translateY(4px);box-shadow:0 4px 0 #0a5049,0 10px 20px #0007}
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: 0;
+      color: inherit;
+      background: none
+    }
 
-/* ---------- footer ---------- */
-.site-footer{
-  margin-top:40px;padding:34px 0 40px;
-  border-top:1px solid var(--line);
-  background:linear-gradient(180deg,transparent,#070d1c 40%);
-}
-.foot{
-  display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;
-}
-.foot .zlogo{
-  height:56px;width:auto;object-fit:contain;
-  filter:drop-shadow(0 6px 16px #000a);
-  padding:8px 14px;border-radius:14px;
-  background:var(--card);border:1px solid var(--line);
-}
-.foot .rights{
-  margin:0;color:var(--mut);font-size:14px;line-height:1.9;
-}
-.foot .rights b{color:var(--gold2);font-weight:800}
-.foot .brandline{
-  display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);
-}
-.foot .brandline img{width:34px;height:34px;border-radius:9px;object-fit:cover;background:#0b1329}
+    .wrap {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 0 18px
+    }
 
-@media(max-width:720px){
-  .nav-links{display:none}
-  .learn{grid-template-columns:1fr;text-align:center}
-  .learn .btn{justify-self:center}
-  .hero{padding:50px 0 30px}
-}
-@media(prefers-reduced-motion:reduce){
-  *{transition:none!important;animation:none!important}
-}
-</style>
+    /* ---------- header ---------- */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(180deg, #070d1cf2, #070d1ccc 70%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      font-size: 18px;
+      flex-shrink: 0
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 6px 20px #000a, 0 0 0 1px #ffffff22 inset;
+      background: #0b1329
+    }
+
+    .brand span {
+      background: linear-gradient(180deg, #fff, #f2c14e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center
+    }
+
+    .nav-links a {
+      padding: 8px 13px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--mut);
+      transition: .2s
+    }
+
+    .nav-links a:hover {
+      background: var(--card);
+      color: var(--ink)
+    }
+
+    .nav-links a.active {
+      background: #f2c14e1a;
+      color: var(--gold2)
+    }
+
+    .lan-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #04201d;
+      background: linear-gradient(180deg, #2dd4bf, #0f766e);
+      box-shadow: 0 4px 0 #0a5049;
+      transition: .15s;
+      margin-right: 6px
+    }
+
+    .lan-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #0a5049
+    }
+
+    .donate-btn {
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      background: linear-gradient(180deg, #ff6b9d, #c2185b);
+      box-shadow: 0 4px 0 #8e0e42;
+      transition: .15s;
+      margin-right: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .donate-btn:active {
+      transform: translateY(3px);
+      box-shadow: 0 1px 0 #8e0e42
+    }
+
+    .user-badge {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px 5px 5px;
+      border-radius: 999px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      flex-shrink: 0
+    }
+
+    .user-badge .av {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 17px;
+      background: linear-gradient(145deg, #f7d98b, #a8721c);
+      box-shadow: 0 2px 8px #0008
+    }
+
+    .user-badge b {
+      font-size: 12px;
+      max-width: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .logout-btn {
+      font-size: 11px;
+      color: var(--mut);
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: #ffffff08;
+      border: 1px solid var(--line);
+      transition: .2s
+    }
+
+    .logout-btn:hover {
+      background: #ff5d6c33;
+      color: #ff8a9a;
+      border-color: #ff5d6c55
+    }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 11px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      place-items: center;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+      transition: .3s
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg)
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg)
+    }
+
+    /* mobile menu drawer */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(300px, 85vw);
+      background: linear-gradient(160deg, #152447, #0c142b);
+      border-left: 1px solid var(--line);
+      z-index: 150;
+      transform: translateX(100%);
+      transition: transform .35s cubic-bezier(.4, 0, .2, 1);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 6px;
+      overflow-y: auto;
+      box-shadow: -20px 0 60px #000c;
+    }
+
+    .mobile-menu.open {
+      transform: translateX(0)
+    }
+
+    .mobile-menu .mm-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--line)
+    }
+
+    .mobile-menu .mm-header .brand {
+      font-size: 17px
+    }
+
+    .mobile-menu .mm-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--card);
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      color: var(--mut)
+    }
+
+    .mobile-menu a {
+      padding: 13px 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--mut);
+      transition: .2s;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .mobile-menu a:hover,
+    .mobile-menu a.active {
+      background: #f2c14e1a;
+      color: var(--gold2)
+    }
+
+    .mobile-menu .mm-divider {
+      height: 1px;
+      background: var(--line);
+      margin: 10px 0
+    }
+
+    .mobile-menu .mm-donate {
+      margin-top: auto;
+      padding: 14px;
+      border-radius: 14px;
+      font-weight: 800;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(180deg, #ff6b9d, #c2185b);
+      box-shadow: 0 6px 0 #8e0e42;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px
+    }
+
+    .mm-overlay {
+      position: fixed;
+      inset: 0;
+      background: #000a;
+      backdrop-filter: blur(4px);
+      z-index: 140;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s
+    }
+
+    .mm-overlay.open {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    /* hero */
+    .hero {
+      padding: 50px 0 30px;
+      text-align: center;
+      position: relative
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background: radial-gradient(600px 300px at 50% 0%, #f2c14e22, transparent 70%)
+    }
+
+    .hero h1 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 7vw, 58px);
+      font-weight: 900;
+      line-height: 1.15;
+      background: linear-gradient(180deg, #fff 20%, #f2c14e 120%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: heroFloat 6s ease-in-out infinite;
+    }
+
+    @keyframes heroFloat {
+
+      0%,
+      100% {
+        transform: translateY(0)
+      }
+
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .hero p {
+      margin: 0 auto;
+      max-width: 620px;
+      color: var(--mut);
+      font-size: clamp(14px, 2vw, 18px);
+      line-height: 1.9;
+      padding: 0 10px
+    }
+
+    .hero .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding: 13px 26px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 15px;
+      color: #2a1b02;
+      background: linear-gradient(180deg, #ffe08a, #f2b434);
+      box-shadow: 0 7px 0 #9a6a10, 0 16px 30px #0007;
+      transition: transform .12s, box-shadow .12s;
+    }
+
+    .hero .cta:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #9a6a10, 0 10px 20px #0007
+    }
+
+    /* section */
+    .sec {
+      padding: 24px 0 10px
+    }
+
+    .sec h2 {
+      margin: 0 0 6px;
+      font-size: clamp(20px, 4vw, 30px);
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sec h2::before {
+      content: "";
+      width: 5px;
+      height: 24px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, var(--gold2), var(--gold))
+    }
+
+    .sec p.lead {
+      margin: 0 0 20px;
+      color: var(--mut);
+      font-size: 14px
+    }
+
+    /* games grid - responsive */
+    .games {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+      padding-bottom: 30px;
+    }
+
+    .game {
+      position: relative;
+      overflow: hidden;
+      border-radius: 20px;
+      padding: 20px;
+      background: linear-gradient(160deg, #152447, #0c142b);
+      border: 1px solid var(--line);
+      box-shadow: 0 20px 50px -20px #000c;
+      transition: transform .35s cubic-bezier(.2, .7, .2, 1), box-shadow .35s, border-color .35s;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 210px;
+      will-change: transform;
+    }
+
+    .game::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: 0;
+      background: radial-gradient(400px 200px at var(--mx, 50%) var(--my, 0%), #f2c14e33, transparent 70%);
+      transition: opacity .3s;
+      pointer-events: none;
+    }
+
+    .game:hover {
+      transform: translateY(-5px);
+      border-color: #f2c14e55;
+      box-shadow: 0 30px 60px -20px #000, 0 0 0 1px #f2c14e33 inset
+    }
+
+    .game:hover::after {
+      opacity: 1
+    }
+
+    .game .ico {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      background: linear-gradient(145deg, #f7d98b, #a8721c 55%, #f2c14e);
+      box-shadow: 0 8px 22px #0008, 0 0 0 1px #fff3 inset;
+      position: relative;
+      z-index: 1;
+    }
+
+    .game h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      position: relative;
+      z-index: 1
+    }
+
+    .game p {
+      margin: 0;
+      color: var(--mut);
+      font-size: 13px;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1
+    }
+
+    .game .tags {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: auto;
+      position: relative;
+      z-index: 1
+    }
+
+    .tag {
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #ffffff10;
+      color: var(--mut);
+      border: 1px solid var(--line)
+    }
+
+    .tag.gold {
+      background: #f2c14e1a;
+      color: var(--gold2);
+      border-color: #f2c14e44
+    }
+
+    .tag.teal {
+      background: #14b8a61a;
+      color: #7cf2e3;
+      border-color: #14b8a644
+    }
+
+    .game .arrow {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      font-size: 16px;
+      color: var(--mut);
+      transition: transform .25s, color .25s;
+      z-index: 1
+    }
+
+    .game:hover .arrow {
+      transform: translateX(-3px);
+      color: var(--gold)
+    }
+
+    /* learn card */
+    .learn {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 26px;
+      border-radius: 22px;
+      background: radial-gradient(600px 200px at 0% 0%, #14b8a622, transparent 70%), linear-gradient(160deg, #132142, #0b1224);
+      border: 1px solid var(--line);
+      box-shadow: 0 25px 60px -25px #000c;
+    }
+
+    .learn h3 {
+      margin: 0 0 6px;
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 900
+    }
+
+    .learn p {
+      margin: 0;
+      color: var(--mut);
+      line-height: 1.8;
+      max-width: 640px;
+      font-size: 14px
+    }
+
+    .learn .btn {
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      font-size: 14px;
+      background: linear-gradient(180deg, #2dd4bf, #0f766e);
+      color: #04201d;
+      box-shadow: 0 7px 0 #0a5049, 0 14px 26px #0007;
+      transition: transform .12s, box-shadow .12s;
+    }
+
+    .learn .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #0a5049, 0 8px 18px #0007
+    }
+
+    /* donate card */
+    .donate-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      margin-bottom: 40px;
+      padding: 26px;
+      border-radius: 22px;
+      background: radial-gradient(600px 200px at 0% 0%, #ff6b9d22, transparent 70%), linear-gradient(160deg, #2a1432, #1a0c24);
+      border: 1px solid #ff6b9d44;
+      box-shadow: 0 25px 60px -25px #000c;
+    }
+
+    .donate-card h3 {
+      margin: 0 0 6px;
+      font-size: clamp(18px, 3vw, 24px);
+      font-weight: 900;
+      color: #ff9ec0
+    }
+
+    .donate-card p {
+      margin: 0;
+      color: var(--mut);
+      line-height: 1.8;
+      max-width: 640px;
+      font-size: 14px
+    }
+
+    .donate-card .btn {
+      padding: 12px 22px;
+      border-radius: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      font-size: 14px;
+      color: #fff;
+      background: linear-gradient(180deg, #ff6b9d, #c2185b);
+      box-shadow: 0 7px 0 #8e0e42, 0 14px 26px #0007;
+      transition: transform .12s, box-shadow .12s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .donate-card .btn:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #8e0e42, 0 8px 18px #0007
+    }
+
+    /* footer */
+    .site-footer {
+      margin-top: 30px;
+      padding: 30px 0 36px;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, transparent, #070d1c 40%)
+    }
+
+    .foot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      padding: 0 12px
+    }
+
+    .foot .zlogo {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 16px #000a);
+      padding: 6px 12px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--line)
+    }
+
+    .foot .rights {
+      margin: 0;
+      color: var(--mut);
+      font-size: 13px;
+      line-height: 1.8
+    }
+
+    .foot .rights b {
+      color: var(--gold2);
+      font-weight: 800
+    }
+
+    .foot .brandline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      color: var(--ink)
+    }
+
+    .foot .brandline img {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: #0b1329
+    }
+
+    /* overlays */
+    .ov {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: #050a16f2;
+      backdrop-filter: blur(14px);
+      z-index: 200;
+      padding: 16px;
+      overflow: auto
+    }
+
+    .ov[hidden] {
+      display: none
+    }
+
+    .box {
+      width: min(420px, 100%);
+      text-align: center;
+      padding: 28px 22px;
+      border-radius: 24px;
+      background: linear-gradient(160deg, #1a2c52, #0d1730);
+      border: 1px solid var(--line);
+      box-shadow: 0 40px 100px #000;
+      animation: boxIn .5s cubic-bezier(.2, 1, .3, 1)
+    }
+
+    @keyframes boxIn {
+      0% {
+        transform: scale(.9) translateY(20px);
+        opacity: 0
+      }
+
+      100% {
+        transform: none;
+        opacity: 1
+      }
+    }
+
+    .box h2 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: 900
+    }
+
+    .box .sub {
+      color: var(--mut);
+      font-size: 13px;
+      margin: 0 0 18px;
+      line-height: 1.7
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+      background: #ffffff08;
+      border-radius: 12px;
+      padding: 4px
+    }
+
+    .tabs button {
+      padding: 9px;
+      border-radius: 9px;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--mut);
+      transition: .2s
+    }
+
+    .tabs button.active {
+      background: linear-gradient(180deg, #ffe08a, #f2b434);
+      color: #2a1b02;
+      box-shadow: 0 2px 8px #0006
+    }
+
+    .box input {
+      width: 100%;
+      padding: 13px 14px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font: inherit;
+      font-size: 15px;
+      text-align: center;
+      outline: none;
+      transition: .2s;
+      margin-bottom: 10px;
+    }
+
+    .box input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px #f2c14e33
+    }
+
+    .avatar-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 10px 0 16px
+    }
+
+    .avatar-grid button {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      font-size: 22px;
+      display: grid;
+      place-items: center;
+      background: var(--card);
+      border: 2px solid transparent;
+      transition: .2s;
+    }
+
+    .avatar-grid button:hover {
+      background: rgba(255, 255, 255, .12);
+      transform: scale(1.05)
+    }
+
+    .avatar-grid button[aria-pressed=true] {
+      border-color: var(--gold);
+      background: #f2c14e1a;
+      box-shadow: 0 0 16px -4px var(--gold)
+    }
+
+    .btn-gold {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 15px;
+      color: #2a1b02;
+      background: linear-gradient(180deg, #ffe08a, #f2b434);
+      box-shadow: 0 7px 0 #9a6a10;
+      transition: transform .1s, box-shadow .1s;
+      margin-top: 4px;
+    }
+
+    .btn-gold:active {
+      transform: translateY(4px);
+      box-shadow: 0 3px 0 #9a6a10
+    }
+
+    .err {
+      color: #ff8a9a;
+      font-size: 12px;
+      margin: 6px 0 0;
+      min-height: 16px
+    }
+
+    /* ad */
+    .ad-box {
+      width: min(420px, 100%);
+      text-align: center;
+      padding: 24px 20px;
+      border-radius: 24px;
+      background: linear-gradient(160deg, #1a2c52, #0d1730);
+      border: 1px solid var(--line);
+      box-shadow: 0 40px 100px #000;
+      animation: boxIn .4s ease
+    }
+
+    .ad-box .brand-img {
+      max-width: 160px;
+      margin: 0 auto 14px;
+      display: block;
+      filter: drop-shadow(0 8px 20px #000a)
+    }
+
+    .ad-box h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      font-weight: 900;
+      color: var(--gold2)
+    }
+
+    .ad-box p {
+      color: var(--mut);
+      font-size: 13px;
+      line-height: 1.8;
+      margin: 0 0 14px
+    }
+
+    .ad-timer {
+      font-size: 14px;
+      color: var(--gold);
+      font-weight: 700;
+      margin-bottom: 12px;
+      min-height: 22px
+    }
+
+    .ad-actions {
+      display: grid;
+      gap: 8px
+    }
+
+    .ad-actions a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      transition: .2s;
+      font-weight: 600;
+      font-size: 13px
+    }
+
+    .ad-actions a:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: #f2c14e55
+    }
+
+    .ad-actions a .social-ico {
+      width: 20px;
+      height: 20px;
+      flex: none;
+      display: grid;
+      place-items: center
+    }
+
+    .ad-actions a .social-ico svg {
+      width: 100%;
+      height: 100%
+    }
+
+    .ad-skip {
+      margin-top: 12px;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 13px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      color: var(--mut);
+      transition: .2s
+    }
+
+    .ad-skip:disabled {
+      opacity: .35;
+      cursor: not-allowed
+    }
+
+    .ad-skip:not(:disabled):hover {
+      background: rgba(255, 255, 255, .12);
+      color: var(--ink)
+    }
+
+    /* ===================== MOBILE RESPONSIVE ===================== */
+    @media(max-width:860px) {
+      .nav-links {
+        display: none
+      }
+
+      .hamburger {
+        display: flex
+      }
+
+      .user-badge b {
+        display: none
+      }
+
+      .user-badge {
+        padding: 5px
+      }
+
+      .logout-btn {
+        display: none !important
+      }
+    }
+
+    @media(max-width:640px) {
+      .wrap {
+        padding: 0 12px
+      }
+
+      .nav {
+        padding: 10px 0;
+        gap: 8px
+      }
+
+      .brand {
+        font-size: 16px;
+        gap: 8px
+      }
+
+      .brand img {
+        width: 34px;
+        height: 34px
+      }
+
+      .hero {
+        padding: 36px 0 22px
+      }
+
+      .hero p {
+        padding: 0 6px
+      }
+
+      .sec {
+        padding: 20px 0 8px
+      }
+
+      .games {
+        grid-template-columns: 1fr;
+        gap: 14px
+      }
+
+      .game {
+        padding: 18px;
+        min-height: auto
+      }
+
+      .game .ico {
+        width: 52px;
+        height: 52px;
+        font-size: 28px
+      }
+
+      .game h3 {
+        font-size: 17px
+      }
+
+      .learn,
+      .donate-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+        padding: 22px 18px;
+        gap: 16px
+      }
+
+      .learn .btn,
+      .donate-card .btn {
+        justify-self: center
+      }
+
+      .foot .zlogo {
+        height: 44px
+      }
+
+      .box {
+        padding: 24px 18px
+      }
+
+      .avatar-grid {
+        grid-template-columns: repeat(4, 1fr)
+      }
+    }
+
+    @media(max-width:400px) {
+      .brand span {
+        font-size: 15px
+      }
+
+      .hero h1 {
+        font-size: 32px
+      }
+
+      .games {
+        grid-template-columns: 1fr
+      }
+
+      .game {
+        padding: 16px
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce) {
+      * {
+        transition: none !important;
+        animation: none !important
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<header class="site-header">
-  <div class="wrap nav">
-    <a href="index.html" class="brand">
-      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="لوگوی کلوپ بازی">
-      <span>کلوپ بازی</span>
+  <!-- LOGIN OVERLAY -->
+  <div class="ov" id="loginOv" hidden>
+    <div class="box">
+      <h2>🎲 کلوپ بازی</h2>
+      <p class="sub">به کلوپ بازی خوش آمدید — برای شروع وارد شوید</p>
+      <div class="tabs" id="authTabs">
+        <button data-tab="login" class="active">ورود</button>
+        <button data-tab="register">ثبت‌نام</button>
+      </div>
+      <input type="text" id="usernameInput" placeholder="نام کاربری..." maxlength="16" autocomplete="off">
+      <div id="avatarSection" style="display:none">
+        <div style="font-size:12px;color:var(--mut);margin-bottom:6px">آواتار خود را انتخاب کنید</div>
+        <div class="avatar-grid" id="avatarGrid"></div>
+      </div>
+      <button id="authBtn" class="btn-gold">ورود به کلوپ</button>
+      <p class="err" id="authErr"></p>
+    </div>
+  </div>
+
+  <!-- AD OVERLAY -->
+  <div class="ov" id="adOv" hidden>
+    <div class="ad-box">
+      <img class="brand-img" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
+      <h3>Z.ROOYAL</h3>
+      <p>برند رسمی کلوپ بازی — ما را در شبکه‌های اجتماعی دنبال کنید</p>
+      <div class="ad-timer" id="adTimer">۱۰</div>
+      <div class="ad-actions" id="adLinks"></div>
+      <button class="ad-skip" id="adSkip" disabled>رد کردن تبلیغ</button>
+    </div>
+  </div>
+
+  <!-- MOBILE MENU -->
+  <div class="mm-overlay" id="mmOverlay"></div>
+  <aside class="mobile-menu" id="mobileMenu">
+    <div class="mm-header">
+      <div class="brand">
+        <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+        <span>کلوپ بازی</span>
+      </div>
+      <button class="mm-close" id="mmClose">✕</button>
+    </div>
+    <a href="#games" class="active">🎮 بازی‌ها</a>
+    <a href="news.html">📰 اخبار</a>
+    <a href="learn.html">📚 آموزش‌ها</a>
+    <a href="lan.html">📡 بازی لن</a>
+    <div class="mm-divider"></div>
+    <a href="#" id="mmLogout" style="color:#ff8a9a">🚪 خروج از حساب</a>
+    <a href="https://reymit.ir/z.rooyal" target="_blank" rel="noopener" class="mm-donate">
+      <span>❤️</span> حمایت از ما
     </a>
-    <nav class="nav-links">
-      <a href="#games">بازی‌ها</a>
-      <a href="learn.html">آموزش‌ها</a>
-      <a href="#about">درباره</a>
-    </nav>
-  </div>
-</header>
+  </aside>
 
-<main class="wrap">
-
-  <section class="hero">
-    <h1>کلوپ بازی</h1>
-    <p>خانه‌ای برای بازی‌های فکری و کلاسیک. مار و پله، منچ، حکم و شطرنج — تنها یا با دوستان، روی یک صفحه.</p>
-    <a class="cta" href="#games">شروع بازی 🎲</a>
-  </section>
-
-  <section class="sec" id="games">
-    <h2>بازی‌ها</h2>
-    <p class="lead">یک بازی را انتخاب کن و وارد شو.</p>
-    <div class="games">
-
-      <a class="game" href="snake-ladder.html">
-        <span class="arrow">←</span>
-        <div class="ico">🐍</div>
-        <h3>مار و پله</h3>
-        <p>بازی کلاسیک شانس و هیجان. تاس بینداز، از نردبان بالا برو و از مارها فرار کن.</p>
-        <div class="tags">
-          <span class="tag gold">۱ تا ۴ نفره</span>
-          <span class="tag">با رایانه</span>
-        </div>
+  <!-- MAIN SITE -->
+  <header class="site-header">
+    <div class="wrap nav">
+      <a href="index.html" class="brand">
+        <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+        <span>کلوپ بازی</span>
       </a>
-
-      <a class="game" href="manch.html">
-        <span class="arrow">←</span>
-        <div class="ico">🎯</div>
-        <h3>منچ</h3>
-        <p>مهره‌هایت را از خانه شروع به خانه آخر برسان. حداکثر ۴ نفره، با یا بدون رایانه.</p>
-        <div class="tags">
-          <span class="tag gold">۲ تا ۴ نفره</span>
-          <span class="tag teal">با AI</span>
+      <nav class="nav-links">
+        <a href="#games" class="active">بازی‌ها</a>
+        <a href="news.html">اخبار</a>
+        <a href="learn.html">آموزش‌ها</a>
+        <a href="lan.html" class="lan-btn">📡 بازی لن</a>
+        <a href="https://reymit.ir/z.rooyal" target="_blank" rel="noopener" class="donate-btn">❤️ حمایت</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div class="user-badge" id="userBadge">
+          <span class="av" id="userAvatar">🎲</span>
+          <b id="userName">—</b>
+          <button class="logout-btn" id="logoutBtn">خروج</button>
         </div>
-      </a>
-
-      <a class="game" href="hokm.html">
-        <span class="arrow">←</span>
-        <div class="ico">🃏</div>
-        <h3>حکم</h3>
-        <p>بازی محبوب کارتی ایرانی. حکم‌های سرس، نرس و تک‌نرس — ۲ تا ۴ نفره با سه سطح سختی.</p>
-        <div class="tags">
-          <span class="tag gold">۲ تا ۴ نفره</span>
-          <span class="tag teal">با AI</span>
-        </div>
-      </a>
-
-      <a class="game" href="chess.html">
-        <span class="arrow">←</span>
-        <div class="ico">♞</div>
-        <h3>شطرنج</h3>
-        <p>بازی پادشاهان. صفحه واقعی، همهٔ مهره‌ها و هوش مصنوعی در سه سطح آسان، متوسط و سخت.</p>
-        <div class="tags">
-          <span class="tag gold">۲ نفره</span>
-          <span class="tag teal">با AI</span>
-        </div>
-      </a>
-
+        <button class="hamburger" id="hamburger" aria-label="منو">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
-  </section>
+  </header>
 
-  <section class="learn" id="about">
-    <div>
-      <h3>📚 آموزش بازی‌ها</h3>
-      <p>قواعد هر بازی را قدم‌به‌قدم یاد بگیر: از حرکت مهره‌های شطرنج تا قوانین حکم و منچ. مناسب برای شروع سریع.</p>
+  <main class="wrap">
+    <section class="hero">
+      <h1>کلوپ بازی</h1>
+      <p>خانه‌ای برای بازی‌های فکری و کلاسیک. مار و پله، منچ، حکم، شطرنج، اونو، ۲۰۴۸ و فوتبال — تنها یا با دوستان.</p>
+      <a class="cta" href="#games">شروع بازی 🎲</a>
+    </section>
+
+    <section class="sec" id="games">
+      <h2>بازی‌ها</h2>
+      <p class="lead">یک بازی را انتخاب کن و وارد شو.</p>
+      <div class="games">
+
+        <a class="game" href="snake-ladder.html">
+          <span class="arrow">←</span>
+          <div class="ico">🐍</div>
+          <h3>مار و پله</h3>
+          <p>بازی کلاسیک شانس و هیجان. تاس بینداز، از نردبان بالا برو و از مارها فرار کن.</p>
+          <div class="tags"><span class="tag gold">۱ تا ۴ نفره</span><span class="tag">با رایانه</span></div>
+        </a>
+
+        <a class="game" href="manch.html">
+          <span class="arrow">←</span>
+          <div class="ico">🎯</div>
+          <h3>منچ</h3>
+          <p>مهره‌هایت را از خانه شروع به خانه آخر برسان. حداکثر ۴ نفره.</p>
+          <div class="tags"><span class="tag gold">۲ تا ۴ نفره</span><span class="tag teal">با AI</span></div>
+        </a>
+
+        <a class="game" href="hokm.html">
+          <span class="arrow">←</span>
+          <div class="ico">🃏</div>
+          <h3>حکم</h3>
+          <p>بازی محبوب کارتی ایرانی. حکم‌های سرس، نرس و تک‌نرس.</p>
+          <div class="tags"><span class="tag gold">۲ تا ۴ نفره</span><span class="tag teal">با AI</span></div>
+        </a>
+
+        <a class="game" href="chess.html">
+          <span class="arrow">←</span>
+          <div class="ico">♞</div>
+          <h3>شطرنج</h3>
+          <p>بازی پادشاهان. صفحه واقعی و هوش مصنوعی در سه سطح.</p>
+          <div class="tags"><span class="tag gold">۲ نفره</span><span class="tag teal">با AI</span></div>
+        </a>
+
+        <a class="game" href="uno.html">
+          <span class="arrow">←</span>
+          <div class="ico">🎴</div>
+          <h3>اونو</h3>
+          <p>بازی کارتی سریع و هیجانی. با کارت‌های ویژه حریف را غافلگیر کن.</p>
+          <div class="tags"><span class="tag gold">۲ تا ۴ نفره</span><span class="tag teal">با AI</span></div>
+        </a>
+
+        <a class="game" href="game2048.html">
+          <span class="arrow">←</span>
+          <div class="ico">🔢</div>
+          <h3>۲۰۴۸</h3>
+          <p>اعداد را با هم ترکیب کن و به کاشی ۲۰۴۸ برس. فکری و اعتیادآور.</p>
+          <div class="tags"><span class="tag gold">۱ نفره</span><span class="tag">فکری</span></div>
+        </a>
+
+        <a class="game" href="soccer.html">
+          <span class="arrow">←</span>
+          <div class="ico">⚽</div>
+          <h3>فوتبال</h3>
+          <p>با توپ بازی کن، دریبل بزن و گل بزن. بازی سریع و هیجانی.</p>
+          <div class="tags"><span class="tag gold">۲ نفره</span><span class="tag teal">با AI</span></div>
+        </a>
+
+      </div>
+    </section>
+
+    <section class="learn" id="about">
+      <div>
+        <h3>📚 آموزش بازی‌ها</h3>
+        <p>قواعد هر بازی را قدم‌به‌قدم یاد بگیر: از حرکت مهره‌های شطرنج تا قوانین حکم و منچ.</p>
+      </div>
+      <a class="btn" href="learn.html">رفتن به آموزش‌ها</a>
+    </section>
+
+    <section class="donate-card">
+      <div>
+        <h3>❤️ حمایت از ما</h3>
+        <p>اگر از کلوپ بازی لذت می‌بری، با یه دونیت کوچیک از ما حمایت کن تا بازی‌های بیشتر و بهتری بسازیم. هر مبلغی، هر
+          چقدر هم کم، باعث دلگرمی ماست.</p>
+      </div>
+      <a class="btn" href="https://reymit.ir/z.rooyal" target="_blank" rel="noopener">💝 دونیت کنید</a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <div class="brandline">
+        <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی"><span>کلوپ بازی</span>
+      </div>
+      <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="Z.ROOYAL">
+      <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
     </div>
-    <a class="btn" href="learn.html">رفتن به آموزش‌ها</a>
-  </section>
+  </footer>
 
-</main>
+  <script>
+    const $ = s => document.querySelector(s);
+    const fa = n => Number(n).toLocaleString('fa-IR');
+    const AUTH_KEY = 'klub_user';
+    const AVATARS = ['🎲', '🎯', '♞', '🃏', '🐍', '🎴', '👑', '🔥', '⭐', '🎮', '🏆', '🎪'];
 
-<footer class="site-footer">
-  <div class="wrap foot">
-    <div class="brandline">
-      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
-      <span>کلوپ بازی</span>
-    </div>
-    <img class="zlogo" src="https://cdn.imgurl.ir/uploads/o909145_logo2.png" alt="لوگوی Z.ROOYAL">
-    <p class="rights">تمامی حقوق این سایت برای برند <b>Z.ROOYAL</b> می‌باشد.</p>
-  </div>
-</footer>
+    let selectedAvatar = '🎲';
+    let authMode = 'login';
 
+    /* ============ AUTH ============ */
+    function getUser() {
+      try { const d = localStorage.getItem(AUTH_KEY); return d ? JSON.parse(d) : null; } catch (e) { return null; }
+    }
+    function saveUser(name, avatar) {
+      const user = { name: name.trim(), avatar: avatar || '🎲', createdAt: Date.now() };
+      localStorage.setItem(AUTH_KEY, JSON.stringify(user));
+      return user;
+    }
+    function logout() {
+      localStorage.removeItem(AUTH_KEY);
+      location.reload();
+    }
+    function showUserBadge(user) {
+      if (!user) return;
+      $('#userAvatar').textContent = user.avatar;
+      $('#userName').textContent = user.name;
+      $('#userBadge').style.display = 'flex';
+    }
+
+    /* ============ LOGIN UI ============ */
+    function buildAvatarGrid() {
+      const grid = $('#avatarGrid');
+      grid.innerHTML = AVATARS.map(a => `<button data-av="${a}" aria-pressed="${a === selectedAvatar}">${a}</button>`).join('');
+      grid.onclick = e => {
+        const b = e.target.closest('button'); if (!b) return;
+        selectedAvatar = b.dataset.av;
+        [...grid.children].forEach(x => x.setAttribute('aria-pressed', x === b));
+      };
+    }
+    function setAuthMode(mode) {
+      authMode = mode;
+      const tabs = $('#authTabs');
+      [...tabs.children].forEach(b => b.classList.toggle('active', b.dataset.tab === mode));
+      $('#avatarSection').style.display = mode === 'register' ? 'block' : 'none';
+      $('#authBtn').textContent = mode === 'register' ? 'ثبت‌نام' : 'ورود به کلوپ';
+      $('#authErr').textContent = '';
+    }
+    function openLogin() {
+      const user = getUser();
+      if (user) return;
+      $('#loginOv').hidden = false;
+      setAuthMode('login');
+      $('#usernameInput').value = '';
+    }
+
+    $('#authTabs').onclick = e => {
+      const b = e.target.closest('button'); if (!b) return;
+      setAuthMode(b.dataset.tab);
+    };
+
+    $('#authBtn').onclick = () => {
+      const name = $('#usernameInput').value.trim();
+      const err = $('#authErr');
+      if (!name) { err.textContent = 'لطفاً نام کاربری را وارد کنید'; $('#usernameInput').focus(); return; }
+      if (name.length < 2) { err.textContent = 'نام کاربری باید حداقل ۲ حرف باشد'; return; }
+
+      let user;
+      if (authMode === 'register') {
+        user = saveUser(name, selectedAvatar);
+      } else {
+        const existing = getUser();
+        user = (existing && existing.name === name) ? existing : saveUser(name, selectedAvatar);
+      }
+      showUserBadge(user);
+      $('#loginOv').hidden = true;
+      setTimeout(() => showAd(), 10000);
+    };
+
+    $('#usernameInput').addEventListener('keydown', e => { if (e.key === 'Enter') $('#authBtn').click(); });
+    $('#logoutBtn').onclick = () => { if (confirm('از حساب خود خارج می‌شوید؟')) logout(); };
+    $('#mmLogout').onclick = e => { e.preventDefault(); if (confirm('از حساب خود خارج می‌شوید؟')) logout(); };
+
+    /* ============ AD ============ */
+    const SOCIAL_LINKS = [
+      { name: 'تلگرام', url: 'https://t.me/Z-ROOYAL', icon: 'telegram' },
+      { name: 'یوتیوب', url: 'https://www.youtube.com/@Z.ROOYAL', icon: 'youtube' },
+      { name: 'اینستاگرام', url: 'https://www.instagram.com/z.rooyal', icon: 'instagram' },
+      { name: 'کیک', url: 'https://kick.com/z-rooyal', icon: 'kick' },
+      { name: 'گیت‌هاب', url: 'https://github.com/shkiller89', icon: 'github' },
+    ];
+
+    function socialIcon(name) {
+      const svgs = {
+        telegram: '<svg viewBox="0 0 24 24" fill="#29b6f6"><path d="M9.04 15.51l-.38 5.35c.54 0 .78-.23 1.06-.5l2.55-2.44 5.28 3.86c.97.53 1.66.25 1.92-.9L22.7 4.96c.31-1.43-.52-1.99-1.46-1.64L2.44 10.63c-1.38.54-1.36 1.3-.24 1.65l4.8 1.5L18.1 6.1c.52-.34.99-.15.6.19l-8.66 7.82z"/></svg>',
+        youtube: '<svg viewBox="0 0 24 24" fill="#ff1744"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.5 15.6V8.4l6.3 3.6-6.3 3.6z"/></svg>',
+        instagram: '<svg viewBox="0 0 24 24" fill="#e4405f"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zM12 0C8.7 0 8.3 0 7.1.1 5.8.1 4.9.3 4.1.7c-.8.3-1.5.7-2.2 1.4C1.2 2.8.8 3.5.5 4.3.1 5.1 0 6 0 7.3 0 8.5 0 8.9 0 12.2s0 3.7.1 4.9c.1 1.3.3 2.2.7 3 .3.8.7 1.5 1.4 2.2.7.7 1.4 1.1 2.2 1.4.8.3 1.7.5 3 .5 1.2.1 1.6.1 4.9.1s3.7 0 4.9-.1c1.3-.1 2.2-.3 3-.7.8-.3 1.5-.7 2.2-1.4.7-.7 1.1-1.4 1.4-2.2.3-.8.5-1.7.5-3 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9c-.1-1.3-.3-2.2-.7-3-.3-.8-.7-1.5-1.4-2.2C21.2 1.2 20.5.8 19.7.5 18.9.1 18 0 16.7 0 15.5 0 15.1 0 11.8 0h.2zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm7.8-11.2a1.4 1.4 0 1 1-2.8 0 1.4 1.4 0 0 1 2.8 0z"/></svg>',
+        kick: '<svg viewBox="0 0 24 24" fill="#53fc18"><path d="M2 2h6v7l7-7h7l-9 9 9 9h-7l-7-7v7H2z"/></svg>',
+        github: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.8-1.3-1.8-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.9 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.9.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.7-2.8 5.7-5.5 6 .4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg>',
+      };
+      return svgs[name] || '';
+    }
+
+    function buildAdLinks() {
+      $('#adLinks').innerHTML = SOCIAL_LINKS.map(l => `
+    <a href="${l.url}" target="_blank" rel="noopener">
+      <span class="social-ico">${socialIcon(l.icon)}</span>
+      <span>${l.name}</span>
+    </a>
+  `).join('');
+    }
+
+    let adInterval = null;
+    function showAd() {
+      return new Promise(resolve => {
+        const ov = $('#adOv'), timer = $('#adTimer'), skip = $('#adSkip');
+        let remaining = 5;
+        buildAdLinks();
+        timer.textContent = fa(remaining);
+        skip.disabled = true;
+        skip.textContent = 'رد کردن تبلیغ';
+        ov.hidden = false;
+
+        adInterval = setInterval(() => {
+          remaining--;
+          timer.textContent = fa(remaining);
+          if (remaining <= 0) {
+            clearInterval(adInterval); adInterval = null;
+            skip.disabled = false;
+            skip.textContent = 'رد کردن تبلیغ ✓';
+          }
+        }, 1000);
+
+        skip.onclick = () => {
+          if (skip.disabled) return;
+          clearInterval(adInterval); adInterval = null;
+          ov.hidden = true;
+          resolve();
+        };
+      });
+    }
+
+    /* ============ MOBILE MENU ============ */
+    const hamburger = $('#hamburger');
+    const mobileMenu = $('#mobileMenu');
+    const mmOverlay = $('#mmOverlay');
+
+    function openMenu() {
+      hamburger.classList.add('open');
+      mobileMenu.classList.add('open');
+      mmOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+      hamburger.classList.remove('open');
+      mobileMenu.classList.remove('open');
+      mmOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    hamburger.onclick = () => { mobileMenu.classList.contains('open') ? closeMenu() : openMenu(); };
+    mmOverlay.onclick = closeMenu;
+    $('#mmClose').onclick = closeMenu;
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => { if (!a.classList.contains('mm-donate')) setTimeout(closeMenu, 100); });
+    });
+
+    /* ============ 3D mouse effect ============ */
+    document.querySelectorAll('.game').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        if (window.innerWidth < 860) return;
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    /* ============ BOOT ============ */
+    function boot() {
+      buildAvatarGrid();
+      buildAdLinks();
+      const user = getUser();
+      if (user) {
+        showUserBadge(user);
+        setTimeout(() => showAd(), 1000);
+      } else {
+        openLogin();
+      }
+    }
+    boot();
+  </script>
 </body>
+
 </html>
