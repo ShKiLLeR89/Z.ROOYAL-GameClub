@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>بیلیارد ۸ | کلوپ بازی</title>
+<link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<style>
+:root{
+  --bg:#070d1c;--ink:#eef2ff;--mut:#9fb0d6;
+  --gold:#f2c14e;--gold2:#ffe08a;--teal:#14b8a6;
+  --card:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);
+  color-scheme:dark;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{overflow:hidden; height:100%; margin:0}
+body{
+  font-family:Vazirmatn,Tahoma,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 700px at 80% -10%,#21407a55,transparent 60%),
+    radial-gradient(900px 600px at 0% 110%,#0f766e44,transparent 60%),var(--bg);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 14px}
+
+/* header */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,#070d1cf2,#070d1ccc 70%,transparent);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;flex-shrink:0}
+.brand img{width:32px;height:32px;border-radius:9px;object-fit:cover;box-shadow:0 6px 20px #000a;background:#0b1329}
+.brand span{background:linear-gradient(180deg,#fff,#f2c14e);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.nav-links a{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:600;color:var(--mut);transition:.2s}
+.nav-links a:hover{background:var(--card);color:var(--ink)}
+.nav-links a.active{background:#f2c14e1a;color:var(--gold2)}
+
+/* canvas */
+#game{position:fixed;inset:0;display:block;touch-action:none}
+
+/* HUD */
+.hud{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:40;
+  display:flex;gap:12px;padding:8px 16px;border-radius:14px;
+  background:#070d1ce6;border:1px solid var(--line);backdrop-filter:blur(8px);
+  font-size:13px;font-weight:700;white-space:nowrap;max-width:96vw;overflow-x:auto}
+.hud .item{display:flex;align-items:center;gap:6px}
+.hud .dot{width:10px;height:10px;border-radius:50%}
+
+.power-hud{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:10px 18px;border-radius:14px;background:#070d1ce6;border:1px solid var(--line);backdrop-filter:blur(8px)}
+.power-label{font-size:11px;color:var(--mut);font-weight:700}
+.power-bar{width:220px;height:10px;border-radius:6px;background:#ffffff18;overflow:hidden;position:relative}
+.power-fill{height:100%;width:0%;background:linear-gradient(90deg,#14b8a6,#f2c14e,#ff5d6c);transition:width .05s}
+.power-text{font-size:12px;color:var(--gold2);font-weight:800;min-width:40px;text-align:center}
+
+.hint{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:40;
+  font-size:12px;color:var(--mut);background:#070d1cd9;padding:6px 14px;border-radius:10px;
+  border:1px solid var(--line);text-align:center;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+
+/* overlay */
+.ov{position:fixed;inset:0;display:grid;place-items:center;background:#050a16f2;backdrop-filter:blur(12px);z-index:100;padding:16px;overflow:auto}
+.ov[hidden]{display:none}
+.box{width:min(440px,100%);text-align:center;padding:24px 20px;border-radius:22px;
+  background:linear-gradient(160deg,#1a2c52,#0d1730);border:1px solid var(--line);
+  box-shadow:0 30px 80px #000;animation:boxIn .35s ease}
+@keyframes boxIn{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+.box h2{margin:0 0 6px;font-size:22px;font-weight:900}
+.box p{margin:0 0 16px;color:var(--mut);font-size:13px;line-height:1.9}
+.opt-group{margin:12px 0}
+.opt-label{font-size:12px;color:var(--mut);margin-bottom:6px;font-weight:600}
+.mode,.diff{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.diff{grid-template-columns:repeat(3,1fr)}
+.mode button,.diff button{padding:10px 6px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:13px;transition:.2s}
+.mode button:hover,.diff button:hover{background:rgba(255,255,255,.12)}
+.mode button[aria-pressed=true],.diff button[aria-pressed=true]{background:linear-gradient(180deg,#ffe08a,#f2b434);color:#2a1b02;border-color:transparent}
+.btn-gold{width:100%;padding:13px;border-radius:13px;font-weight:800;font-size:15px;color:#2a1b02;
+  background:linear-gradient(180deg,#ffe08a,#f2b434);box-shadow:0 7px 0 #9a6a10;transition:transform .1s;margin-top:8px}
+.btn-gold:active{transform:translateY(4px);box-shadow:0 3px 0 #9a6a10}
+.btn-gold:disabled{filter:grayscale(.8) brightness(.7);cursor:not-allowed}
+.btn-ghost{padding:9px 14px;border-radius:11px;font-weight:600;background:var(--card);border:1px solid var(--line);transition:.2s;width:100%;margin-top:8px;font-size:13px}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.room-code{font-size:28px;font-weight:900;letter-spacing:8px;color:var(--gold2);font-family:monospace;margin:8px 0}
+.status{font-size:12px;color:var(--mut);margin:8px 0;min-height:16px}
+.status.ok{color:#7cf2e3}
+
+@media(max-width:600px){
+  .nav-links{display:none}
+  .hud{font-size:11px;gap:8px;padding:6px 10px;top:50px}
+  .power-bar{width:160px}
+  .power-hud{bottom:10px;padding:8px 12px}
+  .hint{bottom:80px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+      <span>کلوپ بازی</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#games">بازی‌ها</a>
+      <a href="billiards.html" class="active">بیلیارد</a>
+      <a href="learn.html">آموزش‌ها</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hud" id="hud">
+  <div class="item"><span class="dot" style="background:#3fc1ff"></span><b id="hudP1">شما</b></div>
+  <div class="item" id="hudGroup1">—</div>
+  <div class="item" style="color:var(--mut)">|</div>
+  <div class="item"><span class="dot" style="background:#ff5d6c"></span><b id="hudP2">حریف</b></div>
+  <div class="item" id="hudGroup2">—</div>
+  <div class="item" style="color:var(--gold2);font-weight:900" id="hudTurn">نوبت شما</div>
+</div>
+
+<div class="power-hud" id="powerHud">
+  <div class="power-label">قدرت ضربه — برای شوت بکش</div>
+  <div class="power-bar"><div class="power-fill" id="powerFill"></div></div>
+  <div class="power-text" id="powerText">0%</div>
+</div>
+
+<div class="hint" id="hint">برای حرکت دوربین بکش · برای شوت، از پایین بکش و رها کن</div>
+
+<!-- start -->
+<div class="ov" id="start">
+  <div class="box">
+    <h2>🎱 بیلیارد ۸</h2>
+    <p>حالت بازی و سطح حریف را انتخاب کن</p>
+    <div class="opt-group">
+      <div class="opt-label">حالت بازی</div>
+      <div class="mode" id="mode">
+        <button data-mode="ai" aria-pressed="true">🤖 با رایانه</button>
+        <button data-mode="lan" aria-pressed="false">📡 لن</button>
+      </div>
+    </div>
+    <div class="opt-group" id="diffWrap">
+      <div class="opt-label">سطح هوش مصنوعی</div>
+      <div class="diff" id="diff">
+        <button data-d="easy" aria-pressed="true">آسان</button>
+        <button data-d="med" aria-pressed="false">متوسط</button>
+        <button data-d="hard" aria-pressed="false">سخت</button>
+      </div>
+    </div>
+    <button id="begin" class="btn-gold">شروع بازی</button>
+  </div>
+</div>
+
+<!-- LAN -->
+<div class="ov" id="lanOv" hidden>
+  <div class="box">
+    <h2>📡 بیلیارد لن</h2>
+    <p id="lanStatus">در حال آماده‌سازی…</p>
+    <div class="room-code" id="lanCode">------</div>
+    <button class="btn-gold" id="lanReadyBtn" disabled>شروع بازی</button>
+    <button class="btn-ghost" id="lanCloseBtn" style="margin-top:8px">انصراف</button>
+  </div>
+</div>
+
+<!-- end -->
+<div class="ov" id="end" hidden>
+  <div class="box">
+    <h2 id="endTitle">🏆 برنده!</h2>
+    <p id="endMsg"></p>
+    <button id="endAgain" class="btn-gold">بازی دوباره</button>
+  </div>
+</div>
+
+<script>
+/* ======================================================
+   LAN CLIENT
+====================================================== */
+const LanClient = (() => {
+  let peer = null, conn = null;
+  let roomCode = null, role = null;
+  let isConnected = false;
+  let onMsg = null, onConn = null, onDisc = null;
+  function getParams(){
+    const p = new URLSearchParams(location.search);
+    return { lan: p.get('lan'), role: p.get('role') };
+  }
+  function isLanMode(){ const p = getParams(); return !!(p.lan && p.role); }
+  function init(){
+    const p = getParams();
+    if(!p.lan || !p.role) return false;
+    roomCode = p.lan; role = p.role;
+    if(role === 'host'){
+      peer = new Peer('klub-bill-' + roomCode, { debug: 1 });
+      peer.on('open', () => { if(onConn) onConn('waiting'); });
+      peer.on('connection', (c) => {
+        conn = c;
+        conn.on('open', () => { isConnected = true; if(onConn) onConn('connected'); });
+        conn.on('data', (d) => { if(onMsg) onMsg(d); });
+        conn.on('close', () => { isConnected = false; if(onDisc) onDisc(); });
+      });
+      peer.on('error', (e) => console.error('[LAN host]', e));
+    } else {
+      peer = new Peer({ debug: 1 });
+      peer.on('open', () => {
+        conn = peer.connect('klub-bill-' + roomCode, { reliable: true });
+        conn.on('open', () => { isConnected = true; if(onConn) onConn('connected'); });
+        conn.on('data', (d) => { if(onMsg) onMsg(d); });
+        conn.on('close', () => { isConnected = false; if(onDisc) onDisc(); });
+        conn.on('error', (e) => console.error('[LAN guest]', e));
+      });
+      peer.on('error', (e) => console.error('[LAN guest]', e));
+    }
+    return true;
+  }
+  function send(data){ if(conn && conn.open){ conn.send(data); return true; } return false; }
+  return {
+    isLanMode, init, send,
+    onMessage: (cb) => onMsg = cb,
+    onConnected: (cb) => onConn = cb,
+    onDisconnected: (cb) => onDisc = cb,
+    getInfo: () => ({ roomCode, role, isConnected })
+  };
+})();
+
+/* ======================================================
+   THREE.JS SETUP
+====================================================== */
+const $ = s => document.querySelector(s);
+const fa = n => Number(n).toLocaleString('fa-IR');
+
+const canvas = $('#game');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a1220);
+
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+
+/* ============ dimensions ============ */
+const TABLE_W = 8;      // طول میز
+const TABLE_H = 4;      // عرض میز
+const RAIL = 0.35;      // حاشیه
+const BALL_R = 0.14;
+const POCKET_R = 0.22;
+const PLAY_W = TABLE_W - 2*RAIL;
+const PLAY_H = TABLE_H - 2*RAIL;
+
+/* ============ lights ============ */
+scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+const dirLight = new THREE.DirectionalLight(0xffffff, 1.0);
+dirLight.position.set(4, 10, 5);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.set(1024, 1024);
+dirLight.shadow.camera.left = -8;
+dirLight.shadow.camera.right = 8;
+dirLight.shadow.camera.top = 8;
+dirLight.shadow.camera.bottom = -8;
+scene.add(dirLight);
+const topLight = new THREE.PointLight(0xf2c14e, 0.6, 20);
+topLight.position.set(0, 8, 0);
+scene.add(topLight);
+
+/* ============ table ============ */
+// Felt
+const feltGeo = new THREE.BoxGeometry(TABLE_W, 0.1, TABLE_H);
+const feltMat = new THREE.MeshStandardMaterial({ color: 0x1b7a3e, roughness: 0.95 });
+const felt = new THREE.Mesh(feltGeo, feltMat);
+felt.receiveShadow = true;
+scene.add(felt);
+
+// Rails (wood)
+const railMat = new THREE.MeshStandardMaterial({ color: 0x5a2e0a, roughness: 0.7 });
+const railH = 0.35;
+const railT = 0.12;
+// long sides
+[-1,1].forEach(side => {
+  const r = new THREE.Mesh(new THREE.BoxGeometry(TABLE_W, railH, RAIL), railMat);
+  r.position.set(0, railH/2, side * (TABLE_H/2 - RAIL/2));
+  r.castShadow = true; r.receiveShadow = true;
+  scene.add(r);
+});
+// short sides
+[-1,1].forEach(side => {
+  const r = new THREE.Mesh(new THREE.BoxGeometry(RAIL, railH, TABLE_H - 2*RAIL), railMat);
+  r.position.set(side * (TABLE_W/2 - RAIL/2), railH/2, 0);
+  r.castShadow = true; r.receiveShadow = true;
+  scene.add(r);
+});
+
+/* ============ pockets ============ */
+const pocketPositions = [
+  [-TABLE_W/2, -TABLE_H/2],
+  [ 0, -TABLE_H/2],
+  [ TABLE_W/2, -TABLE_H/2],
+  [-TABLE_W/2,  TABLE_H/2],
+  [ 0,  TABLE_H/2],
+  [ TABLE_W/2,  TABLE_H/2]
+];
+pocketPositions.forEach(([x,z]) => {
+  const geo = new THREE.CircleGeometry(POCKET_R, 24);
+  const mat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  const m = new THREE.Mesh(geo, mat);
+  m.rotation.x = -Math.PI/2;
+  m.position.set(x, 0.06, z);
+  scene.add(m);
+});
+
+/* ============ balls ============ */
+const BALL_COLORS = {
+  0: 0xffffff, // cue
+  1: 0xf2c14e, 2: 0x1e40af, 3: 0xdc2626, 4: 0x7c3aed,
+  5: 0xf59e0b, 6: 0x065f46, 7: 0x991b1b, 8: 0x111111,
+  9: 0xf2c14e, 10: 0x1e40af, 11: 0xdc2626, 12: 0x7c3aed,
+  13: 0xf59e0b, 14: 0x065f46, 15: 0x991b1b
+};
+const STRIPES = new Set([9,10,11,12,13,14,15]);
+
+const balls = []; // {mesh, id, vx, vz, alive, group}
+
+function createBall(id, x, z){
+  const group = new THREE.Group();
+  const geo = new THREE.SphereGeometry(BALL_R, 24, 16);
+  const color = BALL_COLORS[id];
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.35, metalness: 0.05 });
+  const sphere = new THREE.Mesh(geo, mat);
+  sphere.castShadow = true;
+  sphere.receiveShadow = true;
+  group.add(sphere);
+
+  // stripe for 9-15
+  if(STRIPES.has(id)){
+    const bandGeo = new THREE.CylinderGeometry(BALL_R*1.01, BALL_R*1.01, BALL_R*0.75, 24, 1, true);
+    const bandMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, side: THREE.DoubleSide });
+    const band = new THREE.Mesh(bandGeo, bandMat);
+    group.add(band);
+  }
+
+  // number circle
+  if(id > 0){
+    const cGeo = new THREE.CircleGeometry(BALL_R*0.42, 20);
+    const cMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const c = new THREE.Mesh(cGeo, cMat);
+    c.position.set(0, BALL_R*0.9, 0);
+    c.rotation.x = -Math.PI/2;
+    group.add(c);
+  }
+
+  group.position.set(x, BALL_R, z);
+  scene.add(group);
+  return group;
+}
+
+function resetBalls(){
+  // پاک کردن توپ‌های قبلی
+  balls.forEach(b => scene.remove(b.mesh));
+  balls.length = 0;
+
+  // cue ball
+  const cue = createBall(0, -PLAY_W/3, 0);
+  balls.push({ mesh: cue, id: 0, vx: 0, vz: 0, alive: true, group: 'cue' });
+
+  // rack (مثلث)
+  const startX = PLAY_W/3;
+  const gap = BALL_R * 2.05;
+  const order = [1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8];
+  // 8 باید وسط باشه — جای 8 وسط مثلث
+  const rackPositions = [];
+  let idx = 0;
+  for(let row=0; row<5; row++){
+    for(let col=0; col<=row; col++){
+      const x = startX + row * gap * Math.sqrt(3)/2;
+      const z = (col - row/2) * gap;
+      rackPositions.push([x, z]);
+    }
+  }
+  // ترتیب استاندارد: 8 وسط (سومین ردیف، وسط)
+  const arr = [1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8];
+  // جابه‌جایی 8 به وسط (index 7 در آرایش 5 ردیفی)
+  rackPositions.forEach(([x,z], i) => {
+    const ballId = arr[i];
+    const mesh = createBall(ballId, x, z);
+    balls.push({ mesh, id: ballId, vx: 0, vz: 0, alive: true, group: ballId < 8 ? 'solid' : (ballId === 8 ? 'eight' : 'stripe') });
+  });
+}
+
+resetBalls();
+
+/* ============ camera control ============ */
+let camAngle = 0;       // زاویه افقی
+let camHeight = 5.5;    // ارتفاع
+let camDist = 8;        // فاصله
+let camTarget = new THREE.Vector3(0, 0, 0);
+
+function updateCamera(){
+  const x = camTarget.x + Math.sin(camAngle) * camDist;
+  const z = camTarget.z + Math.cos(camAngle) * camDist;
+  camera.position.set(x, camHeight, z);
+  camera.lookAt(camTarget);
+}
+
+updateCamera();
+
+/* ============ physics state ============ */
+let cueBall = balls[0];
+let currentPlayer = 0; // 0 = شما، 1 = حریف
+let myPlayer = 0;      // در لن: 0 = میزبان، 1 = مهمان
+let playerGroups = [null, null]; // 'solid' | 'stripe'
+let gameOver = false;
+let shooting = false;
+let aimAngle = 0;
+let power = 0;
+
+let lanMode = false, lanConnected = false, lanRole = null;
+let aiMode = false, aiLevel = 'easy';
+let aiThinking = false;
+
+/* ============ input ============ */
+let pointerDown = false;
+let startX = 0, startY = 0;
+let dragMode = null; // 'camera' | 'shoot'
+
+canvas.addEventListener('pointerdown', e => {
+  if(gameOver) return;
+  pointerDown = true;
+  startX = e.clientX; startY = e.clientY;
+  dragMode = null;
+});
+
+canvas.addEventListener('pointermove', e => {
+  if(!pointerDown) return;
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+  if(!dragMode && (Math.abs(dx) > 8 || Math.abs(dy) > 8)){
+    if(Math.abs(dx) > Math.abs(dy)) dragMode = 'camera';
+    else if(dy > 0) dragMode = 'shoot';
+    else dragMode = 'camera';
+  }
+  if(dragMode === 'camera'){
+    camAngle -= dx * 0.005;
+    updateCamera();
+    startX = e.clientX;
+    startY = e.clientY;
+  } else if(dragMode === 'shoot'){
+    power = Math.min(1, (e.clientY - startY) / 200);
+    $('#powerFill').style.width = (power * 100) + '%';
+    $('#powerText').textContent = Math.round(power * 100) + '%';
+  }
+});
+
+canvas.addEventListener('pointerup', e => {
+  if(!pointerDown) return;
+  pointerDown = false;
+  if(dragMode === 'shoot' && power > 0.05){
+    shoot(power);
+  }
+  dragMode = null;
+  power = 0;
+  $('#powerFill').style.width = '0%';
+  $('#powerText').textContent = '0%';
+});
+
+/* ============ shoot ============ */
+function shoot(p){
+  if(!cueBall || !cueBall.alive) return;
+  if(currentPlayer !== myPlayer && lanMode) return;
+  if(gameOver) return;
+
+  // جهت: از دوربین به سمت هدف
+  const dir = new THREE.Vector3();
+  camera.getWorldDirection(dir);
+  dir.y = 0;
+  dir.normalize();
+  
+  const speed = 12 * p;
+  cueBall.vx = dir.x * speed;
+  cueBall.vz = dir.z * speed;
+  shooting = true;
+  $('#hint').textContent = 'در حال حرکت…';
+}
+
+/* ============ physics update ============ */
+const FRICTION = 0.985;
+const WALL_BOUNCE = 0.85;
+const BALL_BOUNCE = 0.95;
+const MIN_SPEED = 0.04;
+
+function stepPhysics(dt){
+  if(!shooting) return;
+  let anyMoving = false;
+
+  // حرکت توپ‌ها
+  for(const b of balls){
+    if(!b.alive) continue;
+    if(Math.abs(b.vx) < MIN_SPEED && Math.abs(b.vz) < MIN_SPEED){
+      b.vx = 0; b.vz = 0;
+      continue;
+    }
+    anyMoving = true;
+    b.mesh.position.x += b.vx * dt;
+    b.mesh.position.z += b.vz * dt;
+    b.vx *= FRICTION;
+    b.vz *= FRICTION;
+  }
+
+  // برخورد توپ-توپ
+  for(let i=0;i<balls.length;i++){
+    const a = balls[i];
+    if(!a.alive) continue;
+    for(let j=i+1;j<balls.length;j++){
+      const b = balls[j];
+      if(!b.alive) continue;
+      const dx = b.mesh.position.x - a.mesh.position.x;
+      const dz = b.mesh.position.z - a.mesh.position.z;
+      const dist = Math.hypot(dx, dz);
+      const minD = BALL_R * 2;
+      if(dist < minD && dist > 0.001){
+        const nx = dx / dist;
+        const nz = dz / dist;
+        // جدا کردن
+        const overlap = minD - dist;
+        a.mesh.position.x -= nx * overlap/2;
+        a.mesh.position.z -= nz * overlap/2;
+        b.mesh.position.x += nx * overlap/2;
+        b.mesh.position.z += nz * overlap/2;
+        // تبادل سرعت (برخورد الاستیک)
+        const va = a.vx * nx + a.vz * nz;
+        const vb = b.vx * nx + b.vz * nz;
+        if(va - vb > 0){
+          const impulse = (va - vb) * BALL_BOUNCE;
+          a.vx -= impulse * nx;
+          a.vz -= impulse * nz;
+          b.vx += impulse * nx;
+          b.vz += impulse * nz;
+        }
+      }
+    }
+  }
+
+  // برخورد با دیواره‌ها
+  const xMin = -PLAY_W/2 + BALL_R;
+  const xMax =  PLAY_W/2 - BALL_R;
+  const zMin = -PLAY_H/2 + BALL_R;
+  const zMax =  PLAY_H/2 - BALL_R;
+  
+  for(const b of balls){
+    if(!b.alive) continue;
+    const p = b.mesh.position;
+    if(p.x < xMin){ p.x = xMin; b.vx = -b.vx * WALL_BOUNCE; }
+    if(p.x > xMax){ p.x = xMax; b.vx = -b.vx * WALL_BOUNCE; }
+    if(p.z < zMin){ p.z = zMin; b.vz = -b.vz * WALL_BOUNCE; }
+    if(p.z > zMax){ p.z = zMax; b.vz = -b.vz * WALL_BOUNCE; }
+  }
+
+  // بررسی pocket (افتادن توپ)
+  for(const b of balls){
+    if(!b.alive) continue;
+    const p = b.mesh.position;
+    for(const [px, pz] of pocketPositions){
+      const d = Math.hypot(p.x - px, p.z - pz);
+      if(d < POCKET_R * 0.9){
+        b.alive = false;
+        scene.remove(b.mesh);
+        handlePocket(b);
+        break;
+      }
+    }
+  }
+
+  if(!anyMoving){
+    shooting = false;
+    endTurn();
+  }
+}
+
+/* ============ pocket ============ */
+function handlePocket(ball){
+  if(ball.id === 0){
+    // سفید افتاد — فول
+    log('توپ سفید افتاد — فول!');
+    setTimeout(() => {
+      ball.alive = true;
+      ball.mesh = createBall(0, -PLAY_W/3, 0);
+      scene.add(ball.mesh);
+      ball.vx = 0; ball.vz = 0;
+    }, 800);
+    // فول — نوبت عوض
+    return;
+  }
+  
+  if(ball.id === 8){
+    // توپ 8
+    const myGroup = playerGroups[myPlayer];
+    const remaining = balls.filter(b => b.alive && b.group === myGroup && b.id !== 8).length;
+    if(remaining > 0){
+      gameOver = true;
+      $('#endTitle').textContent = '💀 باختی!';
+      $('#endMsg').textContent = 'توپ ۸ رو زودتر از موعد زدی';
+      $('#end').hidden = false;
+    } else {
+      gameOver = true;
+      $('#endTitle').textContent = '🏆 بردی!';
+      $('#endMsg').textContent = 'توپ ۸ رو زدی و بردی';
+      $('#end').hidden = false;
+    }
+    return;
+  }
+
+  // تعیین گروه اگه هنوز مشخص نشده
+  if(playerGroups[0] === null){
+    const g = ball.id < 8 ? 'solid' : 'stripe';
+    playerGroups[myPlayer] = g;
+    playerGroups[1 - myPlayer] = g === 'solid' ? 'stripe' : 'solid';
+    updateHud();
+    log(`گروه شما: ${g === 'solid' ? 'توپ‌های توپر' : 'توپ‌های راه‌راه'}`);
+  }
+}
+
+/* ============ turn ============ */
+function endTurn(){
+  currentPlayer = 1 - currentPlayer;
+  updateHud();
+  if(!gameOver){
+    if(aiMode && currentPlayer === 1){
+      setTimeout(aiShoot, 800);
+    } else if(lanMode && currentPlayer !== myPlayer){
+      $('#hint').textContent = 'منتظر حرکت حریف…';
+    } else {
+      $('#hint').textContent = 'برای شوت، از پایین بکش و رها کن';
+    }
+  }
+  // ارسال به لن
+  if(lanMode && lanConnected){
+    LanClient.send({ type:'turn', player: currentPlayer });
+  }
+}
+
+function updateHud(){
+  const groups = {
+    solid: 'توپر (1-7)',
+    stripe: 'راه‌راه (9-15)',
+    eight: 'توپ ۸'
+  };
+  $('#hudGroup1').textContent = playerGroups[0] ? groups[playerGroups[0]] : '—';
+  $('#hudGroup2').textContent = playerGroups[1] ? groups[playerGroups[1]] : '—';
+  $('#hudTurn').textContent = gameOver ? 'پایان' : (currentPlayer === myPlayer ? 'نوبت شما' : 'نوبت حریف');
+  $('#hudTurn').style.color = currentPlayer === myPlayer ? '#7cf2e3' : '#ff8a9a';
+}
+
+/* ============ AI ============ */
+function aiShoot(){
+  if(gameOver) return;
+  if(currentPlayer !== 1) return;
+
+  const myGroup = playerGroups[1];
+  const targets = balls.filter(b => b.alive && (myGroup ? b.group === myGroup : (b.id !== 0 && b.id !== 8)));
+  
+  if(targets.length === 0){
+    // فقط 8 مونده
+    const eight = balls.find(b => b.alive && b.id === 8);
+    if(eight) targets.push(eight);
+  }
+  
+  if(targets.length === 0) return;
+
+  // ساده: نزدیک‌ترین توپ رو هدف بگیر
+  const cue = cueBall.mesh.position;
+  let best = targets[0];
+  let bestD = Infinity;
+  for(const t of targets){
+    const d = cue.distanceTo(t.mesh.position);
+    if(d < bestD){ bestD = d; best = t; }
+  }
+
+  // زاویه به سمت توپ هدف
+  const dx = best.mesh.position.x - cue.x;
+  const dz = best.mesh.position.z - cue.z;
+  const angle = Math.atan2(dx, dz);
+  
+  // چرخش دوربین برای هدف‌گیری
+  camAngle = angle;
+  updateCamera();
+  
+  // شوت با قدرت متغیر بر اساس سطح
+  let p = 0.7;
+  if(aiLevel === 'easy') p = 0.5 + Math.random() * 0.3;
+  else if(aiLevel === 'med') p = 0.65 + Math.random() * 0.25;
+  else p = 0.8 + Math.random() * 0.15;
+  
+  setTimeout(() => {
+    // اعمال سرعت مستقیم به سمت هدف
+    const speed = 12 * p;
+    cueBall.vx = Math.sin(angle) * speed;
+    cueBall.vz = Math.cos(angle) * speed;
+    shooting = true;
+    $('#hint').textContent = 'رایانه در حال شوت…';
+  }, 300);
+}
+
+/* ============ log ============ */
+function log(t){
+  $('#hint').textContent = t;
+}
+
+/* ============ LAN MODE ============ */
+function startLanMode(){
+  lanMode = true;
+  $('#start').hidden = true;
+  $('#lanOv').hidden = false;
+
+  const info = LanClient.getInfo();
+  const code = info.roomCode || new URLSearchParams(location.search).get('lan');
+  const role = info.role || new URLSearchParams(location.search).get('role');
+
+  if(!code || !role){
+    $('#lanStatus').textContent = '⚠️ کد اتاق یا نقش پیدا نشد.';
+    return;
+  }
+
+  lanRole = role;
+  myPlayer = role === 'host' ? 0 : 1;
+
+  $('#lanCode').textContent = code;
+  $('#lanStatus').textContent = role === 'host' ? 'در حال ساخت اتاق…' : 'در حال اتصال…';
+
+  LanClient.onConnected((status) => {
+    if(status === 'connected'){
+      lanConnected = true;
+      $('#lanStatus').textContent = '✅ حریف وصل شد!';
+      $('#lanStatus').classList.add('ok');
+      $('#lanReadyBtn').disabled = false;
+    } else if(status === 'waiting'){
+      $('#lanStatus').textContent = '✅ اتاق آماده‌ست. منتظر اتصال حریف…';
+    }
+  });
+
+  LanClient.onDisconnected(() => {
+    lanConnected = false;
+    $('#lanStatus').textContent = '⚠️ اتصال قطع شد';
+    $('#lanReadyBtn').disabled = true;
+  });
+
+  LanClient.onMessage((data) => {
+    if(data.type === 'shoot'){
+      // شوت حریف
+      cueBall.vx = data.vx;
+      cueBall.vz = data.vz;
+      shooting = true;
+    }
+    if(data.type === 'turn'){
+      currentPlayer = data.player;
+      updateHud();
+      if(currentPlayer === myPlayer){
+        $('#hint').textContent = 'نوبت شما — برای شوت بکش';
+      } else {
+        $('#hint').textContent = 'منتظر حرکت حریف…';
+      }
+    }
+  });
+
+  LanClient.init();
+}
+
+$('#lanReadyBtn').onclick = () => {
+  $('#lanOv').hidden = true;
+  startGame();
+};
+
+$('#lanCloseBtn').onclick = () => {
+  location.href = 'lan.html';
+};
+
+/* ============ start game ============ */
+function startGame(){
+  resetBalls();
+  cueBall = balls[0];
+  currentPlayer = 0;
+  myPlayer = 0;
+  playerGroups = [null, null];
+  gameOver = false;
+  shooting = false;
+  camAngle = 0;
+  camDist = 8;
+  camHeight = 5.5;
+  updateCamera();
+  updateHud();
+  $('#hint').textContent = 'برای شوت، از پایین بکش و رها کن';
+  $('#end').hidden = true;
+}
+
+/* ============ render loop ============ */
+let last = performance.now();
+function animate(t){
+  const dt = Math.min((t - last) / 1000, 0.033);
+  last = t;
+  stepPhysics(dt);
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+
+/* ============ resize ============ */
+function resize(){
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+resize();
+
+/* ============ events ============ */
+$('#mode').onclick = e => {
+  const b = e.target.closest('button'); if(!b) return;
+  [...$('#mode').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('#diffWrap').style.display = b.dataset.mode === 'ai' ? 'block' : 'none';
+};
+
+$('#diff').onclick = e => {
+  const b = e.target.closest('button'); if(!b) return;
+  [...$('#diff').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+  aiLevel = b.dataset.d;
+};
+
+$('#begin').onclick = () => {
+  const m = $('#mode button[aria-pressed=true]').dataset.mode;
+  if(m === 'lan'){
+    startLanMode();
+    return;
+  }
+  aiMode = m === 'ai';
+  $('#start').hidden = true;
+  startGame();
+};
+
+$('#endAgain').onclick = () => {
+  $('#end').hidden = true;
+  $('#start').hidden = false;
+};
+
+/* ============ boot ============ */
+if(LanClient.isLanMode()){
+  $('#start').hidden = true;
+  startLanMode();
+}
+</script>
+</body>
+</html>
