@@ -227,7 +227,7 @@ const LanClient = (() => {
 })();
 
 /* ======================================================
-   THREE.JS
+   THREE.JS SETUP
 ====================================================== */
 const $ = s => document.querySelector(s);
 const fa = n => Number(n).toLocaleString('fa-IR');
@@ -244,8 +244,8 @@ const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-scene.add(new THREE.AmbientLight(0xffffff, 0.55));
-const dirLight = new THREE.DirectionalLight(0xffffff, 0.95);
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
 dirLight.position.set(5, 12, 6);
 dirLight.castShadow = true;
 dirLight.shadow.mapSize.set(1024, 1024);
@@ -258,41 +258,60 @@ const POINT_W = BOARD_W / 12;
 const CHECKER_R = 0.28;
 const BAR_W = 0.4;
 
-/* ============ board ============ */
-const baseGeo = new THREE.BoxGeometry(BOARD_L, 0.15, BOARD_W);
-const baseMat = new THREE.MeshStandardMaterial({ color: 0x3a1e0a, roughness: 0.8 });
-const base = new THREE.Mesh(baseGeo, baseMat);
-base.receiveShadow = true;
-scene.add(base);
+/* ======================================================
+   🔥 بافت تخته نرد (عکس واقعی)
+====================================================== */
+// از عکسی که فرستادی استفاده می‌کنیم
+const BOARD_TEXTURE_URL = 'https://cdn.imgurl.ir/uploads/p399746_.png'; 
+// ⚠️ این لینک رو با لینک عکس تخته نرد خودت عوض کن
 
-const pointColors = [0x1b5e20, 0x8b0000];
-for(let i=0; i<24; i++){
-  let x, z;
-  if(i < 12){
-    z = -BOARD_W/2 + POINT_W * (i + 0.5);
-    x = -BOARD_L/2 + 2;
-  } else {
-    z = -BOARD_W/2 + POINT_W * (i - 12 + 0.5);
-    x = BOARD_L/2 - 2;
+const textureLoader = new THREE.TextureLoader();
+textureLoader.crossOrigin = 'anonymous';
+
+// ساخت بافت با عکس
+const boardTexture = textureLoader.load(
+  BOARD_TEXTURE_URL,
+  (tex) => {
+    // تنظیمات بافت
+    tex.wrapS = THREE.RepeatWrapping;
+    tex.wrapT = THREE.RepeatWrapping;
+    tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+    tex.colorSpace = THREE.SRGBColorSpace;
+    console.log('✅ بافت تخته لود شد');
+  },
+  undefined,
+  (err) => {
+    console.warn('⚠️ عکس لود نشد، از بافت پیش‌فرض استفاده می‌شه', err);
   }
-  const color = pointColors[i % 2];
-  const geo = new THREE.ConeGeometry(POINT_W * 0.45, BOARD_L/2 - 2, 4);
-  const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.7 });
-  const point = new THREE.Mesh(geo, mat);
-  point.rotation.x = Math.PI/2;
-  point.position.set(0, 0.05, 0);
-  point.castShadow = true;
-  const group = new THREE.Group();
-  group.add(point);
-  group.position.set(x, 0, z);
-  group.rotation.y = (i < 12) ? 0 : Math.PI;
-  scene.add(group);
-}
+);
 
-const barGeo = new THREE.BoxGeometry(BAR_W, 0.2, BOARD_W);
-const barMat = new THREE.MeshStandardMaterial({ color: 0x5a2e0a, roughness: 0.6 });
+/* ============ board with texture ============ */
+// سطح میز با بافت
+const boardGeo = new THREE.PlaneGeometry(BOARD_L, BOARD_W);
+const boardMat = new THREE.MeshStandardMaterial({
+  map: boardTexture,
+  roughness: 0.6,
+  metalness: 0.05
+});
+const board = new THREE.Mesh(boardGeo, boardMat);
+board.rotation.x = -Math.PI/2;
+board.receiveShadow = true;
+scene.add(board);
+
+// قاب چوبی دور تخته (سه‌بعدی)
+const frameGeo = new THREE.BoxGeometry(BOARD_L + 0.4, 0.3, BOARD_W + 0.4);
+const frameMat = new THREE.MeshStandardMaterial({ color: 0x5a2e0a, roughness: 0.7 });
+const frame = new THREE.Mesh(frameGeo, frameMat);
+frame.position.y = -0.15;
+frame.receiveShadow = true;
+frame.castShadow = true;
+scene.add(frame);
+
+// نوار وسط (bar)
+const barGeo = new THREE.BoxGeometry(BAR_W, 0.12, BOARD_W);
+const barMat = new THREE.MeshStandardMaterial({ color: 0x3a1e0a, roughness: 0.6 });
 const bar = new THREE.Mesh(barGeo, barMat);
-bar.position.set(0, 0.1, 0);
+bar.position.set(0, 0.05, 0);
 bar.castShadow = true;
 scene.add(bar);
 
@@ -461,7 +480,6 @@ function rollDice(){
     LanClient.send({ type:'dice', d1: dice[0], d2: dice[1] });
   }
   
-  // بررسی حرکات ممکن
   setTimeout(() => {
     const moves = getValidMoves(currentPlayer);
     if(moves.length === 0){
@@ -619,7 +637,7 @@ function updateHud(){
   $('#hudTurn').style.color = currentPlayer === myPlayer ? '#7cf2e3' : '#ff8a9a';
 }
 
-/* ============ click on checker ============ */
+/* ============ click ============ */
 canvas.addEventListener('click', e => {
   if(gameOver || currentPlayer !== myPlayer) return;
   
@@ -635,7 +653,6 @@ canvas.addEventListener('click', e => {
     const clickedMesh = intersects[0].object;
     const checker = checkers.find(c => c.mesh === clickedMesh);
     if(checker){
-      // اگه همون مهره دوباره کلیک شد، لغو
       if(selectedChecker === checker){
         selectedChecker = null;
         validMoves = [];
@@ -644,7 +661,6 @@ canvas.addEventListener('click', e => {
         return;
       }
       
-      // انتخاب مهره
       selectedChecker = checker;
       validMoves = getValidMoves(myPlayer).filter(m => m.from === checker.pos);
       
@@ -658,15 +674,12 @@ canvas.addEventListener('click', e => {
       renderCheckers();
     }
   } else {
-    // کلیک روی جای خالی — اگه مهره انتخاب شده، سعی کن حرکت کنی
     if(selectedChecker && validMoves.length > 0){
-      // پیدا کردن نزدیک‌ترین حرکت
       const clickedPoint = raycaster.ray.intersectPlane(
         new THREE.Plane(new THREE.Vector3(0,1,0), 0),
         new THREE.Vector3()
       );
       if(clickedPoint){
-        // پیدا کردن pos بر اساس x,z
         let bestMove = null;
         let bestDist = Infinity;
         for(const m of validMoves){
@@ -680,9 +693,7 @@ canvas.addEventListener('click', e => {
           }
         }
         
-        // بررسی bearing off
         if(!bestMove && validMoves.some(m => m.to === 'off')){
-          // اگه روی ناحیه off کلیک شد
           const offMoves = validMoves.filter(m => m.to === 'off');
           if(offMoves.length > 0){
             bestMove = offMoves[0];
@@ -699,7 +710,7 @@ canvas.addEventListener('click', e => {
   }
 });
 
-/* ============ hover effect ============ */
+/* ============ hover ============ */
 canvas.addEventListener('mousemove', e => {
   if(gameOver || currentPlayer !== myPlayer) return;
   const rect = canvas.getBoundingClientRect();
@@ -734,7 +745,6 @@ function executeMove(move){
   const player = currentPlayer;
   makeMove(move, player);
   
-  // ارسال به لن
   if(lanMode && lanConnected){
     LanClient.send({ type:'move', from: move.from, to: move.to, dice: move.dice });
   }
@@ -744,7 +754,6 @@ function executeMove(move){
   
   if(checkWin()) return;
   
-  // اگه تاس باقی مونده، ادامه
   if(diceUsed.every(x => x)){
     setTimeout(endTurn, 500);
   } else {
@@ -810,19 +819,16 @@ function aiMove(){
 /* ============ camera drag ============ */
 let pointerDown = false;
 let startX = 0, startY = 0;
-let dragged = false;
 
 canvas.addEventListener('pointerdown', e => {
   pointerDown = true;
   startX = e.clientX;
   startY = e.clientY;
-  dragged = false;
 });
 
 canvas.addEventListener('pointermove', e => {
   if(!pointerDown) return;
   const dx = e.clientX - startX;
-  if(Math.abs(dx) > 5) dragged = true;
   camAngle -= dx * 0.005;
   updateCamera();
   startX = e.clientX;
@@ -893,7 +899,6 @@ function startLanMode(){
       }
     }
     if(data.type === 'move'){
-      // حرکت حریف
       const opp = 1 - myPlayer;
       const checker = checkers.find(c => c.player === opp && c.pos === data.from);
       if(checker){
