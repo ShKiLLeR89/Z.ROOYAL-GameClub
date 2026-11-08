@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
 <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <style>
 :root{
   --bg:#070d1c;--ink:#eef2ff;--mut:#9fb0d6;
@@ -26,6 +27,8 @@ body{
 a{color:inherit;text-decoration:none}
 button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
 .wrap{max-width:1180px;margin:0 auto;padding:0 14px}
+
+/* header */
 .site-header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);
   background:linear-gradient(180deg,#070d1cf2,#070d1ccc 70%,transparent);border-bottom:1px solid var(--line)}
 .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
@@ -36,23 +39,30 @@ button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
 .nav-links a{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:600;color:var(--mut);transition:.2s}
 .nav-links a:hover{background:var(--card);color:var(--ink)}
 .nav-links a.active{background:#f2c14e1a;color:var(--gold2)}
-#game{position:fixed;inset:0;display:block;touch-action:none}
+
+#game{position:fixed;inset:0;display:block;touch-action:none;z-index:1}
+
+/* HUD */
 .hud{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:40;
   display:flex;gap:12px;padding:8px 16px;border-radius:14px;
   background:#070d1ce6;border:1px solid var(--line);backdrop-filter:blur(8px);
-  font-size:13px;font-weight:700;white-space:nowrap;max-width:96vw;overflow-x:auto}
+  font-size:13px;font-weight:700;white-space:nowrap;max-width:96vw;overflow-x:auto;pointer-events:none}
 .hud .item{display:flex;align-items:center;gap:6px}
 .hud .dot{width:10px;height:10px;border-radius:50%}
+
 .power-hud{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;
   display:flex;flex-direction:column;align-items:center;gap:8px;
-  padding:10px 18px;border-radius:14px;background:#070d1ce6;border:1px solid var(--line);backdrop-filter:blur(8px)}
+  padding:10px 18px;border-radius:14px;background:#070d1ce6;border:1px solid var(--line);backdrop-filter:blur(8px);pointer-events:none}
 .power-label{font-size:11px;color:var(--mut);font-weight:700}
 .power-bar{width:220px;height:10px;border-radius:6px;background:#ffffff18;overflow:hidden;position:relative}
 .power-fill{height:100%;width:0%;background:linear-gradient(90deg,#14b8a6,#f2c14e,#ff5d6c);transition:width .05s}
 .power-text{font-size:12px;color:var(--gold2);font-weight:800;min-width:40px;text-align:center}
+
 .hint{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:40;
   font-size:12px;color:var(--mut);background:#070d1cd9;padding:6px 14px;border-radius:10px;
-  border:1px solid var(--line);text-align:center;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+  border:1px solid var(--line);text-align:center;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+
+/* Overlay */
 .ov{position:fixed;inset:0;display:grid;place-items:center;background:#050a16f2;backdrop-filter:blur(12px);z-index:100;padding:16px;overflow:auto}
 .ov[hidden]{display:none}
 .box{width:min(440px,100%);text-align:center;padding:24px 20px;border-radius:22px;
@@ -71,12 +81,12 @@ button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
 .btn-gold{width:100%;padding:13px;border-radius:13px;font-weight:800;font-size:15px;color:#2a1b02;
   background:linear-gradient(180deg,#ffe08a,#f2b434);box-shadow:0 7px 0 #9a6a10;transition:transform .1s;margin-top:8px}
 .btn-gold:active{transform:translateY(4px);box-shadow:0 3px 0 #9a6a10}
-.btn-gold:disabled{filter:grayscale(.8) brightness(.7);cursor:not-allowed}
 .btn-ghost{padding:9px 14px;border-radius:11px;font-weight:600;background:var(--card);border:1px solid var(--line);transition:.2s;width:100%;margin-top:8px;font-size:13px}
 .btn-ghost:hover{background:rgba(255,255,255,.12)}
 .room-code{font-size:28px;font-weight:900;letter-spacing:8px;color:var(--gold2);font-family:monospace;margin:8px 0}
 .status{font-size:12px;color:var(--mut);margin:8px 0;min-height:16px}
 .status.ok{color:#7cf2e3}
+
 @media(max-width:600px){
   .nav-links{display:none}
   .hud{font-size:11px;gap:8px;padding:6px 10px;top:50px}
@@ -105,10 +115,10 @@ button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
 </header>
 
 <div class="hud" id="hud">
-  <div class="item"><span class="dot" style="background:#3fc1ff"></span><b id="hudP1">شما</b></div>
+  <div class="item"><span class="dot" style="background:#3fc1ff"></span><b>شما</b></div>
   <div class="item" id="hudGroup1">—</div>
   <div class="item" style="color:var(--mut)">|</div>
-  <div class="item"><span class="dot" style="background:#ff5d6c"></span><b id="hudP2">حریف</b></div>
+  <div class="item"><span class="dot" style="background:#ff5d6c"></span><b>حریف</b></div>
   <div class="item" id="hudGroup2">—</div>
   <div class="item" style="color:var(--gold2);font-weight:900" id="hudTurn">نوبت شما</div>
 </div>
@@ -119,7 +129,7 @@ button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
   <div class="power-text" id="powerText">0%</div>
 </div>
 
-<div class="hint" id="hint">برای هدف‌گیری روی توپ کلیک کن · برای شوت از پایین بکش</div>
+<div class="hint" id="hint">برای شوت، از پایین بکش و رها کن</div>
 
 <div class="ov" id="start">
   <div class="box">
@@ -214,91 +224,231 @@ const LanClient = (() => {
 })();
 
 /* ======================================================
-   CANVAS SETUP
+   THREE.JS SETUP
 ====================================================== */
 const $ = s => document.querySelector(s);
 const fa = n => Number(n).toLocaleString('fa-IR');
+
 const canvas = $('#game');
-const ctx = canvas.getContext('2d');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+renderer.setClearColor(0x0a0a12, 1); // رنگ پس‌زمینه (کمی روشن‌تر از مشکی)
 
-let W, H;
-function resize(){
-  W = canvas.width = innerWidth * devicePixelRatio;
-  H = canvas.height = innerHeight * devicePixelRatio;
-  canvas.style.width = innerWidth + 'px';
-  canvas.style.height = innerHeight + 'px';
-  ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-}
-addEventListener('resize', resize);
-resize();
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
 
-/* ======================================================
-   🎨 تصویر میز
-====================================================== */
-const TABLE_IMAGE_URL = 'https://cdn.imgurl.ir/uploads/m897528_.png'; // ⚠️ عکس میز بیلیارد
-const tableImg = new Image();
-tableImg.crossOrigin = 'anonymous';
-tableImg.src = TABLE_IMAGE_URL;
-let tableLoaded = false;
-tableImg.onload = () => { tableLoaded = true; draw(); };
-tableImg.onerror = () => { console.warn('تصویر میز لود نشد'); };
+// دوربین ثابت و رو به میز (مثل عکس)
+camera.position.set(0, 8.5, 5.5);
+camera.lookAt(0, 0, 0);
 
 /* ======================================================
-   ابعاد منطقی میز
+   ابعاد میز (متناسب با عکس)
 ====================================================== */
-const TABLE_W = 800;
-const TABLE_H = 400;
-const RAIL = 40;
-const PLAY_W = TABLE_W - 2 * RAIL;
-const PLAY_H = TABLE_H - 2 * RAIL;
-const BALL_R = 11;
-const POCKET_R = 20;
+// میز ۸ در ۴
+const TABLE_W = 10;
+const TABLE_H = 5;
+const RAIL = 0.5;
+const BALL_R = 0.16;
+const POCKET_R = 0.25;
+const PLAY_W = TABLE_W - 2*RAIL;
+const PLAY_H = TABLE_H - 2*RAIL;
 
+/* ======================================================
+   🎨 بافت میز (دقیقاً عکس فرستاده شده)
+====================================================== */
+// ⚠️ لینک عکسی که فرستادی
+const TABLE_IMAGE = 'https://cdn.imgurl.ir/uploads/m897528_.png'; 
+
+const textureLoader = new THREE.TextureLoader();
+const boardTexture = textureLoader.load(TABLE_IMAGE);
+boardTexture.colorSpace = THREE.SRGBColorSpace;
+boardTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+
+// ساخت میز با بافت
+const boardGeo = new THREE.PlaneGeometry(TABLE_W, TABLE_H);
+const boardMat = new THREE.MeshStandardMaterial({ map: boardTexture, roughness: 0.5 });
+const boardMesh = new THREE.Mesh(boardGeo, boardMat);
+boardMesh.rotation.x = -Math.PI/2;
+boardMesh.position.y = 0.01;
+scene.add(boardMesh);
+
+// تشک زیر میز (برای اینکه بافت حالت سه‌بعدی بگیره)
+const baseGeo = new THREE.BoxGeometry(TABLE_W + 0.2, 0.3, TABLE_H + 0.2);
+const baseMat = new THREE.MeshStandardMaterial({ color: 0x1a1a1a, roughness: 0.9 });
+const base = new THREE.Mesh(baseGeo, baseMat);
+base.position.y = -0.16;
+base.receiveShadow = true;
+scene.add(base);
+
+// دیواره‌ها (برای فیزیک)
+const railMat = new THREE.MeshStandardMaterial({ color: 0x3a1e0a, roughness: 0.7 });
+// بالا و پایین
+[-1, 1].forEach(side => {
+  const rail = new THREE.Mesh(new THREE.BoxGeometry(TABLE_W, 0.2, RAIL), railMat);
+  rail.position.set(0, 0.1, side * (TABLE_H/2 - RAIL/2));
+  rail.castShadow = true; rail.receiveShadow = true;
+  scene.add(rail);
+});
+// چپ و راست
+[-1, 1].forEach(side => {
+  const rail = new THREE.Mesh(new THREE.BoxGeometry(RAIL, 0.2, TABLE_H - 2*RAIL), railMat);
+  rail.position.set(side * (TABLE_W/2 - RAIL/2), 0.1, 0);
+  rail.castShadow = true; rail.receiveShadow = true;
+  scene.add(rail);
+});
+
+/* ======================================================
+   Pocket
+====================================================== */
 const POCKETS = [
-  [RAIL, RAIL],
-  [TABLE_W/2, RAIL - 5],
-  [TABLE_W - RAIL, RAIL],
-  [RAIL, TABLE_H - RAIL],
-  [TABLE_W/2, TABLE_H - RAIL + 5],
-  [TABLE_W - RAIL, TABLE_H - RAIL]
+  [-TABLE_W/2 + RAIL, -TABLE_H/2 + RAIL],
+  [0, -TABLE_H/2 + RAIL],
+  [TABLE_W/2 - RAIL, -TABLE_H/2 + RAIL],
+  [-TABLE_W/2 + RAIL, TABLE_H/2 - RAIL],
+  [0, TABLE_H/2 - RAIL],
+  [TABLE_W/2 - RAIL, TABLE_H/2 - RAIL]
 ];
+
+// سوراخ‌ها (دایره سیاه)
+POCKETS.forEach(([x, z]) => {
+  const geo = new THREE.CircleGeometry(POCKET_R, 20);
+  const mat = new THREE.MeshBasicMaterial({ color: 0x000000 });
+  const m = new THREE.Mesh(geo, mat);
+  m.rotation.x = -Math.PI/2;
+  m.position.set(x, 0.02, z);
+  scene.add(m);
+});
+
+/* ======================================================
+   نورپردازی
+====================================================== */
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.9);
+dirLight.position.set(5, 10, 7);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.set(1024, 1024);
+scene.add(dirLight);
 
 /* ======================================================
    توپ‌ها
 ====================================================== */
 const BALL_COLORS = {
-  0: '#ffffff',
-  1: '#f2c14e', 2: '#1e40af', 3: '#dc2626', 4: '#7c3aed',
-  5: '#f59e0b', 6: '#065f46', 7: '#991b1b', 8: '#111111',
-  9: '#f2c14e', 10: '#1e40af', 11: '#dc2626', 12: '#7c3aed',
-  13: '#f59e0b', 14: '#065f46', 15: '#991b1b'
+  0: 0xffffff,
+  1: 0xf2c14e, 2: 0x1e40af, 3: 0xdc2626, 4: 0x7c3aed,
+  5: 0xf59e0b, 6: 0x065f46, 7: 0x991b1b, 8: 0x111111,
+  9: 0xf2c14e, 10: 0x1e40af, 11: 0xdc2626, 12: 0x7c3aed,
+  13: 0xf59e0b, 14: 0x065f46, 15: 0x991b1b
 };
 const STRIPES = new Set([9,10,11,12,13,14,15]);
 
 let balls = [];
 let cueBall = null;
-let aimTarget = null;
+
+function createBall(id, x, z){
+  const group = new THREE.Group();
+  const geo = new THREE.SphereGeometry(BALL_R, 24, 16);
+  const color = BALL_COLORS[id];
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.3, metalness: 0.1 });
+  const sphere = new THREE.Mesh(geo, mat);
+  sphere.castShadow = true;
+  sphere.receiveShadow = true;
+  group.add(sphere);
+
+  if(STRIPES.has(id)){
+    const bandGeo = new THREE.CylinderGeometry(BALL_R*1.01, BALL_R*1.01, BALL_R*0.75, 24, 1, true);
+    const bandMat = new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.5, side: THREE.DoubleSide });
+    const band = new THREE.Mesh(bandGeo, bandMat);
+    group.add(band);
+  }
+
+  if(id > 0){
+    const cGeo = new THREE.CircleGeometry(BALL_R*0.42, 20);
+    const cMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+    const c = new THREE.Mesh(cGeo, cMat);
+    c.position.set(0, BALL_R*0.9, 0);
+    c.rotation.x = -Math.PI/2;
+    group.add(c);
+  }
+
+  group.position.set(x, BALL_R, z);
+  scene.add(group);
+  return group;
+}
 
 function resetBalls(){
-  balls = [];
-  cueBall = { x: 200, y: TABLE_H/2, vx: 0, vy: 0, id: 0, alive: true };
+  balls.forEach(b => scene.remove(b.mesh));
+  balls.length = 0;
+
+  // توپ سفید (cue)
+  const cue = createBall(0, -PLAY_W/3, 0);
+  cueBall = { mesh: cue, id: 0, vx: 0, vz: 0, alive: true };
   balls.push(cueBall);
 
-  const startX = TABLE_W - 200;
-  const gap = BALL_R * 2 + 0.5;
-  const rackPos = [];
+  // چیدمان مثلث
+  const startX = PLAY_W/3;
+  const gap = BALL_R * 2.05;
+  const rackPositions = [];
   for(let row=0; row<5; row++){
     for(let col=0; col<=row; col++){
       const x = startX + row * gap * Math.sqrt(3)/2;
-      const y = TABLE_H/2 + (col - row/2) * gap;
-      rackPos.push([x, y]);
+      const z = (col - row/2) * gap;
+      rackPositions.push([x, z]);
     }
   }
   const arr = [1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8];
-  rackPos.forEach(([x,y], i) => {
-    const id = arr[i];
-    balls.push({ x, y, vx: 0, vy: 0, id, alive: true });
+  rackPositions.forEach(([x,z], i) => {
+    const ballId = arr[i];
+    const mesh = createBall(ballId, x, z);
+    balls.push({ mesh, id: ballId, vx: 0, vz: 0, alive: true });
   });
+}
+
+resetBalls();
+
+/* ======================================================
+   🎱 چوب بیلیارد (با لرزش هنگام قدرت)
+====================================================== */
+const cueGroup = new THREE.Group();
+const cueLength = 2.5;
+const cueGeo = new THREE.CylinderGeometry(0.02, 0.06, cueLength, 12);
+const cueMat = new THREE.MeshStandardMaterial({ color: 0xc68b4b, roughness: 0.6 });
+const cueStick = new THREE.Mesh(cueGeo, cueMat);
+cueStick.rotation.z = Math.PI/2;
+cueStick.position.x = -cueLength/2;
+cueStick.castShadow = true;
+cueGroup.add(cueStick);
+
+const tipGeo = new THREE.CylinderGeometry(0.02, 0.02, 0.1, 12);
+const tipMat = new THREE.MeshStandardMaterial({ color: 0x3fc1ff });
+const tip = new THREE.Mesh(tipGeo, tipMat);
+tip.rotation.z = Math.PI/2;
+tip.position.x = -cueLength + 0.05;
+cueGroup.add(tip);
+
+cueGroup.visible = false;
+scene.add(cueGroup);
+
+/* ======================================================
+   هدف‌گیری و شوت
+====================================================== */
+let aimAngle = 0;
+let power = 0;
+let shooting = false;
+
+function updateCuePosition(){
+  if(!cueBall || !cueBall.alive) return;
+  const cuePos = cueBall.mesh.position;
+  
+  // چوب پشت توپ سفید، در جهت مخالف هدف
+  const dist = 0.5 + power * 0.5; // با زیاد شدن قدرت، چوب عقب‌تر می‌ره
+  cueGroup.position.set(
+    cuePos.x - Math.sin(aimAngle) * dist, 
+    0.16, 
+    cuePos.z - Math.cos(aimAngle) * dist
+  );
+  cueGroup.rotation.y = aimAngle;
+  cueGroup.visible = true;
 }
 
 /* ======================================================
@@ -307,13 +457,14 @@ function resetBalls(){
 const FRICTION = 0.985;
 const WALL_BOUNCE = 0.85;
 const BALL_BOUNCE = 0.95;
-const MIN_SPEED = 0.05;
+const MIN_SPEED = 0.04;
 
-let shooting = false;
 let currentPlayer = 0;
 let myPlayer = 0;
 let playerGroups = [null, null];
 let gameOver = false;
+let aiMode = false, aiLevel = 'easy';
+let lanMode = false, lanConnected = false, lanRole = null;
 
 function stepPhysics(dt){
   if(!shooting) return;
@@ -321,15 +472,15 @@ function stepPhysics(dt){
 
   for(const b of balls){
     if(!b.alive) continue;
-    if(Math.abs(b.vx) < MIN_SPEED && Math.abs(b.vy) < MIN_SPEED){
-      b.vx = 0; b.vy = 0;
+    if(Math.abs(b.vx) < MIN_SPEED && Math.abs(b.vz) < MIN_SPEED){
+      b.vx = 0; b.vz = 0;
       continue;
     }
     anyMoving = true;
-    b.x += b.vx * dt;
-    b.y += b.vy * dt;
+    b.mesh.position.x += b.vx * dt;
+    b.mesh.position.z += b.vz * dt;
     b.vx *= FRICTION;
-    b.vy *= FRICTION;
+    b.vz *= FRICTION;
   }
 
   // برخورد توپ-توپ
@@ -339,51 +490,55 @@ function stepPhysics(dt){
     for(let j=i+1;j<balls.length;j++){
       const b = balls[j];
       if(!b.alive) continue;
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const dist = Math.hypot(dx, dy);
+      const dx = b.mesh.position.x - a.mesh.position.x;
+      const dz = b.mesh.position.z - a.mesh.position.z;
+      const dist = Math.hypot(dx, dz);
       const minD = BALL_R * 2;
       if(dist < minD && dist > 0.001){
-        const nx = dx / dist, ny = dy / dist;
+        const nx = dx / dist;
+        const nz = dz / dist;
         const overlap = minD - dist;
-        a.x -= nx * overlap/2;
-        a.y -= ny * overlap/2;
-        b.x += nx * overlap/2;
-        b.y += ny * overlap/2;
-        const va = a.vx * nx + a.vy * ny;
-        const vb = b.vx * nx + b.vy * ny;
+        a.mesh.position.x -= nx * overlap/2;
+        a.mesh.position.z -= nz * overlap/2;
+        b.mesh.position.x += nx * overlap/2;
+        b.mesh.position.z += nz * overlap/2;
+        const va = a.vx * nx + a.vz * nz;
+        const vb = b.vx * nx + b.vz * nz;
         if(va - vb > 0){
           const imp = (va - vb) * BALL_BOUNCE;
           a.vx -= imp * nx;
-          a.vy -= imp * ny;
+          a.vz -= imp * nz;
           b.vx += imp * nx;
-          b.vy += imp * ny;
+          b.vz += imp * nz;
         }
       }
     }
   }
 
   // دیواره‌ها
-  const xMin = RAIL + BALL_R;
-  const xMax = TABLE_W - RAIL - BALL_R;
-  const yMin = RAIL + BALL_R;
-  const yMax = TABLE_H - RAIL - BALL_R;
+  const xMin = -PLAY_W/2 + BALL_R;
+  const xMax =  PLAY_W/2 - BALL_R;
+  const zMin = -PLAY_H/2 + BALL_R;
+  const zMax =  PLAY_H/2 - BALL_R;
   
   for(const b of balls){
     if(!b.alive) continue;
-    if(b.x < xMin){ b.x = xMin; b.vx = -b.vx * WALL_BOUNCE; }
-    if(b.x > xMax){ b.x = xMax; b.vx = -b.vx * WALL_BOUNCE; }
-    if(b.y < yMin){ b.y = yMin; b.vy = -b.vy * WALL_BOUNCE; }
-    if(b.y > yMax){ b.y = yMax; b.vy = -b.vy * WALL_BOUNCE; }
+    const p = b.mesh.position;
+    if(p.x < xMin){ p.x = xMin; b.vx = -b.vx * WALL_BOUNCE; }
+    if(p.x > xMax){ p.x = xMax; b.vx = -b.vx * WALL_BOUNCE; }
+    if(p.z < zMin){ p.z = zMin; b.vz = -b.vz * WALL_BOUNCE; }
+    if(p.z > zMax){ p.z = zMax; b.vz = -b.vz * WALL_BOUNCE; }
   }
 
   // pocket
   for(const b of balls){
     if(!b.alive) continue;
-    for(const [px, py] of POCKETS){
-      const d = Math.hypot(b.x - px, b.y - py);
-      if(d < POCKET_R * 0.8){
+    const p = b.mesh.position;
+    for(const [px, pz] of POCKETS){
+      const d = Math.hypot(p.x - px, p.z - pz);
+      if(d < POCKET_R * 0.9){
         b.alive = false;
+        scene.remove(b.mesh);
         handlePocket(b);
         break;
       }
@@ -400,16 +555,16 @@ function handlePocket(ball){
   if(ball.id === 0){
     setTimeout(() => {
       ball.alive = true;
-      ball.x = 200;
-      ball.y = TABLE_H/2;
-      ball.vx = 0; ball.vy = 0;
+      ball.mesh = createBall(0, -PLAY_W/3, 0);
+      scene.add(ball.mesh);
+      ball.vx = 0; ball.vz = 0;
     }, 800);
     return;
   }
   if(ball.id === 8){
     gameOver = true;
-    $('#endTitle').textContent = '🏆';
-    $('#endMsg').textContent = 'توپ ۸ افتاد!';
+    $('#endTitle').textContent = '🏆 بردی!';
+    $('#endMsg').textContent = 'توپ ۸ رو زدی و بردی!';
     $('#end').hidden = false;
     return;
   }
@@ -427,8 +582,10 @@ function endTurn(){
   if(!gameOver){
     if(aiMode && currentPlayer === 1){
       setTimeout(aiShoot, 800);
+    } else if(lanMode && currentPlayer !== myPlayer){
+      $('#hint').textContent = 'منتظر حرکت حریف…';
     } else {
-      $('#hint').textContent = 'روی توپ هدف کلیک کن';
+      $('#hint').textContent = 'برای شوت، از پایین بکش و رها کن';
     }
   }
   if(lanMode && lanConnected){
@@ -445,268 +602,103 @@ function updateHud(){
 }
 
 /* ======================================================
-   🎨 Draw
+   شوت
 ====================================================== */
-function draw(){
-  ctx.clearRect(0, 0, innerWidth, innerHeight);
+function shoot(p){
+  if(!cueBall || !cueBall.alive) return;
+  if(gameOver) return;
   
-  // محاسبه مقیاس و موقعیت میز در مرکز صفحه
-  const scale = Math.min(innerWidth / TABLE_W, (innerHeight - 200) / TABLE_H);
-  const offsetX = (innerWidth - TABLE_W * scale) / 2;
-  const offsetY = (innerHeight - TABLE_H * scale) / 2;
+  const speed = 16 * p;
+  cueBall.vx = Math.sin(aimAngle) * speed;
+  cueBall.vz = Math.cos(aimAngle) * speed;
+  shooting = true;
   
-  ctx.save();
-  ctx.translate(offsetX, offsetY);
-  ctx.scale(scale, scale);
+  cueGroup.visible = false;
+  $('#hint').textContent = 'در حال حرکت…';
   
-  // میز
-  if(tableLoaded){
-    ctx.drawImage(tableImg, 0, 0, TABLE_W, TABLE_H);
-  } else {
-    // fallback
-    ctx.fillStyle = '#3a1e0a';
-    ctx.fillRect(0, 0, TABLE_W, TABLE_H);
-    ctx.fillStyle = '#1b5e20';
-    ctx.fillRect(RAIL, RAIL, PLAY_W, PLAY_H);
+  if(lanMode && lanConnected){
+    LanClient.send({ type:'shoot', vx: cueBall.vx, vz: cueBall.vz });
   }
-  
-  // pocket
-  POCKETS.forEach(([px, py]) => {
-    ctx.beginPath();
-    ctx.arc(px, py, POCKET_R * 0.8, 0, Math.PI*2);
-    ctx.fillStyle = '#000';
-    ctx.fill();
-  });
-  
-  // خط راهنما
-  if(aimTarget && cueBall.alive){
-    const dx = aimTarget.x - cueBall.x;
-    const dy = aimTarget.y - cueBall.y;
-    const dist = Math.hypot(dx, dy);
-    const nx = dx / dist, ny = dy / dist;
-    
-    // خط
-    ctx.strokeStyle = '#f2c14e';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath();
-    ctx.moveTo(cueBall.x, cueBall.y);
-    ctx.lineTo(aimTarget.x, aimTarget.y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    
-    // نقطه مقصد
-    const dotX = aimTarget.x + nx * BALL_R * 2.5;
-    const dotY = aimTarget.y + ny * BALL_R * 2.5;
-    ctx.beginPath();
-    ctx.arc(dotX, dotY, 3, 0, Math.PI*2);
-    ctx.fillStyle = '#fff';
-    ctx.fill();
-    
-    // توپ شبح
-    ctx.beginPath();
-    ctx.arc(dotX, dotY, BALL_R, 0, Math.PI*2);
-    ctx.strokeStyle = '#f2c14e';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([3, 3]);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
-  
-  // توپ‌ها
-  for(const b of balls){
-    if(!b.alive) continue;
-    drawBall(b);
-  }
-  
-  ctx.restore();
-}
-
-function drawBall(b){
-  // سایه
-  ctx.beginPath();
-  ctx.arc(b.x + 2, b.y + 2, BALL_R, 0, Math.PI*2);
-  ctx.fillStyle = 'rgba(0,0,0,0.4)';
-  ctx.fill();
-  
-  // بدنه
-  if(STRIPES.has(b.id)){
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, BALL_R, 0, Math.PI*2);
-    ctx.fillStyle = '#fff';
-    ctx.fill();
-    // نوار رنگی
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, BALL_R, 0, Math.PI*2);
-    ctx.clip();
-    ctx.fillStyle = BALL_COLORS[b.id];
-    ctx.fillRect(b.x - BALL_R, b.y - BALL_R*0.5, BALL_R*2, BALL_R);
-    ctx.restore();
-  } else {
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, BALL_R, 0, Math.PI*2);
-    ctx.fillStyle = BALL_COLORS[b.id];
-    ctx.fill();
-  }
-  
-  // شماره
-  if(b.id > 0){
-    ctx.beginPath();
-    ctx.arc(b.x, b.y, BALL_R * 0.42, 0, Math.PI*2);
-    ctx.fillStyle = '#fff';
-    ctx.fill();
-    ctx.fillStyle = '#000';
-    ctx.font = `bold ${BALL_R * 0.55}px Vazirmatn`;
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(b.id, b.x, b.y);
-  }
-  
-  // براقی
-  const grad = ctx.createRadialGradient(b.x - BALL_R*0.3, b.y - BALL_R*0.3, 1, b.x, b.y, BALL_R);
-  grad.addColorStop(0, 'rgba(255,255,255,0.5)');
-  grad.addColorStop(0.3, 'rgba(255,255,255,0)');
-  ctx.beginPath();
-  ctx.arc(b.x, b.y, BALL_R, 0, Math.PI*2);
-  ctx.fillStyle = grad;
-  ctx.fill();
-  
-  ctx.strokeStyle = 'rgba(0,0,0,0.3)';
-  ctx.lineWidth = 1;
-  ctx.stroke();
 }
 
 /* ======================================================
-   🎯 Input
+   کنترل با موس
 ====================================================== */
-let pointerDown = false;
-let startX = 0, startY = 0;
-let dragMode = null;
-let power = 0;
-
-function getTableCoords(clientX, clientY){
-  const scale = Math.min(innerWidth / TABLE_W, (innerHeight - 200) / TABLE_H);
-  const offsetX = (innerWidth - TABLE_W * scale) / 2;
-  const offsetY = (innerHeight - TABLE_H * scale) / 2;
-  return {
-    x: (clientX - offsetX) / scale,
-    y: (clientY - offsetY) / scale,
-    scale
-  };
-}
+let isDragging = false;
+let dragStartX = 0;
+let dragStartY = 0;
 
 canvas.addEventListener('pointerdown', e => {
-  if(gameOver) return;
-  pointerDown = true;
-  startX = e.clientX;
-  startY = e.clientY;
-  dragMode = null;
+  if(gameOver || shooting) return;
+  isDragging = true;
+  dragStartX = e.clientX;
+  dragStartY = e.clientY;
 });
 
 canvas.addEventListener('pointermove', e => {
-  if(!pointerDown) return;
-  const dx = e.clientX - startX;
-  const dy = e.clientY - startY;
-  if(!dragMode && (Math.abs(dx) > 10 || Math.abs(dy) > 10)){
-    dragMode = 'shoot';
-  }
-  if(dragMode === 'shoot'){
-    power = Math.min(1, Math.abs(dy) / 150);
-    $('#powerFill').style.width = (power * 100) + '%';
-    $('#powerText').textContent = Math.round(power * 100) + '%';
+  if(gameOver || shooting) return;
+  
+  if(isDragging){
+    // کشیدن برای شوت
+    const dy = e.clientY - dragStartY;
+    if(dy > 0){
+      power = Math.min(1, dy / 150);
+      $('#powerFill').style.width = (power * 100) + '%';
+      $('#powerText').textContent = Math.round(power * 100) + '%';
+    } else {
+      // کشیدن به بالا = چرخش دوربین
+      const dx = e.clientX - dragStartX;
+      aimAngle = dx * 0.01;
+      updateCuePosition();
+    }
+  } else {
+    // فقط حرکت موس = تغییر جهت
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    
+    // محاسبه زاویه
+    aimAngle = Math.atan2(mouseX, mouseY);
+    updateCuePosition();
   }
 });
 
 canvas.addEventListener('pointerup', e => {
-  if(!pointerDown) return;
-  pointerDown = false;
-  if(dragMode === 'shoot' && power > 0.05){
+  if(!isDragging) return;
+  isDragging = false;
+  
+  if(power > 0.05){
     shoot(power);
-  } else if(!dragMode){
-    handleClick(e);
   }
-  dragMode = null;
+  
   power = 0;
   $('#powerFill').style.width = '0%';
   $('#powerText').textContent = '0%';
+  updateCuePosition();
 });
-
-function handleClick(e){
-  if(gameOver || shooting) return;
-  if(lanMode && currentPlayer !== myPlayer) return;
-  if(aiMode && currentPlayer === 1) return;
-  
-  const c = getTableCoords(e.clientX, e.clientY);
-  
-  // پیدا کردن توپ کلیک‌شده
-  for(const b of balls){
-    if(!b.alive || b.id === 0) continue;
-    const d = Math.hypot(b.x - c.x, b.y - c.y);
-    if(d < BALL_R * 1.5){
-      aimTarget = b;
-      $('#hint').textContent = `هدف: توپ ${fa(b.id)} — برای شوت از پایین بکش`;
-      draw();
-      return;
-    }
-  }
-  // کلیک روی خالی
-  aimTarget = null;
-  $('#hint').textContent = 'روی توپ هدف کلیک کن';
-  draw();
-}
-
-function shoot(p){
-  if(!cueBall || !cueBall.alive) return;
-  if(!aimTarget){
-    $('#hint').textContent = 'اول یه توپ هدف انتخاب کن';
-    return;
-  }
-  
-  const dx = aimTarget.x - cueBall.x;
-  const dy = aimTarget.y - cueBall.y;
-  const dist = Math.hypot(dx, dy);
-  const nx = dx / dist, ny = dy / dist;
-  
-  const speed = 14 * p;
-  cueBall.vx = nx * speed;
-  cueBall.vy = ny * speed;
-  shooting = true;
-  aimTarget = null;
-  
-  $('#hint').textContent = 'در حال حرکت…';
-  
-  if(lanMode && lanConnected){
-    LanClient.send({ type:'shoot', vx: cueBall.vx, vy: cueBall.vy });
-  }
-}
 
 /* ======================================================
    AI
 ====================================================== */
-let aiMode = false, aiLevel = 'easy';
-let lanMode = false, lanConnected = false, lanRole = null;
-
 function aiShoot(){
   if(gameOver || currentPlayer !== 1) return;
   
   const myGroup = playerGroups[1];
   const targets = balls.filter(b => b.alive && (myGroup ? (b.id < 8 ? 'solid' : 'stripe') === myGroup : (b.id !== 0 && b.id !== 8)));
   
-  if(targets.length === 0){
-    const eight = balls.find(b => b.alive && b.id === 8);
-    if(eight) targets.push(eight);
-  }
   if(targets.length === 0) return;
   
   let best = targets[0], bestD = Infinity;
   for(const t of targets){
-    const d = Math.hypot(t.x - cueBall.x, t.y - cueBall.y);
+    const d = Math.hypot(t.mesh.position.x - cueBall.mesh.position.x, t.mesh.position.z - cueBall.mesh.position.z);
     if(d < bestD){ bestD = d; best = t; }
   }
   
-  aimTarget = best;
-  draw();
+  // زاویه
+  const dx = best.mesh.position.x - cueBall.mesh.position.x;
+  const dz = best.mesh.position.z - cueBall.mesh.position.z;
+  aimAngle = Math.atan2(dx, dz);
+  updateCuePosition();
   
   let p = 0.7;
   if(aiLevel === 'easy') p = 0.5 + Math.random() * 0.3;
@@ -759,8 +751,9 @@ function startLanMode(){
   LanClient.onMessage((data) => {
     if(data.type === 'shoot'){
       cueBall.vx = data.vx;
-      cueBall.vy = data.vy;
+      cueBall.vz = data.vz;
       shooting = true;
+      cueGroup.visible = false;
     }
     if(data.type === 'turn'){
       currentPlayer = data.player;
@@ -790,25 +783,35 @@ function startGame(){
   playerGroups = [null, null];
   gameOver = false;
   shooting = false;
-  aimTarget = null;
+  power = 0;
+  aimAngle = 0;
+  updateCuePosition();
   updateHud();
-  $('#hint').textContent = 'روی توپ هدف کلیک کن';
+  $('#hint').textContent = 'حرکت موس رو تغییر بده و برای شوت بکش';
   $('#end').hidden = true;
-  draw();
 }
 
 /* ======================================================
-   loop
+   render loop
 ====================================================== */
-let last = performance.now();
-function loop(t){
-  const dt = Math.min((t - last) / 16, 3);
-  last = t;
-  stepPhysics(dt);
-  draw();
-  requestAnimationFrame(loop);
+function animate(){
+  stepPhysics(0.1);
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
 }
-requestAnimationFrame(loop);
+requestAnimationFrame(animate);
+
+/* ======================================================
+   resize
+====================================================== */
+function resize(){
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+resize();
 
 /* ======================================================
    events
@@ -841,6 +844,9 @@ $('#endAgain').onclick = () => {
   $('#start').hidden = false;
 };
 
+/* ======================================================
+   boot
+====================================================== */
 if(LanClient.isLanMode()){
   $('#start').hidden = true;
   startLanMode();
