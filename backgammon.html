@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>تخته نرد | کلوپ بازی</title>
+<link rel="icon" href="https://cdn.imgurl.ir/uploads/p440103_.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800;900&display=swap">
+<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<style>
+:root{
+  --bg:#070d1c;--ink:#eef2ff;--mut:#9fb0d6;
+  --gold:#f2c14e;--gold2:#ffe08a;--teal:#14b8a6;
+  --card:rgba(255,255,255,.06);--line:rgba(255,255,255,.12);
+  color-scheme:dark;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{overflow:hidden; height:100%; margin:0}
+body{
+  font-family:Vazirmatn,Tahoma,sans-serif;color:var(--ink);
+  background:radial-gradient(1200px 700px at 80% -10%,#21407a55,transparent 60%),
+    radial-gradient(900px 600px at 0% 110%,#0f766e44,transparent 60%),var(--bg);
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 14px}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);
+  background:linear-gradient(180deg,#070d1cf2,#070d1ccc 70%,transparent);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;flex-shrink:0}
+.brand img{width:32px;height:32px;border-radius:9px;object-fit:cover;box-shadow:0 6px 20px #000a;background:#0b1329}
+.brand span{background:linear-gradient(180deg,#fff,#f2c14e);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-links{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+.nav-links a{padding:6px 10px;border-radius:8px;font-size:12px;font-weight:600;color:var(--mut);transition:.2s}
+.nav-links a:hover{background:var(--card);color:var(--ink)}
+.nav-links a.active{background:#f2c14e1a;color:var(--gold2)}
+#game{position:fixed;inset:0;display:block;touch-action:none}
+.hud{position:fixed;top:56px;left:50%;transform:translateX(-50%);z-index:40;
+  display:flex;gap:10px;padding:8px 14px;border-radius:14px;
+  background:#070d1ce6;border:1px solid var(--line);backdrop-filter:blur(8px);
+  font-size:12px;font-weight:700;white-space:nowrap;max-width:96vw;overflow-x:auto}
+.hud .item{display:flex;align-items:center;gap:5px}
+.hud .dot{width:10px;height:10px;border-radius:50%}
+.dice-hud{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:40;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  padding:10px 18px;border-radius:14px;background:#070d1ce6;border:1px solid var(--line);backdrop-filter:blur(8px)}
+.dice-label{font-size:11px;color:var(--mut);font-weight:700}
+.dice-pair{display:flex;gap:10px}
+.die{width:44px;height:44px;border-radius:10px;background:linear-gradient(145deg,#fff,#e8edf5);color:#141824;
+  display:grid;place-items:center;font-size:22px;font-weight:900;box-shadow:0 4px 10px #0008;transition:transform .2s}
+.die.rolling{animation:roll .4s ease}
+@keyframes roll{0%{transform:rotate(0)}50%{transform:rotate(180deg) scale(1.1)}100%{transform:rotate(360deg)}}
+.die.empty{background:#ffffff18;color:transparent;box-shadow:none}
+.btn-roll{padding:8px 20px;border-radius:10px;font-weight:800;font-size:13px;color:#2a1b02;
+  background:linear-gradient(180deg,#ffe08a,#f2b434);box-shadow:0 4px 0 #9a6a10;transition:transform .1s}
+.btn-roll:active{transform:translateY(3px);box-shadow:0 1px 0 #9a6a10}
+.btn-roll:disabled{filter:grayscale(.8) brightness(.7);cursor:not-allowed}
+.hint{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:40;
+  font-size:12px;color:var(--mut);background:#070d1cd9;padding:6px 14px;border-radius:10px;
+  border:1px solid var(--line);text-align:center;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+.ov{position:fixed;inset:0;display:grid;place-items:center;background:#050a16f2;backdrop-filter:blur(12px);z-index:100;padding:16px;overflow:auto}
+.ov[hidden]{display:none}
+.box{width:min(440px,100%);text-align:center;padding:24px 20px;border-radius:22px;
+  background:linear-gradient(160deg,#1a2c52,#0d1730);border:1px solid var(--line);
+  box-shadow:0 30px 80px #000;animation:boxIn .35s ease}
+@keyframes boxIn{0%{transform:scale(.9);opacity:0}100%{transform:scale(1);opacity:1}}
+.box h2{margin:0 0 6px;font-size:22px;font-weight:900}
+.box p{margin:0 0 16px;color:var(--mut);font-size:13px;line-height:1.9}
+.opt-group{margin:12px 0}
+.opt-label{font-size:12px;color:var(--mut);margin-bottom:6px;font-weight:600}
+.mode,.diff{display:grid;gap:8px;grid-template-columns:1fr 1fr}
+.diff{grid-template-columns:repeat(3,1fr)}
+.mode button,.diff button{padding:10px 6px;border-radius:12px;background:var(--card);border:1px solid var(--line);font-weight:700;font-size:13px;transition:.2s}
+.mode button:hover,.diff button:hover{background:rgba(255,255,255,.12)}
+.mode button[aria-pressed=true],.diff button[aria-pressed=true]{background:linear-gradient(180deg,#ffe08a,#f2b434);color:#2a1b02;border-color:transparent}
+.btn-gold{width:100%;padding:13px;border-radius:13px;font-weight:800;font-size:15px;color:#2a1b02;
+  background:linear-gradient(180deg,#ffe08a,#f2b434);box-shadow:0 7px 0 #9a6a10;transition:transform .1s;margin-top:8px}
+.btn-gold:active{transform:translateY(4px);box-shadow:0 3px 0 #9a6a10}
+.btn-gold:disabled{filter:grayscale(.8) brightness(.7);cursor:not-allowed}
+.btn-ghost{padding:9px 14px;border-radius:11px;font-weight:600;background:var(--card);border:1px solid var(--line);transition:.2s;width:100%;margin-top:8px;font-size:13px}
+.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.room-code{font-size:28px;font-weight:900;letter-spacing:8px;color:var(--gold2);font-family:monospace;margin:8px 0}
+.status{font-size:12px;color:var(--mut);margin:8px 0;min-height:16px}
+.status.ok{color:#7cf2e3}
+@media(max-width:600px){
+  .nav-links{display:none}
+  .hud{font-size:10px;gap:6px;padding:5px 8px;top:50px}
+  .die{width:36px;height:36px;font-size:18px}
+  .btn-roll{padding:6px 14px;font-size:12px}
+  .hint{bottom:80px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a href="index.html" class="brand">
+      <img src="https://cdn.imgurl.ir/uploads/p440103_.png" alt="کلوپ بازی">
+      <span>کلوپ بازی</span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html#games">بازی‌ها</a>
+      <a href="backgammon.html" class="active">تخته نرد</a>
+      <a href="learn.html">آموزش‌ها</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hud" id="hud">
+  <div class="item"><span class="dot" style="background:#3fc1ff"></span><b>شما</b></div>
+  <div class="item" id="hudBar1">Bar: 0</div>
+  <div class="item" id="hudOff1">Off: 0</div>
+  <div class="item" style="color:var(--mut)">|</div>
+  <div class="item"><span class="dot" style="background:#ff5d6c"></span><b>حریف</b></div>
+  <div class="item" id="hudBar2">Bar: 0</div>
+  <div class="item" id="hudOff2">Off: 0</div>
+  <div class="item" style="color:var(--gold2);font-weight:900" id="hudTurn">نوبت شما</div>
+</div>
+
+<div class="dice-hud" id="diceHud">
+  <div class="dice-label">تاس</div>
+  <div class="dice-pair">
+    <div class="die empty" id="die1"></div>
+    <div class="die empty" id="die2"></div>
+  </div>
+  <button class="btn-roll" id="rollBtn">پرتاب تاس</button>
+</div>
+
+<div class="hint" id="hint">برای شروع، تاس بریزید</div>
+
+<div class="ov" id="start">
+  <div class="box">
+    <h2>🎲 تخته نرد</h2>
+    <p>حالت بازی و سطح حریف را انتخاب کن</p>
+    <div class="opt-group">
+      <div class="opt-label">حالت بازی</div>
+      <div class="mode" id="mode">
+        <button data-mode="ai" aria-pressed="true">🤖 با رایانه</button>
+        <button data-mode="lan" aria-pressed="false">📡 لن</button>
+      </div>
+    </div>
+    <div class="opt-group" id="diffWrap">
+      <div class="opt-label">سطح هوش مصنوعی</div>
+      <div class="diff" id="diff">
+        <button data-d="easy" aria-pressed="true">آسان</button>
+        <button data-d="med" aria-pressed="false">متوسط</button>
+        <button data-d="hard" aria-pressed="false">سخت</button>
+      </div>
+    </div>
+    <button id="begin" class="btn-gold">شروع بازی</button>
+  </div>
+</div>
+
+<div class="ov" id="lanOv" hidden>
+  <div class="box">
+    <h2>📡 تخته نرد لن</h2>
+    <p id="lanStatus">در حال آماده‌سازی…</p>
+    <div class="room-code" id="lanCode">------</div>
+    <button class="btn-gold" id="lanReadyBtn" disabled>شروع بازی</button>
+    <button class="btn-ghost" id="lanCloseBtn" style="margin-top:8px">انصراف</button>
+  </div>
+</div>
+
+<div class="ov" id="end" hidden>
+  <div class="box">
+    <h2 id="endTitle">🏆 برنده!</h2>
+    <p id="endMsg"></p>
+    <button id="endAgain" class="btn-gold">بازی دوباره</button>
+  </div>
+</div>
+
+<script>
+/* ======================================================
+   LAN CLIENT
+====================================================== */
+const LanClient = (() => {
+  let peer = null, conn = null;
+  let roomCode = null, role = null;
+  let isConnected = false;
+  let onMsg = null, onConn = null, onDisc = null;
+  function getParams(){
+    const p = new URLSearchParams(location.search);
+    return { lan: p.get('lan'), role: p.get('role') };
+  }
+  function isLanMode(){ const p = getParams(); return !!(p.lan && p.role); }
+  function init(){
+    const p = getParams();
+    if(!p.lan || !p.role) return false;
+    roomCode = p.lan; role = p.role;
+    if(role === 'host'){
+      peer = new Peer('klub-bg-' + roomCode, { debug: 1 });
+      peer.on('open', () => { if(onConn) onConn('waiting'); });
+      peer.on('connection', (c) => {
+        conn = c;
+        conn.on('open', () => { isConnected = true; if(onConn) onConn('connected'); });
+        conn.on('data', (d) => { if(onMsg) onMsg(d); });
+        conn.on('close', () => { isConnected = false; if(onDisc) onDisc(); });
+      });
+      peer.on('error', (e) => console.error('[LAN host]', e));
+    } else {
+      peer = new Peer({ debug: 1 });
+      peer.on('open', () => {
+        conn = peer.connect('klub-bg-' + roomCode, { reliable: true });
+        conn.on('open', () => { isConnected = true; if(onConn) onConn('connected'); });
+        conn.on('data', (d) => { if(onMsg) onMsg(d); });
+        conn.on('close', () => { isConnected = false; if(onDisc) onDisc(); });
+        conn.on('error', (e) => console.error('[LAN guest]', e));
+      });
+      peer.on('error', (e) => console.error('[LAN guest]', e));
+    }
+    return true;
+  }
+  function send(data){ if(conn && conn.open){ conn.send(data); return true; } return false; }
+  return {
+    isLanMode, init, send,
+    onMessage: (cb) => onMsg = cb,
+    onConnected: (cb) => onConn = cb,
+    onDisconnected: (cb) => onDisc = cb,
+    getInfo: () => ({ roomCode, role, isConnected })
+  };
+})();
+
+/* ======================================================
+   THREE.JS
+====================================================== */
+const $ = s => document.querySelector(s);
+const fa = n => Number(n).toLocaleString('fa-IR');
+
+const canvas = $('#game');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.shadowMap.enabled = true;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a1220);
+
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+const dirLight = new THREE.DirectionalLight(0xffffff, 0.95);
+dirLight.position.set(5, 12, 6);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.set(1024, 1024);
+scene.add(dirLight);
+
+/* ============ dimensions ============ */
+const BOARD_L = 12;
+const BOARD_W = 8;
+const POINT_W = BOARD_W / 12;
+const CHECKER_R = 0.28;
+const BAR_W = 0.4;
+
+/* ============ board ============ */
+const baseGeo = new THREE.BoxGeometry(BOARD_L, 0.15, BOARD_W);
+const baseMat = new THREE.MeshStandardMaterial({ color: 0x3a1e0a, roughness: 0.8 });
+const base = new THREE.Mesh(baseGeo, baseMat);
+base.receiveShadow = true;
+scene.add(base);
+
+const pointColors = [0x1b5e20, 0x8b0000];
+for(let i=0; i<24; i++){
+  let x, z;
+  if(i < 12){
+    z = -BOARD_W/2 + POINT_W * (i + 0.5);
+    x = -BOARD_L/2 + 2;
+  } else {
+    z = -BOARD_W/2 + POINT_W * (i - 12 + 0.5);
+    x = BOARD_L/2 - 2;
+  }
+  const color = pointColors[i % 2];
+  const geo = new THREE.ConeGeometry(POINT_W * 0.45, BOARD_L/2 - 2, 4);
+  const mat = new THREE.MeshStandardMaterial({ color, roughness: 0.7 });
+  const point = new THREE.Mesh(geo, mat);
+  point.rotation.x = Math.PI/2;
+  point.position.set(0, 0.05, 0);
+  point.castShadow = true;
+  const group = new THREE.Group();
+  group.add(point);
+  group.position.set(x, 0, z);
+  group.rotation.y = (i < 12) ? 0 : Math.PI;
+  scene.add(group);
+}
+
+const barGeo = new THREE.BoxGeometry(BAR_W, 0.2, BOARD_W);
+const barMat = new THREE.MeshStandardMaterial({ color: 0x5a2e0a, roughness: 0.6 });
+const bar = new THREE.Mesh(barGeo, barMat);
+bar.position.set(0, 0.1, 0);
+bar.castShadow = true;
+scene.add(bar);
+
+/* ============ checkers ============ */
+const checkerGeo = new THREE.CylinderGeometry(CHECKER_R, CHECKER_R, 0.08, 20);
+const checkerMats = {
+  0: new THREE.MeshStandardMaterial({ color: 0x3fc1ff, roughness: 0.4 }),
+  1: new THREE.MeshStandardMaterial({ color: 0xff5d6c, roughness: 0.4 })
+};
+const highlightMat = new THREE.MeshStandardMaterial({ color: 0xf2c14e, roughness: 0.3, emissive: 0x553300 });
+
+let checkers = [];
+let hoveredChecker = null;
+
+/* ============ game state ============ */
+let currentPlayer = 0;
+let myPlayer = 0;
+let barCount = [0, 0];
+let offCount = [0, 0];
+let dice = [0, 0];
+let diceUsed = [false, false];
+let doubles = false;
+let gameOver = false;
+let selectedChecker = null;
+let validMoves = [];
+let aiMode = false, aiLevel = 'easy';
+let lanMode = false, lanConnected = false, lanRole = null;
+
+/* ============ helpers ============ */
+function getPointPosition(pos, index){
+  let x, z;
+  if(pos <= 12){
+    const p = pos - 1;
+    z = -BOARD_W/2 + POINT_W * (p + 0.5);
+    x = BOARD_L/2 - 1.5;
+  } else {
+    const p = pos - 13;
+    z = -BOARD_W/2 + POINT_W * (p + 0.5);
+    x = -BOARD_L/2 + 1.5;
+  }
+  const y = 0.15 + index * 0.1;
+  return { x, y, z };
+}
+
+function addCheckerMesh(player, pos, index){
+  const mesh = new THREE.Mesh(checkerGeo, checkerMats[player]);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  const p = getPointPosition(pos, index);
+  mesh.position.set(p.x, p.y, p.z);
+  mesh.userData = { player, pos, index };
+  scene.add(mesh);
+  return mesh;
+}
+
+function setupCheckers(){
+  checkers.forEach(c => scene.remove(c.mesh));
+  checkers.length = 0;
+  barCount = [0, 0];
+  offCount = [0, 0];
+  selectedChecker = null;
+  validMoves = [];
+  
+  const setup = [
+    { pos: 24, count: 2 },
+    { pos: 13, count: 5 },
+    { pos: 8, count: 3 },
+    { pos: 6, count: 5 }
+  ];
+  
+  setup.forEach(({pos, count}) => {
+    for(let i=0; i<count; i++){
+      const mesh = addCheckerMesh(0, pos, i);
+      checkers.push({ mesh, player: 0, pos });
+    }
+  });
+  
+  setup.forEach(({pos, count}) => {
+    const oppPos = 25 - pos;
+    for(let i=0; i<count; i++){
+      const mesh = addCheckerMesh(1, oppPos, i);
+      checkers.push({ mesh, player: 1, pos: oppPos });
+    }
+  });
+  
+  renderCheckers();
+}
+
+function renderCheckers(){
+  const byPos = {};
+  checkers.forEach(c => {
+    if(c.pos >= 1 && c.pos <= 24){
+      if(!byPos[c.pos]) byPos[c.pos] = [];
+      byPos[c.pos].push(c);
+    }
+  });
+  
+  Object.keys(byPos).forEach(posStr => {
+    const pos = +posStr;
+    byPos[pos].forEach((c, idx) => {
+      const p = getPointPosition(pos, idx);
+      c.mesh.position.set(p.x, p.y, p.z);
+    });
+  });
+  
+  [0, 1].forEach(player => {
+    const barCheckers = checkers.filter(c => c.player === player && c.pos === 0);
+    barCheckers.forEach((c, idx) => {
+      const x = player === 0 ? -BAR_W/2 - 0.2 : BAR_W/2 + 0.2;
+      const y = 0.3 + idx * 0.1;
+      c.mesh.position.set(x, y, 0);
+    });
+  });
+  
+  [0, 1].forEach(player => {
+    const offCheckers = checkers.filter(c => c.player === player && c.pos === 25);
+    offCheckers.forEach((c, idx) => {
+      const x = player === 0 ? BOARD_L/2 + 0.5 : -BOARD_L/2 - 0.5;
+      const y = 0.15 + idx * 0.1;
+      const z = -BOARD_W/2 + POINT_W * (idx % 12 + 0.5);
+      c.mesh.position.set(x, y, z);
+    });
+  });
+}
+
+/* ============ camera ============ */
+let camAngle = 0;
+let camDist = 14;
+let camHeight = 11;
+let camTarget = new THREE.Vector3(0, 0, 0);
+
+function updateCamera(){
+  const x = camTarget.x + Math.sin(camAngle) * camDist;
+  const z = camTarget.z + Math.cos(camAngle) * camDist;
+  camera.position.set(x, camHeight, z);
+  camera.lookAt(camTarget);
+}
+updateCamera();
+
+/* ============ dice ============ */
+const DICE_FACES = { 1: '⚀', 2: '⚁', 3: '⚂', 4: '⚃', 5: '⚄', 6: '⚅' };
+
+function rollDice(){
+  if(gameOver) return;
+  if(currentPlayer !== myPlayer) return;
+  
+  dice[0] = 1 + Math.floor(Math.random() * 6);
+  dice[1] = 1 + Math.floor(Math.random() * 6);
+  diceUsed = [false, false];
+  doubles = dice[0] === dice[1];
+  
+  $('#die1').textContent = DICE_FACES[dice[0]];
+  $('#die2').textContent = DICE_FACES[dice[1]];
+  $('#die1').classList.remove('empty');
+  $('#die2').classList.remove('empty');
+  $('#die1').classList.add('rolling');
+  $('#die2').classList.add('rolling');
+  setTimeout(() => {
+    $('#die1').classList.remove('rolling');
+    $('#die2').classList.remove('rolling');
+  }, 400);
+  
+  $('#hint').textContent = `تاس: ${fa(dice[0])} و ${fa(dice[1])}${doubles ? ' (جفت!)' : ''}`;
+  
+  if(lanMode && lanConnected){
+    LanClient.send({ type:'dice', d1: dice[0], d2: dice[1] });
+  }
+  
+  // بررسی حرکات ممکن
+  setTimeout(() => {
+    const moves = getValidMoves(currentPlayer);
+    if(moves.length === 0){
+      $('#hint').textContent = 'حرکتی ممکن نیست — نوبت عوض می‌شه';
+      setTimeout(endTurn, 1200);
+    } else {
+      $('#hint').textContent = 'روی مهره کلیک کن';
+    }
+  }, 500);
+}
+
+/* ============ move logic ============ */
+function canMoveTo(player, pos){
+  if(pos < 1 || pos > 24) return false;
+  const oppCount = checkers.filter(c => c.player !== player && c.pos === pos).length;
+  return oppCount < 2;
+}
+
+function canBearOff(player){
+  if(barCount[player] > 0) return false;
+  const homeStart = player === 0 ? 1 : 19;
+  const homeEnd = player === 0 ? 6 : 24;
+  return checkers.filter(c => c.player === player && c.pos >= 1 && c.pos <= 24)
+    .every(c => c.pos >= homeStart && c.pos <= homeEnd);
+}
+
+function getValidMoves(player){
+  const moves = [];
+  const myCheckers = checkers.filter(c => c.player === player && c.pos >= 1 && c.pos <= 24);
+  
+  if(barCount[player] > 0){
+    for(const d of dice){
+      if(diceUsed[dice.indexOf(d)]) continue;
+      const to = player === 0 ? 25 - d : d;
+      if(canMoveTo(player, to)){
+        moves.push({ from: 'bar', to, dice: d });
+      }
+    }
+    return moves;
+  }
+  
+  for(const d of dice){
+    const di = dice.indexOf(d);
+    if(diceUsed[di]) continue;
+    for(const c of myCheckers){
+      const to = player === 0 ? c.pos - d : c.pos + d;
+      if(to >= 1 && to <= 24 && canMoveTo(player, to)){
+        moves.push({ from: c.pos, to, dice: d, checker: c });
+      }
+    }
+  }
+  
+  if(canBearOff(player)){
+    for(const d of dice){
+      const di = dice.indexOf(d);
+      if(diceUsed[di]) continue;
+      for(const c of myCheckers){
+        if(player === 0 && c.pos - d === 0){
+          moves.push({ from: c.pos, to: 'off', dice: d, checker: c });
+        } else if(player === 1 && c.pos + d === 25){
+          moves.push({ from: c.pos, to: 'off', dice: d, checker: c });
+        }
+      }
+    }
+  }
+  
+  return moves;
+}
+
+function makeMove(move, player){
+  const di = dice.indexOf(move.dice);
+  if(di >= 0) diceUsed[di] = true;
+  
+  if(move.from === 'bar'){
+    barCount[player]--;
+    const mesh = addCheckerMesh(player, move.to, 0);
+    checkers.push({ mesh, player, pos: move.to });
+    const opp = checkers.filter(c => c.player !== player && c.pos === move.to);
+    if(opp.length === 1){
+      opp[0].pos = 0;
+      barCount[1 - player]++;
+    }
+  } else {
+    const checker = checkers.find(c => c.player === player && c.pos === move.from);
+    if(!checker) return false;
+    
+    if(move.to === 'off'){
+      checker.pos = 25;
+      offCount[player]++;
+    } else {
+      checker.pos = move.to;
+      const opp = checkers.filter(c => c.player !== player && c.pos === move.to);
+      if(opp.length === 1){
+        opp[0].pos = 0;
+        barCount[1 - player]++;
+      }
+    }
+  }
+  
+  renderCheckers();
+  updateHud();
+  return true;
+}
+
+function checkWin(){
+  if(offCount[0] >= 15){
+    gameOver = true;
+    $('#endTitle').textContent = '🏆 بردی!';
+    $('#endMsg').textContent = 'همه مهره‌ها رو خارج کردی';
+    $('#end').hidden = false;
+    return true;
+  }
+  if(offCount[1] >= 15){
+    gameOver = true;
+    $('#endTitle').textContent = '💀 باختی!';
+    $('#endMsg').textContent = 'حریف همه مهره‌ها رو خارج کرد';
+    $('#end').hidden = false;
+    return true;
+  }
+  return false;
+}
+
+function endTurn(){
+  if(checkWin()) return;
+  
+  currentPlayer = 1 - currentPlayer;
+  diceUsed = [false, false];
+  selectedChecker = null;
+  validMoves = [];
+  updateHud();
+  
+  if(lanMode && currentPlayer !== myPlayer){
+    $('#hint').textContent = 'منتظر حرکت حریف…';
+    $('#rollBtn').disabled = true;
+  } else if(aiMode && currentPlayer === 1){
+    $('#hint').textContent = 'رایانه در حال فکر…';
+    $('#rollBtn').disabled = true;
+    setTimeout(() => rollDice(), 600);
+  } else {
+    $('#hint').textContent = 'نوبت شما — تاس بریزید';
+    $('#rollBtn').disabled = false;
+  }
+  
+  if(lanMode && lanConnected){
+    LanClient.send({ type:'turn', player: currentPlayer });
+  }
+}
+
+function updateHud(){
+  $('#hudBar1').textContent = `Bar: ${fa(barCount[0])}`;
+  $('#hudBar2').textContent = `Bar: ${fa(barCount[1])}`;
+  $('#hudOff1').textContent = `Off: ${fa(offCount[0])}`;
+  $('#hudOff2').textContent = `Off: ${fa(offCount[1])}`;
+  $('#hudTurn').textContent = gameOver ? 'پایان' : (currentPlayer === myPlayer ? 'نوبت شما' : 'نوبت حریف');
+  $('#hudTurn').style.color = currentPlayer === myPlayer ? '#7cf2e3' : '#ff8a9a';
+}
+
+/* ============ click on checker ============ */
+canvas.addEventListener('click', e => {
+  if(gameOver || currentPlayer !== myPlayer) return;
+  
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  
+  raycaster.setFromCamera(mouse, camera);
+  const meshes = checkers.filter(c => c.player === myPlayer && c.pos >= 1 && c.pos <= 24).map(c => c.mesh);
+  const intersects = raycaster.intersectObjects(meshes);
+  
+  if(intersects.length > 0){
+    const clickedMesh = intersects[0].object;
+    const checker = checkers.find(c => c.mesh === clickedMesh);
+    if(checker){
+      // اگه همون مهره دوباره کلیک شد، لغو
+      if(selectedChecker === checker){
+        selectedChecker = null;
+        validMoves = [];
+        $('#hint').textContent = 'انتخاب لغو شد';
+        renderCheckers();
+        return;
+      }
+      
+      // انتخاب مهره
+      selectedChecker = checker;
+      validMoves = getValidMoves(myPlayer).filter(m => m.from === checker.pos);
+      
+      if(validMoves.length === 0){
+        $('#hint').textContent = 'این مهره حرکت ممکن نداره';
+        selectedChecker = null;
+        return;
+      }
+      
+      $('#hint').textContent = `مهره انتخاب شد — ${validMoves.length} حرکت ممکن`;
+      renderCheckers();
+    }
+  } else {
+    // کلیک روی جای خالی — اگه مهره انتخاب شده، سعی کن حرکت کنی
+    if(selectedChecker && validMoves.length > 0){
+      // پیدا کردن نزدیک‌ترین حرکت
+      const clickedPoint = raycaster.ray.intersectPlane(
+        new THREE.Plane(new THREE.Vector3(0,1,0), 0),
+        new THREE.Vector3()
+      );
+      if(clickedPoint){
+        // پیدا کردن pos بر اساس x,z
+        let bestMove = null;
+        let bestDist = Infinity;
+        for(const m of validMoves){
+          if(m.to === 'off') continue;
+          const pos = m.to;
+          const p = getPointPosition(pos, 0);
+          const dist = Math.hypot(p.x - clickedPoint.x, p.z - clickedPoint.z);
+          if(dist < bestDist && dist < 2){
+            bestDist = dist;
+            bestMove = m;
+          }
+        }
+        
+        // بررسی bearing off
+        if(!bestMove && validMoves.some(m => m.to === 'off')){
+          // اگه روی ناحیه off کلیک شد
+          const offMoves = validMoves.filter(m => m.to === 'off');
+          if(offMoves.length > 0){
+            bestMove = offMoves[0];
+          }
+        }
+        
+        if(bestMove){
+          executeMove(bestMove);
+        } else {
+          $('#hint').textContent = 'مقصد معتبر نیست';
+        }
+      }
+    }
+  }
+});
+
+/* ============ hover effect ============ */
+canvas.addEventListener('mousemove', e => {
+  if(gameOver || currentPlayer !== myPlayer) return;
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+  mouse.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(mouse, camera);
+  const meshes = checkers.filter(c => c.player === myPlayer && c.pos >= 1 && c.pos <= 24).map(c => c.mesh);
+  const intersects = raycaster.intersectObjects(meshes);
+  
+  if(intersects.length > 0){
+    canvas.style.cursor = 'pointer';
+    const clickedMesh = intersects[0].object;
+    if(hoveredChecker !== clickedMesh){
+      if(hoveredChecker){
+        const c = checkers.find(c => c.mesh === hoveredChecker);
+        if(c) c.mesh.material = checkerMats[c.player];
+      }
+      hoveredChecker = clickedMesh;
+      clickedMesh.material = highlightMat;
+    }
+  } else {
+    canvas.style.cursor = 'default';
+    if(hoveredChecker){
+      const c = checkers.find(c => c.mesh === hoveredChecker);
+      if(c) c.mesh.material = checkerMats[c.player];
+      hoveredChecker = null;
+    }
+  }
+});
+
+function executeMove(move){
+  const player = currentPlayer;
+  makeMove(move, player);
+  
+  // ارسال به لن
+  if(lanMode && lanConnected){
+    LanClient.send({ type:'move', from: move.from, to: move.to, dice: move.dice });
+  }
+  
+  selectedChecker = null;
+  validMoves = [];
+  
+  if(checkWin()) return;
+  
+  // اگه تاس باقی مونده، ادامه
+  if(diceUsed.every(x => x)){
+    setTimeout(endTurn, 500);
+  } else {
+    const remaining = getValidMoves(player);
+    if(remaining.length === 0){
+      setTimeout(endTurn, 500);
+    } else {
+      $('#hint').textContent = 'حرکت بعدی رو انتخاب کن';
+      renderCheckers();
+    }
+  }
+}
+
+/* ============ AI ============ */
+function aiMove(){
+  if(gameOver || currentPlayer !== 1) return;
+  
+  const moves = getValidMoves(1);
+  if(moves.length === 0){
+    endTurn();
+    return;
+  }
+  
+  let move;
+  if(aiLevel === 'easy'){
+    move = moves[Math.floor(Math.random() * moves.length)];
+  } else if(aiLevel === 'med'){
+    const priorities = moves.map(m => {
+      let score = 0;
+      if(m.to === 'off') score += 100;
+      if(m.to >= 19) score += 30;
+      const opp = checkers.filter(c => c.player === 0 && c.pos === m.to);
+      if(opp.length === 1) score += 50;
+      return { move: m, score };
+    });
+    priorities.sort((a, b) => b.score - a.score);
+    move = priorities[0].move;
+  } else {
+    const scored = moves.map(m => {
+      let score = 0;
+      if(m.to === 'off') score += 200;
+      if(m.to >= 19) score += 50;
+      const opp = checkers.filter(c => c.player === 0 && c.pos === m.to);
+      if(opp.length === 1) score += 100;
+      if(m.from >= 19) score += 20;
+      return { move: m, score };
+    });
+    scored.sort((a, b) => b.score - a.score);
+    move = scored[0].move;
+  }
+  
+  makeMove(move, 1);
+  
+  if(checkWin()) return;
+  
+  if(diceUsed.every(x => x)){
+    setTimeout(endTurn, 500);
+  } else {
+    setTimeout(aiMove, 500);
+  }
+}
+
+/* ============ camera drag ============ */
+let pointerDown = false;
+let startX = 0, startY = 0;
+let dragged = false;
+
+canvas.addEventListener('pointerdown', e => {
+  pointerDown = true;
+  startX = e.clientX;
+  startY = e.clientY;
+  dragged = false;
+});
+
+canvas.addEventListener('pointermove', e => {
+  if(!pointerDown) return;
+  const dx = e.clientX - startX;
+  if(Math.abs(dx) > 5) dragged = true;
+  camAngle -= dx * 0.005;
+  updateCamera();
+  startX = e.clientX;
+  startY = e.clientY;
+});
+
+canvas.addEventListener('pointerup', () => {
+  pointerDown = false;
+});
+
+/* ============ LAN MODE ============ */
+function startLanMode(){
+  lanMode = true;
+  $('#start').hidden = true;
+  $('#lanOv').hidden = false;
+
+  const info = LanClient.getInfo();
+  const code = info.roomCode || new URLSearchParams(location.search).get('lan');
+  const role = info.role || new URLSearchParams(location.search).get('role');
+
+  if(!code || !role){
+    $('#lanStatus').textContent = '⚠️ کد اتاق یا نقش پیدا نشد.';
+    return;
+  }
+
+  lanRole = role;
+  myPlayer = role === 'host' ? 0 : 1;
+
+  $('#lanCode').textContent = code;
+  $('#lanStatus').textContent = role === 'host' ? 'در حال ساخت اتاق…' : 'در حال اتصال…';
+
+  LanClient.onConnected((status) => {
+    if(status === 'connected'){
+      lanConnected = true;
+      $('#lanStatus').textContent = '✅ حریف وصل شد!';
+      $('#lanStatus').classList.add('ok');
+      $('#lanReadyBtn').disabled = false;
+    } else if(status === 'waiting'){
+      $('#lanStatus').textContent = '✅ اتاق آماده‌ست. منتظر اتصال حریف…';
+    }
+  });
+
+  LanClient.onDisconnected(() => {
+    lanConnected = false;
+    $('#lanStatus').textContent = '⚠️ اتصال قطع شد';
+    $('#lanReadyBtn').disabled = true;
+  });
+
+  LanClient.onMessage((data) => {
+    if(data.type === 'dice'){
+      dice[0] = data.d1; dice[1] = data.d2;
+      doubles = dice[0] === dice[1];
+      $('#die1').textContent = DICE_FACES[dice[0]];
+      $('#die2').textContent = DICE_FACES[dice[1]];
+      $('#die1').classList.remove('empty');
+      $('#die2').classList.remove('empty');
+      $('#hint').textContent = `حریف تاس ریخت: ${fa(dice[0])} و ${fa(dice[1])}`;
+    }
+    if(data.type === 'turn'){
+      currentPlayer = data.player;
+      updateHud();
+      if(currentPlayer === myPlayer){
+        $('#hint').textContent = 'نوبت شما — تاس بریزید';
+        $('#rollBtn').disabled = false;
+      } else {
+        $('#hint').textContent = 'منتظر حرکت حریف…';
+        $('#rollBtn').disabled = true;
+      }
+    }
+    if(data.type === 'move'){
+      // حرکت حریف
+      const opp = 1 - myPlayer;
+      const checker = checkers.find(c => c.player === opp && c.pos === data.from);
+      if(checker){
+        makeMove({ from: data.from, to: data.to, dice: data.dice, checker }, opp);
+      }
+    }
+  });
+
+  LanClient.init();
+}
+
+$('#lanReadyBtn').onclick = () => {
+  $('#lanOv').hidden = true;
+  startGame();
+};
+
+$('#lanCloseBtn').onclick = () => {
+  location.href = 'lan.html';
+};
+
+/* ============ start ============ */
+function startGame(){
+  setupCheckers();
+  currentPlayer = 0;
+  myPlayer = lanMode ? myPlayer : 0;
+  gameOver = false;
+  dice = [0, 0];
+  diceUsed = [false, false];
+  updateHud();
+  $('#hint').textContent = 'نوبت شما — تاس بریزید';
+  $('#rollBtn').disabled = false;
+  $('#end').hidden = true;
+  $('#die1').classList.add('empty');
+  $('#die2').classList.add('empty');
+  $('#die1').textContent = '';
+  $('#die2').textContent = '';
+}
+
+/* ============ render loop ============ */
+function animate(){
+  renderer.render(scene, camera);
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+
+function resize(){
+  const w = innerWidth, h = innerHeight;
+  renderer.setSize(w, h);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+addEventListener('resize', resize);
+resize();
+
+/* ============ events ============ */
+$('#mode').onclick = e => {
+  const b = e.target.closest('button'); if(!b) return;
+  [...$('#mode').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+  $('#diffWrap').style.display = b.dataset.mode === 'ai' ? 'block' : 'none';
+};
+
+$('#diff').onclick = e => {
+  const b = e.target.closest('button'); if(!b) return;
+  [...$('#diff').children].forEach(x => x.setAttribute('aria-pressed', x === b));
+  aiLevel = b.dataset.d;
+};
+
+$('#begin').onclick = () => {
+  const m = $('#mode button[aria-pressed=true]').dataset.mode;
+  if(m === 'lan'){
+    startLanMode();
+    return;
+  }
+  aiMode = m === 'ai';
+  $('#start').hidden = true;
+  startGame();
+};
+
+$('#rollBtn').onclick = () => {
+  if(currentPlayer !== myPlayer) return;
+  rollDice();
+  $('#rollBtn').disabled = true;
+};
+
+$('#endAgain').onclick = () => {
+  $('#end').hidden = true;
+  $('#start').hidden = false;
+};
+
+/* ============ boot ============ */
+setupCheckers();
+updateHud();
+
+if(LanClient.isLanMode()){
+  $('#start').hidden = true;
+  startLanMode();
+}
+</script>
+</body>
+</html>
